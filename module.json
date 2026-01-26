@@ -1,0 +1,39 @@
+{
+  "id": "regionba",
+  "title": "Region Behaviour Adjustment",
+  "description": "A module to add additional options to fine tune Foundry VTT region behaviours",
+  "authors": [
+    {
+    "name": "saibot"
+    }
+  ],
+  "version": "0.0.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "socket": "true",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json",
+      "flags": {}
+    }
+  ],
+  "esmodules": [
+	"scripts/changeLevel.js"
+  ],
+  "url": "https://github.com/Saibot393/regionba",
+  "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v0.0.1.zip",
+  "manifest": "https://github.com/Saibot393/regionba/releases/latest/download/module.json",
+  "readme": "https://github.com/Saibot393/regionba/blob/main/README.md",
+  "changelog": "https://github.com/Saibot393/regionba/blob/main/CHANGELOG.md",
+  "bugs": "https://github.com/Saibot393/regionba/issues"
+}
