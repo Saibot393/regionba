@@ -1,57 +1,69 @@
 import {cModuleName, utils} from "./utils/utils.js";
 
 export class regionbaBasic {
-	static onInit() {
-		this.registerFlagAccess();
+	static onInit() {			 
+		this.registerPropertyAccess();
 		this.registerSettingDialog();
-		this.registerSupport();
 		this.overrideMethods();
 	}
 	
-	static type = "basic"; //REPLACE
+	static type = "basic"; //OVERRIDE
 	
-	static Settings = {}; //REPLACE
+	static Settings = {}; //OVERRIDE
 	
-	static registerSupport() {}; //REPLACE
+	static Support() {}; //OVERRIDE
 	
-	static overrideMethods() {}; //REPLACE
+	static overrideMethods() {}; //OVERRIDE
 	
-	static registerFlagAccess() {
+	static registerPropertyAccess() {
 		const cSettings = this.Settings;
+		const cSupport = this.Support();
 		
-		for (const cFlag of Object.keys(this.Settings)) {
-			Object.defineProperty(CONFIG.RegionBehavior.dataModels.changeLevel.prototype, `${cModuleName}_${cFlag}`, {
-				get() {
-					if (this.parent.flags[cModuleName]?.[cFlag] != undefined) {
-						if (typeof this.parent.flags[cModuleName][cFlag] == typeof cSettings[cFlag].default()) {
-							return this.parent.flags[cModuleName][cFlag];
-						}
-					}
+		Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type].prototype, cModuleName, {
+			get() {
+				const cBehaviour = this;
+				const cManagerObject = {};
 				
-					return cSettings[cFlag].default();
-				},
-				set(pValue) {
-					if (!cSettings[cFlag].preventSet) {
-						if (typeof pValue == typeof cSettings[cFlag].default()) {
-							let vValueWrap = {newValue : pValue, regionBehaviour : this, oldValue : this[`${cModuleName}_${cFlag}`], preventChange : false};
-							
-							if (cSettings[cFlag].hasOwnProperty("onSet")) {
-								
-								cSettings[cFlag].onSet(vValueWrap)
+				Object.defineProperty(cManagerObject, "Behaviour", {get() {return cBehaviour}});
+				Object.defineProperty(cManagerObject, "Support", {get() {return cSupport}});
+				
+				for (const cFlag of Object.keys(cSettings)) {
+					Object.defineProperty(cManagerObject, cFlag, {
+						get() {
+							if (this.Behaviour.parent.flags[cModuleName]?.[cFlag] != undefined) {
+								if (typeof this.Behaviour.parent.flags[cModuleName][cFlag] == typeof cSettings[cFlag].default()) {
+									return this.Behaviour.parent.flags[cModuleName][cFlag];
+								}
 							}
-							
-							if (!vValueWrap.preventChange) this.parent.setFlag(cModuleName, cFlag, vValueWrap.newValue);
+						
+							return cSettings[cFlag].default();
+						},
+						set(pValue) {
+							if (!cSettings[cFlag].preventSet) {
+								if (typeof pValue == typeof cSettings[cFlag].default()) {
+									let vValueWrap = {newValue : pValue, regionBehaviour : this.Behaviour, oldValue : this[cFlag], preventChange : false};
+									
+									if (cSettings[cFlag].hasOwnProperty("onSet")) {
+										
+										cSettings[cFlag].onSet(vValueWrap)
+									}
+									
+									if (!vValueWrap.preventChange) this.Behaviour.parent.setFlag(cModuleName, cFlag, vValueWrap.newValue);
+								}
+								else {
+									throw new Error(`Tried to set ${cModuleName} flag ${cFlag} to a value of type ${typeof pValue}, expected ${typeof cSettings[cFlag].default()}`);
+								}
+							}
+							else {
+								throw new Error(`Tried to set ${cModuleName} flag ${cFlag}, this flag does not want to be set, please respect its personal boundaries`)
+							}
 						}
-						else {
-							throw new Error(`Tried to set ${cModuleName} flag ${cFlag} to a value of type ${typeof pValue}, expected ${typeof cSettings[cFlag].default()}`);
-						}
-					}
-					else {
-						throw new Error(`Tried to set ${cModuleName} flag ${cFlag}, this flag does not want to be set, please respect its personal boundaries`)
-					}
+					})
 				}
-			})
-		}
+				
+				return cManagerObject;
+			}
+		})
 	}
 	
 	static registerSettingDialog() {
@@ -109,7 +121,7 @@ export class regionbaBasic {
 					case "boolean":
 						vContent = document.createElement("input");
 						vContent.type = "checkbox";
-						vContent.checked = Boolean(pDocument.system[`${cModuleName}_${cFlag}`])
+						vContent.checked = Boolean(pDocument.system[cModuleName][cFlag])
 						break;
 					case "number":
 						vContent = document.createElement("input");
@@ -147,7 +159,7 @@ export class regionbaBasic {
 						break;
 				}
 				
-				if (!["boolean", "levelSelect"].includes(cSettingType)) vContent.value = pDocument.system[`${cModuleName}_${cFlag}`];
+				if (!["boolean", "levelSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
 				
@@ -163,7 +175,7 @@ export class regionbaBasic {
 				
 				vFieldSet.appendChild(vFormGroup);
 				
-				if (cSettingType == "levelSelect") vContent.value = pDocument.system[`${cModuleName}_${cFlag}`]; //special quirk of multi-select dom
+				if (cSettingType == "levelSelect") vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
 			
 			vonChange({});

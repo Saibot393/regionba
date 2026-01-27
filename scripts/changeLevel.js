@@ -26,61 +26,57 @@ class RBAchangeLevel extends regionbaBasic {
 		}
 	}
 
-	static registerSupport() {
-		Object.defineProperty(CONFIG.RegionBehavior.dataModels.changeLevel.prototype, cModuleName + "Support", 
-			{get() {
-				return {
-					upNeighbourLevels : (region, token) => {
-						let vTokenLevel = region._source.levels.get(token.level);
-						let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-						let vValidLevels = [];
-						
-						let vBottom = vTokenLevel.elevation.bottom;
-						for (let vCheckLevel of vAvailableLevels) {
-							if (vCheckLevel.elevation.bottom > vBottom) {
-								if (vValidLevels.length) {
-									if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
-										vValidLevels.push(vCheckLevel);
-									}
-									if (vCheckLevel.elevation.bottom < vValidLevels[0].elevation.bottom) {
-										vValidLevels = [vCheckLevel]
-									}
-								}
-								else {
-									vValidLevels.push(vCheckLevel);
-								}
+	static Support() {
+		return {
+			upNeighbourLevels : (region, token) => {
+				let vTokenLevel = region.parent.levels.get(token.level);
+				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
+				let vValidLevels = [];
+				
+				let vBottom = vTokenLevel.elevation.bottom;
+				for (let vCheckLevel of vAvailableLevels) {
+					if (vCheckLevel.elevation.bottom > vBottom) {
+						if (vValidLevels.length) {
+							if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
+								vValidLevels.push(vCheckLevel);
+							}
+							if (vCheckLevel.elevation.bottom < vValidLevels[0].elevation.bottom) {
+								vValidLevels = [vCheckLevel]
 							}
 						}
-						
-						return vValidLevels;
-					},
-					downNeighbourLevels : (region, token) => {
-						let vTokenLevel = region._source.levels.get(token.level);
-						let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-						let vValidLevels = [];
-						
-						let vBottom = vTokenLevel.elevation.bottom;
-						for (let vCheckLevel of vAvailableLevels) {
-							if (vCheckLevel.elevation.bottom < vBottom) {
-								if (vValidLevels.length) {
-									if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
-										vValidLevels.push(vCheckLevel);
-									}
-									if (vCheckLevel.elevation.bottom > vValidLevels[0].elevation.bottom) {
-										vValidLevels = [vCheckLevel]
-									}
-								}
-								else {
-									vValidLevels.push(vCheckLevel);
-								}
-							}
+						else {
+							vValidLevels.push(vCheckLevel);
 						}
-						
-						return vValidLevels;
 					}
 				}
-			}}
-		);
+				
+				return vValidLevels;
+			},
+			downNeighbourLevels : (region, token) => {
+				let vTokenLevel = region.parent.levels.get(token.level);
+				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
+				let vValidLevels = [];
+				
+				let vBottom = vTokenLevel.elevation.bottom;
+				for (let vCheckLevel of vAvailableLevels) {
+					if (vCheckLevel.elevation.bottom < vBottom) {
+						if (vValidLevels.length) {
+							if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
+								vValidLevels.push(vCheckLevel);
+							}
+							if (vCheckLevel.elevation.bottom > vValidLevels[0].elevation.bottom) {
+								vValidLevels = [vCheckLevel]
+							}
+						}
+						else {
+							vValidLevels.push(vCheckLevel);
+						}
+					}
+				}
+				
+				return vValidLevels;
+			}
+		}
 	}
 	
 	static overrideMethods() {
@@ -131,7 +127,7 @@ class RBAchangeLevel extends regionbaBasic {
 			await token.parent.view({level: levelId, controlledTokens: [token.id]});
 
 			//!!! custom behaviour
-			if (this.regionba_continueMovement && event.data.movement.pending?.waypoints?.length) {
+			if (this.regionba.continueMovement && event.data.movement.pending?.waypoints?.length) {
 				const cExcludedWPKeys = ["elevation", "level"];
 				
 				let vNewWaypoints = event.data.movement.pending.waypoints.map(pPoint => {
@@ -145,7 +141,6 @@ class RBAchangeLevel extends regionbaBasic {
 					
 					return vNewPoint;
 				});
-				
 				
 				token.move(vNewWaypoints);
 			}
@@ -179,7 +174,7 @@ class RBAchangeLevel extends regionbaBasic {
 		CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn;
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAgetDestinationLevels = function(region, token) {
-			if (this.regionba_targetLevelChoice == "default") {
+			if (this.regionba.targetLevelChoice == "default") {
 				//!!!Original Code
 				if ( !region.levels.size ) return region.parent.levels.contents.filter(l => l.id !== token.level);
 				return region._source.levels.reduce((arr, id) => {
@@ -190,19 +185,18 @@ class RBAchangeLevel extends regionbaBasic {
 				//!!!
 			}
 			else {
-				let vTokenLevel = region._source.levels.get(token.level);
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
 				let vValidLevels = [];
 				
-				switch(this.regionba_targetLevelChoice) {
+				switch(this.regionba.targetLevelChoice) {
 					case "upElevation":
-						return this.RBASupport.upNeighbourLevels(region, token);
+						return this.regionba.Support.upNeighbourLevels(region, token);
 						break;
 					case "downElevation":
-						return this.RBASupport.downNeighbourLevels(region, token);
+						return this.regionba.Support.downNeighbourLevels(region, token);
 						break;
 					case "neighbourElevation":
-						return this.RBASupport.downNeighbourLevels(region, token).concat(this.RBASupport.upNeighbourLevels(region, token));
+						return this.regionba.Support.downNeighbourLevels(region, token).concat(this.regionba.Support.upNeighbourLevels(region, token));
 						break;
 					case "reachingElevation":
 						break;
@@ -211,7 +205,7 @@ class RBAchangeLevel extends regionbaBasic {
 					case "topElevation":
 						break;
 					case "levelChoice":
-						return this.regionba_specificLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(id));
+						return this.regionba.specificLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(id));
 						break;
 				}
 			}
@@ -221,7 +215,7 @@ class RBAchangeLevel extends regionbaBasic {
 			const levels = this.RBAgetDestinationLevels(region, token);
 			if ( !levels.length ) return null;
 			
-			/*!!! CHANGE*/ if (this.regionba_autoSkipConfirmDialogue && levels.length == 1) {return levels[0].id} /*!!! CHANGE*/ 
+			/*!!! CHANGE*/ if (this.regionba.autoSkipConfirmDialogue && levels.length == 1) {return levels[0].id} /*!!! CHANGE*/ 
 			
 			levels.sort((a, b) => a.sort - b.sort);
 			const originLevel = token.parent.levels.get(token.level);
