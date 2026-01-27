@@ -1,145 +1,31 @@
 import {cModuleName, utils} from "./utils/utils.js";
+import {regionbaBasic} from "./regionbaBasic.js";
 
-class RBAchangeLevel {
-	static onInit() {
-		this.registerFlagAccess();
-		this.registerSettingDialog();
-		this.registerSupport();
-		this.overrideMethods();
-	}
-	
+class RBAchangeLevel extends regionbaBasic {
 	static type = "changeLevel";
-
-	
-	static registerFlagAccess() {
-		for (const cFlag of Object.keys(this.Settings)) {
-			Object.defineProperty(CONFIG.RegionBehavior.dataModels.changeLevel.prototype, `${cModuleName}_${cFlag}`, {
-				get() {
-					if (this.parent.flags[cModuleName]?.[cFlag] != undefined) {
-						if (typeof this.parent.flags[cModuleName][cFlag] == typeof RBAchangeLevel.Settings[cFlag].default()) {
-							return this.parent.flags[cModuleName][cFlag];
-						}
-					}
-				
-					return RBAchangeLevel.Settings[cFlag].default();
-				},
-				set(value) {
-					console.log(value);
-				}
-			})
-		}
-	}
-	
-	static registerSettingDialog() {
-		let test = (vForm, pDocument) => {
-			vForm.querySelector(`button[type="submit"]`).onclick = (pEvent) => {
-				let vFieldSet = vForm.querySelector(`fieldset.${cModuleName}`);
-				
-				let vFlagUpdate = {};
-				
-				for (const cFlag of Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog)) {
-					let vInput = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
-					if (typeof this.Settings[cFlag].default() == "boolean") {
-						vFlagUpdate[cFlag] = Boolean(vInput.checked);
-					}
-					else {
-						vFlagUpdate[cFlag] = vInput.value;
-					}
-				}
-				
-				pDocument.update({flags : {[cModuleName] : vFlagUpdate}});
-			}
-		}
-		
-		Hooks.on("renderRegionBehaviorConfig", (vRBC, vForm, vData, vOptions) => {
-			if (vData.document.type == this.type) {
-				test(vForm, vData.document);
-				this.addSettingstoDialog(vRBC, vForm, vData, vOptions, vData.document);
-			}
-		});
-	}
-	
-	static addSettingstoDialog(pRBC, pForm, pData, pOptions, pDocument) {
-		let vFieldSet = document.createElement("fieldset");
-		vFieldSet.classList.add(cModuleName);
-		let vLegend = document.createElement("legend");
-		vLegend.innerHTML = cModuleName;
-		vFieldSet.appendChild(vLegend);
-		
-		
-		for (const cFlag of Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog)) {
-			const cSettingType = this.Settings[cFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[cFlag].default();
-			
-			let vFormGroup = document.createElement("div");
-			vFormGroup.classList.add("form-group");
-			
-			let vLabel = document.createElement("label");
-			vLabel.innerHTML = "HERE NAME";
-			
-			let vFormField = document.createElement("div");
-			vFormField.classList.add("form-fields");
-			
-			let vContent;
-			switch(cSettingType) {
-				case "boolean":
-					vContent = document.createElement("input");
-					vContent.type = "checkbox";
-					vContent.checked = Boolean(pDocument.system[`${cModuleName}_${cFlag}`])
-					break;
-				case "number":
-					vContent = document.createElement("input");
-					vContent.type = "number";
-					break;
-				case "string":
-					vContent = document.createElement("input");
-					vContent.type = "text";
-					break;
-				case "selection":
-					vContent = document.createElement("select");
-					for (let vOptionValue of this.Settings[cFlag].options) {
-						let vOption = document.createElement("option");
-						vOption.value = vOptionValue;
-						vOption.innerHTML = vOptionValue;
-						vContent.appendChild(vOption);
-					}
-					break;
-			}
-			
-			if (!["boolean"].includes(cSettingType)) vContent.value = pDocument.system[`${cModuleName}_${cFlag}`];
-			vContent.id = `${cModuleName}.${cFlag}`;//`system.${cModuleName}.${cFlag}`;
-			
-			let vHint = document.createElement("p");
-			vHint.classList.add("hint");
-			vHint.innerHTML = "HERE HINT";
-
-			vFormField.appendChild(vContent)
-
-			vFormGroup.appendChild(vLabel);
-			vFormGroup.appendChild(vFormField);
-			vFormGroup.appendChild(vHint);
-			
-			vFieldSet.appendChild(vFormGroup);
-		}
-		
-		pForm.querySelector('section.standard-form[data-application-part="form"]').appendChild(vFieldSet);
-	}	
 	
 	static Settings = {
 		autoSkipConfirmDialogue : {
 			default : () => {return false},
 			configDialog : true
 		},
+		continueMovement : {
+			default : () => {return false},
+			configDialog : true
+		},
 		targetLevelChoice : {
 			default : () => {return "default"},
 			configDialog : true,
-			options : ["default", "upElevation", "downElevation", "neighbourElevation", "reachingElevation"]
+			options : ["default", "upElevation", "downElevation", "neighbourElevation", "reachingElevation", "bottomElevation", "topElevation", "levelChoice"]
 		},
 		specificLevels : {
 			default : () => {return []},
-			configDialog : false
+			configDialog : true,
+			isLevelsSelect : true,
+			showinDialog : (pFlags) => {return pFlags.targetLevelChoice == "levelChoice"}
 		}
 	}
-	
+
 	static registerSupport() {
 		Object.defineProperty(CONFIG.RegionBehavior.dataModels.changeLevel.prototype, cModuleName + "Support", 
 			{get() {
@@ -202,10 +88,8 @@ class RBAchangeLevel {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		//The following functions are copied and adapted from foundry.mjs with the goal of altering the logic according to the above defined options
-		//the function replace '#functionName' with 'RBAfunctionName'
+		//the function "replace" '#functionName' with 'RBAfunctionName'
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn = async function(event) {
-			console.log("works");
-			
 			const user = event.user;
 			if ( !user.isSelf ) return;
 
@@ -215,12 +99,12 @@ class RBAchangeLevel {
 
 			// If the region doesn't span multiple levels, there's nothing to do
 			const token = event.data.token;
-			const levels = ChangeLevelRegionBehaviorType.RBAgetDestinationLevels(this.region, token);
+			const levels = this.RBAgetDestinationLevels(this.region, token);
 			if ( !levels.length ) return;
 
 			// Pause movement while the user decides whether to change the level
 			const resumeMovement = token.pauseMovement();
-
+						
 			// When the browser tab is/becomes hidden, don't wait for the movement animation and
 			// proceed immediately. Otherwise wait for the movement animation to complete.
 			if ( token.rendered && token.object.movementAnimationPromise ) {
@@ -228,7 +112,7 @@ class RBAchangeLevel {
 			}
 
 			// Confirm the level change
-			const levelId = await ChangeLevelRegionBehaviorType.RBAconfirmDialog(this.region, token);
+			const levelId = await this.RBAconfirmDialog(this.region, token);
 			if ( !levelId || (levelId === token.level) ) {
 			  resumeMovement();
 			  return;
@@ -245,6 +129,27 @@ class RBAchangeLevel {
 			// The view isn't automatically changed for GM users
 			if ( !game.user.isGM || !token.parent.isView ) return;
 			await token.parent.view({level: levelId, controlledTokens: [token.id]});
+
+			//!!! custom behaviour
+			if (this.regionba_continueMovement && event.data.movement.pending?.waypoints?.length) {
+				const cExcludedWPKeys = ["elevation", "level"];
+				
+				let vNewWaypoints = event.data.movement.pending.waypoints.map(pPoint => {
+					let vNewPoint = {...pPoint};
+					
+					for (const cKey of cExcludedWPKeys) {
+						delete vNewPoint[cKey];
+					}
+					
+					vNewPoint.level = levelId;
+					
+					return vNewPoint;
+				});
+				
+				
+				token.move(vNewWaypoints);
+			}
+			//!!! custom behaviour
 		}
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAmoveToken = async function(token, destinationLevel, action, snap) {
@@ -301,15 +206,22 @@ class RBAchangeLevel {
 						break;
 					case "reachingElevation":
 						break;
+					case "bottomElevation":
+						break;
+					case "topElevation":
+						break;
+					case "levelChoice":
+						return this.regionba_specificLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(id));
+						break;
 				}
 			}
 		}
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAconfirmDialog = async function(region, token) {
-			const levels = ChangeLevelRegionBehaviorType.RBAgetDestinationLevels(region, token);
+			const levels = this.RBAgetDestinationLevels(region, token);
 			if ( !levels.length ) return null;
 			
-			/*!!! CHANGE*/ if (this.regionba_autoSkipConfirmDialogue && levels.length == 1) {return levels[0]} /*!!! CHANGE*/ 
+			/*!!! CHANGE*/ if (this.regionba_autoSkipConfirmDialogue && levels.length == 1) {return levels[0].id} /*!!! CHANGE*/ 
 			
 			levels.sort((a, b) => a.sort - b.sort);
 			const originLevel = token.parent.levels.get(token.level);
