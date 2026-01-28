@@ -214,7 +214,9 @@ class RBAchangeLevel extends regionbaBasic {
 					case "topElevation":
 						break;
 					case "levelChoice":
-						return this.regionba.chosenLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(pID));
+						const cSetLevels = this.regionba.chosenLevels.length ? this.regionba.chosenLevels : region.parent.levels;
+						
+						return cSetLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(pID));
 						break;
 				}
 			}

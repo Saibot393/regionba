@@ -29,7 +29,7 @@
 			
 			"chosenLevels" : {
 				"name" : "Chosen levels",
-				"hint" : "Levels chosen for the Target level setting"
+				"hint" : "Levels chosen for the Target level setting. If none are chosen, all levels are available."
 			},
 			
 			"movementTypeExclusion" : {
