@@ -19,4 +19,12 @@ Changed Behaviour Types:
   - #### Chosen levels
     Custom level choice for the "Target level" setting
   - #### Excluded movement types
-    A set of movement types that do not trigger this behaviour. Maybe the players can fly or jump over a gorge they would normally drop into or a player can burrow down a level at a specific spot.
+    A set of movement types that do not trigger this behaviour. Maybe the players can fly or jump over a gorge they would normally drop into, or a player can burrow down a level at a specific spot.
+
+### Languages:
+
+The module contains an English and a German translation. If you want additional languages to be supported [let me know](https://github.com/Saibot393/regionba/issues).
+
+---
+
+**If you have suggestions, questions, or requests for additional features please [let me know](https://github.com/Saibot393/regionba/issues).**
