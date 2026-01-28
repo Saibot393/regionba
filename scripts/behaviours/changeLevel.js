@@ -1,7 +1,7 @@
 import {cModuleName, utils} from "../utils/utils.js";
 import {regionbaBasic} from "./regionbaBasic.js";
 
-class RBAchangeLevel extends regionbaBasic {
+export class RBAchangeLevel extends regionbaBasic {
 	static type = "changeLevel";
 	
 	static Settings = {

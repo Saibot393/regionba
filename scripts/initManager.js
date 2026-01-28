@@ -1,9 +1,5 @@
-import {RBAchangeLevel} from ".behaviours/changeLevel.js";
-
-const cBehaviours = [RBAchangeLevel];
+import {RBAchangeLevel} from "./behaviours/changeLevel.js";
 
 Hooks.once("init", () => {
-	for (const cBehaviour of cBehaviours) {
-		cBehaviours.onInit();
-	}
+	RBAchangeLevel.onInit();
 });

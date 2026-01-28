@@ -2,7 +2,7 @@ import {cModuleName, utils, Translate} from "../utils/utils.js";
 
 export class regionbaBasic {
 	static onInit() {
-		if (this.canInit) {
+		if (this.canInit()) {
 			this.registerPropertyAccess();
 			this.registerSettingDialog();
 			this.overrideMethods();
@@ -13,7 +13,7 @@ export class regionbaBasic {
 	}
 	
 	static canInit() {
-		return Boolean(Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type]));
+		return Boolean(CONFIG.RegionBehavior.dataModels[this.type]);
 	}
 	
 	static type = "basic"; //OVERRIDE
