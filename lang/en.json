@@ -5,6 +5,7 @@
 		},
 		
 		"Settings" : {
+			"scChangeHint" : "[shift+l-click to add all, shift+r-click to remove all]"
 			"autoSkipConfirmDialogue" : {
 				"name" : "Skip confirm dialogue",
 				"hint" : "If the confirm dialogue is skipped, if only one target level is available"
