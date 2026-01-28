@@ -19,7 +19,7 @@ Changed Behaviour Types:
   - #### Chosen levels
     Custom level choice for the "Target level" setting
   - #### Excluded movement types
-    A set of movement types that do not trigger this behaviour. Maybe the players can fly or jump over a gorge they would normally drop into, or a player can burrow down a level at a specific spot.
+    A set of movement types that do not trigger this behaviour. Maybe the players can fly or jump over a gorge they would normally drop into, or a player can burrow down one level at a specific spot.
 
 ### Languages:
 
