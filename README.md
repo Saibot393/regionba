@@ -27,4 +27,6 @@ The module contains an English and a German translation. If you want additional 
 
 ---
 
+Use `https://github.com/Saibot393/regionba/releases/latest/download/module.json` for install.
+
 **If you have suggestions, questions, or requests for additional features please [let me know](https://github.com/Saibot393/regionba/issues).**
