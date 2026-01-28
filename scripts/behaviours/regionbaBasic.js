@@ -1,10 +1,19 @@
-import {cModuleName, utils} from "./utils/utils.js";
+import {cModuleName, utils, Translate} from "../utils/utils.js";
 
 export class regionbaBasic {
-	static onInit() {			 
-		this.registerPropertyAccess();
-		this.registerSettingDialog();
-		this.overrideMethods();
+	static onInit() {
+		if (this.canInit) {
+			this.registerPropertyAccess();
+			this.registerSettingDialog();
+			this.overrideMethods();
+		}
+		else {
+			throw new Error(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version`);
+		}
+	}
+	
+	static canInit() {
+		return Boolean(Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type]));
 	}
 	
 	static type = "basic"; //OVERRIDE
@@ -85,7 +94,7 @@ export class regionbaBasic {
 			let vFieldSet = document.createElement("fieldset");
 			vFieldSet.classList.add(cModuleName);
 			let vLegend = document.createElement("legend");
-			vLegend.innerText = `${cModuleName}.Titles.${cModuleName}`;
+			vLegend.innerText = Translate(`${cModuleName}.Titles.${cModuleName}`);
 			vFieldSet.appendChild(vLegend);
 			
 			pForm.querySelector('section.standard-form[data-application-part="form"]').appendChild(vFieldSet); //makes it easier to identify problems
@@ -105,13 +114,13 @@ export class regionbaBasic {
 			}	
 			
 			for (const cFlag of cSettingstoAdd) {
-				const cSettingType = this.Settings[cFlag].isLevelsSelect ? "levelSelect" : this.Settings[cFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[cFlag].default();
+				const cSettingType = this.Settings[cFlag].isMultiSelect || this.Settings[cFlag].isLevelSelect ? "multiSelect" : this.Settings[cFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[cFlag].default();
 				
 				let vFormGroup = document.createElement("div");
 				vFormGroup.classList.add("form-group");
 				
 				let vLabel = document.createElement("label");
-				vLabel.innerText = `${cModuleName}.Settings.${cFlag}.name`;
+				vLabel.innerText = Translate(`${cModuleName}.Settings.${cFlag}.name`);
 				
 				let vFormField = document.createElement("div");
 				vFormField.classList.add("form-fields");
@@ -134,24 +143,24 @@ export class regionbaBasic {
 					case "selection":
 						vContent = document.createElement("select");
 
-						for (const cOptionValue of this.Settings[cFlag].options) {
+						for (const cOptionValue of this.Settings[cFlag].options()) {
 							let vOption = document.createElement("option");
 							vOption.value = cOptionValue;
-							vOption.innerText = `${cModuleName}.Settings.${cFlag}.options.${cOptionValue}`;
+							vOption.innerText = Translate(`${cModuleName}.Settings.${cFlag}.options.${cOptionValue}`);
 							vContent.appendChild(vOption);
 						}
 						break;
-					case "levelSelect":
+					case "multiSelect":
 						vContent = document.createElement("multi-select");
 						
 						let vOptionsGroup = document.createElement("optgroup");
 						
-						let vLevels = Array.from(pDocument.region.parent.levels);
+						const cOptions = this.Settings[cFlag].isLevelSelect ? Array.from(pDocument.region.parent.levels) : this.Settings[cFlag].options();
 						
-						for (const cLevel of vLevels) {
+						for (const cOption of cOptions) {
 							let vOption = document.createElement("option");
-							vOption.value = cLevel.id;
-							vOption.innerText = cLevel.name;
+							vOption.value = cOption.id;
+							vOption.innerText = Translate(cOption.name);
 							vOptionsGroup.appendChild(vOption);
 						}
 						
@@ -159,13 +168,13 @@ export class regionbaBasic {
 						break;
 				}
 				
-				if (!["boolean", "levelSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
+				if (!["boolean", "multiSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
 				
 				let vHint = document.createElement("p");
 				vHint.classList.add("hint");
-				vHint.innerText = `${cModuleName}.Settings.${cFlag}.hint`;
+				vHint.innerText = Translate(`${cModuleName}.Settings.${cFlag}.hint`);
 
 				vFormField.appendChild(vContent)
 
@@ -175,7 +184,7 @@ export class regionbaBasic {
 				
 				vFieldSet.appendChild(vFormGroup);
 				
-				if (cSettingType == "levelSelect") vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
+				if (cSettingType == "multiSelect") vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
 			
 			vonChange({});

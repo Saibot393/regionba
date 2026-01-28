@@ -28,7 +28,7 @@
     }
   ],
   "esmodules": [
-	"scripts/changeLevel.js"
+	"scripts/initManager.js"
   ],
   "url": "https://github.com/Saibot393/regionba",
   "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v0.0.1.zip",

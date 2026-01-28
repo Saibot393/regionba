@@ -1,6 +1,41 @@
 {
 	"regionba" : {
 		"Titles" : {
+			"regionba" : "Region Behaviour Adjustments"
+		},
+		
+		"Settings" : {
+			"autoSkipConfirmDialogue" : {
+				"name" : "Skip confirm dialogue",
+				"hint" : "If the confirm dialogue is skipped, if only one target level is available"
+			},
+			
+			"continueMovement" : {
+				"name" : "Continue movement",
+				"hint" : "If token movement should resume after the level change (respects wall collision of new level)"
+			},
+			
+			"targetLevelChoice" : {
+				"name" : "Target level",
+				"hint" : "The level which this behaviour can send tokens to (not limited by the regions levels)",
+				"options" : {
+					"default" : "Default (Foundry behaviour)",
+					"upElevation" : "Next higher elevation",
+					"downElevation" : "Next lower elevation",
+					"neighbourElevation" : "Neighbouring elevations",
+					"levelChoice" : "Custom level choice"
+				}
+			},
+			
+			"chosenLevels" : {
+				"name" : "Chosen levels",
+				"hint" : "Levels chosen for the Target level setting"
+			},
+			
+			"movementTypeExclusion" : {
+				"name" : "Excluded movement types",
+				"hint" : "Tokens that enter the region with this movement will not trigger this behaviour"
+			}
 		}
 	}
 }

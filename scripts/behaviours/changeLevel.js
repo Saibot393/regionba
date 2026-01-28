@@ -1,4 +1,4 @@
-import {cModuleName, utils} from "./utils/utils.js";
+import {cModuleName, utils} from "../utils/utils.js";
 import {regionbaBasic} from "./regionbaBasic.js";
 
 class RBAchangeLevel extends regionbaBasic {
@@ -16,13 +16,19 @@ class RBAchangeLevel extends regionbaBasic {
 		targetLevelChoice : {
 			default : () => {return "default"},
 			configDialog : true,
-			options : ["default", "upElevation", "downElevation", "neighbourElevation", "reachingElevation", "bottomElevation", "topElevation", "levelChoice"]
+			options : () => {return ["default", "upElevation", "downElevation", "neighbourElevation", "levelChoice"]}
 		},
-		specificLevels : {
+		chosenLevels : {
 			default : () => {return []},
 			configDialog : true,
-			isLevelsSelect : true,
-			showinDialog : (pFlags) => {return pFlags.targetLevelChoice == "levelChoice"}
+			isLevelSelect : true,
+			showinDialog : (pFlags) => {return pFlags.targetLevelChoice.includes("levelChoice")}
+		},
+		movementTypeExclusion : {
+			default : () => {return []},
+			configDialog : true,
+			isMultiSelect : true,
+			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")}
 		}
 	}
 
@@ -95,6 +101,9 @@ class RBAchangeLevel extends regionbaBasic {
 
 			// If the region doesn't span multiple levels, there's nothing to do
 			const token = event.data.token;
+			//!!! CUSTOM BEHAVIOUR
+			if (this.regionba.movementTypeExclusion.includes(token.movementAction)) return;
+			//!!! CUSTOM BEHAVIOUR
 			const levels = this.RBAgetDestinationLevels(this.region, token);
 			if ( !levels.length ) return;
 
@@ -126,7 +135,7 @@ class RBAchangeLevel extends regionbaBasic {
 			if ( !game.user.isGM || !token.parent.isView ) return;
 			await token.parent.view({level: levelId, controlledTokens: [token.id]});
 
-			//!!! custom behaviour
+			//!!! CUSTOM BEHAVIOUR
 			if (this.regionba.continueMovement && event.data.movement.pending?.waypoints?.length) {
 				const cExcludedWPKeys = ["elevation", "level"];
 				
@@ -144,7 +153,7 @@ class RBAchangeLevel extends regionbaBasic {
 				
 				token.move(vNewWaypoints);
 			}
-			//!!! custom behaviour
+			//!!! CUSTOM BEHAVIOUR
 		}
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAmoveToken = async function(token, destinationLevel, action, snap) {
@@ -175,14 +184,14 @@ class RBAchangeLevel extends regionbaBasic {
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAgetDestinationLevels = function(region, token) {
 			if (this.regionba.targetLevelChoice == "default") {
-				//!!!Original Code
+				//!!! CUSTOM BEHAVIOUR
 				if ( !region.levels.size ) return region.parent.levels.contents.filter(l => l.id !== token.level);
 				return region._source.levels.reduce((arr, id) => {
 				  const level = region.parent.levels.get(id);
 				  if ( level && (id !== token.level) ) arr.push(level);
 				  return arr;
 				}, []);
-				//!!!
+				//!!! CUSTOM BEHAVIOUR
 			}
 			else {
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
@@ -205,7 +214,7 @@ class RBAchangeLevel extends regionbaBasic {
 					case "topElevation":
 						break;
 					case "levelChoice":
-						return this.regionba.specificLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(id));
+						return this.regionba.chosenLevels.filter(pID => pID !== token.level).map(pID => region.parent.levels.get(pID));
 						break;
 				}
 			}
@@ -252,7 +261,3 @@ class RBAchangeLevel extends regionbaBasic {
 		}
 	}
 }
-
-Hooks.once("init", () => {
-	RBAchangeLevel.onInit();
-});
