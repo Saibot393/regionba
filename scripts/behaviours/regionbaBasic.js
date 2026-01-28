@@ -182,6 +182,13 @@ export class regionbaBasic {
 				vFormGroup.appendChild(vFormField);
 				vFormGroup.appendChild(vHint);
 				
+				if (cSettingType == "multiSelect" && this.Settings[cFlag].scChangeAll) {
+					vFormGroup.onclick = (pEvent) => {if (pEvent.shiftKey) vContent.value = (this.Settings[cFlag].isLevelSelect ? Array.from(pDocument.region.parent.levels) : this.Settings[cFlag].options()).map(vOption => vOption.id)};
+					vFormGroup.oncontextmenu = (pEvent) => {if (pEvent.shiftKey) vContent.value = []};
+					
+					vHint.innerText = vHint.innerText + " " + Translate(`${cModuleName}.Settings.scChangeHint`);
+				}
+				
 				vFieldSet.appendChild(vFormGroup);
 				
 				if (cSettingType == "multiSelect") vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom

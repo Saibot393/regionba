@@ -22,13 +22,15 @@ export class RBAchangeLevel extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			isLevelSelect : true,
-			showinDialog : (pFlags) => {return pFlags.targetLevelChoice.includes("levelChoice")}
+			showinDialog : (pFlags) => {return pFlags.targetLevelChoice.includes("levelChoice")},
+			scChangeAll : true
 		},
 		movementTypeExclusion : {
 			default : () => {return []},
 			configDialog : true,
 			isMultiSelect : true,
-			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")}
+			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")},
+			scChangeAll : true
 		}
 	}
 
