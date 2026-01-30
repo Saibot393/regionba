@@ -80,8 +80,14 @@ export class regionbaBasic {
 	static registerSettingDialog() {
 		Hooks.on("renderRegionBehaviorConfig", (vRBC, vForm, vData, vOptions) => {
 			if (vData.document.type == this.type) {
+				const coldClick = vForm.querySelector(`button[type="submit"]`).onclick;
+				
 				vForm.querySelector(`button[type="submit"]`).onclick = (pEvent) => {
 					vData.document.update({flags : {[cModuleName] : this.evaluateForm(vForm)}});
+					
+					if (coldClick) {
+						coldClick(pEvent);
+					}
 				}
 				
 				this.addSettingstoDialog(vRBC, vForm, vData, vOptions, vData.document);
@@ -132,9 +138,9 @@ export class regionbaBasic {
 					if (this.Settings[cFlag].hasOwnProperty("showinDialog")) {
 						let vInput = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
 
-						let vFormGroup = vInput.closest("div.form-group");
+						let vFormGroup = vInput?.closest("div.form-group");
 
-						vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
+						if (vFormGroup) vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
 					}
 				}
 			}	
