@@ -17,7 +17,8 @@
     "RegionBehavior": {
 	  "stopMovement" : {},
 	  "changeMovement" : {},
-	  "changeVisibility" : {}
+	  "changeVisibility" : {},
+	  "changeCombatant" : {}
     }
   },
   "languages": [

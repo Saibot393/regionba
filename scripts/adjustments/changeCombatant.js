@@ -1,20 +1,15 @@
 import {cModuleName, Translate, utils} from "../utils/utils.js";
 import {regionbaBasic} from "./regionbaBasic.js";
 
-export class RBAchangeVisibility extends regionbaBasic {
-	static type = cModuleName + ".changeVisibility";
+export class RBAchangeCombatant extends regionbaBasic {
+	static type = cModuleName + ".changeCombatant";
 	
 	static Settings = {
-		visibilityDocuments : {
+		combatantDocuments : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "placeables",
-			validSelectable : (pPlaceable) => {return ["Tile", "Token"].includes(pPlaceable.documentName)}
-		},
-		visibilityChange : {
-			default : () => {return "toggle"},
-			configDialog : true,
-			options : () => {return ["toggle", "show", "hide"]}
+			validSelectable : (pPlaceable) => {return ["Token"].includes(pPlaceable.documentName)}
 		},
 		addTokensonRegion : {
 			default : () => {return false},
@@ -32,7 +27,7 @@ export class RBAchangeVisibility extends regionbaBasic {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviorType.validDocuments = function() {
-			let vDocuments = this.regionba.visibilityDocuments.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
+			let vDocuments = this.regionba.combatantDocuments.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			if (this.regionba.addTokensonRegion) {
 				vDocuments = vDocuments.concat([...this.region.tokens]);
@@ -46,17 +41,7 @@ export class RBAchangeVisibility extends regionbaBasic {
 			
 			const cDocuments = this.validDocuments();
 			for (const cDocument of cDocuments) {
-				switch (this.regionba.visibilityChange) {
-					case "toggle" :
-						cDocument.update({hidden : !cDocument.hidden});
-						break;
-					case "show" :
-						if (cDocument.hidden) cDocument.update({hidden : false});
-						break;
-					case "hide" :
-						if (!cDocument.hidden) cDocument.update({hidden : true});
-						break;
-				}
+				cDocument.toggleCombatant();
 			}
 		}
 		

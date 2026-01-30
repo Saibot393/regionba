@@ -25,6 +25,10 @@ export class stopMovement extends foundry.data.regionBehaviors.RegionBehaviorTyp
 	get isRBAcustom() {
 		return true;
 	}
+	
+	static Icon() {
+		return "fa-solid fa-ban";
+	}
 }
 
 export class changeMovement extends foundry.data.regionBehaviors.RegionBehaviorType {
@@ -37,6 +41,10 @@ export class changeMovement extends foundry.data.regionBehaviors.RegionBehaviorT
 	get isRBAcustom() {
 		return true;
 	}
+	
+	static Icon() {
+		return "fa-solid fa-person-walking";
+	}
 }
 
 export class changeVisibility extends foundry.data.regionBehaviors.RegionBehaviorType {
@@ -48,6 +56,10 @@ export class changeVisibility extends foundry.data.regionBehaviors.RegionBehavio
    
 	get isRBAcustom() {
 		return true;
+	}
+	
+	static Icon() {
+		return "fa-solid fa-eye";
 	}
 }
 
@@ -63,13 +75,19 @@ export class changeLockState extends foundry.data.regionBehaviors.RegionBehavior
 	}
 }
 
-export class addtoCombat extends foundry.data.regionBehaviors.RegionBehaviorType {
+export class changeCombatant extends foundry.data.regionBehaviors.RegionBehaviorType {
     static LOCALIZATION_PREFIXES = [];
+	
+    static defineSchema() {return {} }
 	
     static events = {};
 	
 	get isRBAcustom() {
 		return true;
+	}
+	
+	static Icon() {
+		return "fa-solid fa-shield";
 	}
 }
 
@@ -122,14 +140,12 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 }
 
 export function initCustoms() {
-	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".stopMovement"]: stopMovement});
-	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".stopMovement"]: 'fa-solid fa-ban'});
-	
-	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".changeMovement"]: changeMovement});
-	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".changeMovement"]: 'fa-solid fa-person-walking'});
-	
-	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".changeVisibility"]: changeVisibility});
-	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".changeVisibility"]: 'fa-solid fa-eye'});
+	for (const cBehaviour of [stopMovement, changeMovement, changeVisibility, changeCombatant]) {
+		const cName = cBehaviour.name;
+		
+		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});
+		Object.assign(CONFIG.RegionBehavior.typeIcons, {[`${cModuleName}.${cName}`]: cBehaviour.Icon()});
+	}
 	//CONFIG.RegionBehavior.dataModels[cModuleName+".test"] = test;
 	//game.model.RegionBehavior[cModuleName+".test"] = {};
 }
