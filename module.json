@@ -9,10 +9,16 @@
   ],
   "version": "0.0.1",
   "compatibility": {
-    "minimum": "14",
+    "minimum": "13",
     "verified": "14"
   },
   "socket": "true",
+  "documentTypes": {
+    "RegionBehavior": {
+	  "stopMovement" : {},
+	  "changeMovement" : {}
+    }
+  },
   "languages": [
     {
       "lang": "en",

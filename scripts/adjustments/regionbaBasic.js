@@ -1,5 +1,7 @@
 import {cModuleName, utils, Translate} from "../utils/utils.js";
 
+JSON.parse('["' + ["test",1].join('","') + '"]')
+
 export class regionbaBasic {
 	static onInit() {
 		if (this.canInit()) {
@@ -20,7 +22,7 @@ export class regionbaBasic {
 	
 	static Settings = {}; //OVERRIDE
 	
-	static Support() {}; //OVERRIDE
+	static Support() {return {}}; //OVERRIDE
 	
 	static overrideMethods() {}; //OVERRIDE
 	
@@ -87,6 +89,10 @@ export class regionbaBasic {
 		});
 	}
 	
+	static settingType(pFlag) {
+		return  this.Settings[pFlag].isMultiSelect || this.Settings[pFlag].isLevelSelect ? "multiSelect" : this.Settings[pFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[pFlag].default();
+	}
+	
 	static addSettingstoDialog(pRBC, pForm, pData, pOptions, pDocument) {
 		const cSettingstoAdd =  Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog);
 		
@@ -94,7 +100,12 @@ export class regionbaBasic {
 			let vFieldSet = document.createElement("fieldset");
 			vFieldSet.classList.add(cModuleName);
 			let vLegend = document.createElement("legend");
-			vLegend.innerText = Translate(`${cModuleName}.Titles.${cModuleName}`);
+			if (pDocument.system.isRBAcustom) {
+				vLegend.innerText = Translate(`${cModuleName}.Titles.${pDocument.type}`);
+			}
+			else {
+				vLegend.innerText = Translate(`${cModuleName}.Titles.${cModuleName}`);
+			}
 			vFieldSet.appendChild(vLegend);
 			
 			pForm.querySelector('section.standard-form[data-application-part="form"]').appendChild(vFieldSet); //makes it easier to identify problems
@@ -114,7 +125,7 @@ export class regionbaBasic {
 			}	
 			
 			for (const cFlag of cSettingstoAdd) {
-				const cSettingType = this.Settings[cFlag].isMultiSelect || this.Settings[cFlag].isLevelSelect ? "multiSelect" : this.Settings[cFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[cFlag].default();
+				const cSettingType = this.settingType(cFlag);
 				
 				let vFormGroup = document.createElement("div");
 				vFormGroup.classList.add("form-group");
@@ -143,10 +154,16 @@ export class regionbaBasic {
 					case "selection":
 						vContent = document.createElement("select");
 
-						for (const cOptionValue of this.Settings[cFlag].options()) {
+						for (const cOption of this.Settings[cFlag].options()) {
 							let vOption = document.createElement("option");
-							vOption.value = cOptionValue;
-							vOption.innerText = Translate(`${cModuleName}.Settings.${cFlag}.options.${cOptionValue}`);
+							if (typeof cOption == "object") {
+								vOption.value = cOption.id;
+								vOption.innerText = cOption.name;
+							}
+							else {
+								vOption.value = cOption;
+								vOption.innerText = Translate(`${cModuleName}.Settings.${cFlag}.options.${cOption}`);
+							}
 							vContent.appendChild(vOption);
 						}
 						break;
@@ -166,9 +183,53 @@ export class regionbaBasic {
 						
 						vContent.appendChild(vOptionsGroup);
 						break;
+					case "object":
+						switch (this.Settings[cFlag].objectType) {
+							case "position":
+								vContent = document.createElement("div");
+								
+								let vPositionInput = document.createElement("input");
+								vPositionInput.type = "text";
+							
+								let vPositionSelect = document.createElement("button");
+								vPositionSelect.classList.add("icon", "fa-solid", "fa-bullseye");
+							
+								let vButtonClick;
+							
+								switch (this.Settings[cFlag].positionType) {
+									case "localxy":
+										vButtonClick = () => {Hooks.once(cModuleName + ".onCanvasClick", (pEvent) => {try {vPositionInput.value = [pEvent.clientX, pEvent.clientY]} catch {}})}
+									break;
+									break;
+								}
+								
+								vPositionSelect.onclick = vButtonClick;
+								
+								vContent.appendChild(vPositionInput);
+								vContent.appendChild(vPositionSelect);
+								break;
+							case "placeables":
+								vContent = document.createElement("div");
+								
+								let vPlaceablesInput = document.createElement("input");
+								vPlaceablesInput.type = "text";
+							
+								let vPlaceablesSelect = document.createElement("button");
+								vPlaceablesSelect.classList.add("icon", "fa-solid", "fa-file-circle-plus");
+								
+								if (this.Settings[cFlag].validSelectable) {
+									vPlaceablesSelect.onclick = () => {vPlaceablesInput.value = utils.selectedPlaceables.filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)).map(vPlaceable => vPlaceable.document.uuid)}
+								}
+								
+								vContent.appendChild(vPlaceablesInput);
+								vContent.appendChild(vPlaceablesSelect);
+								break;
+						}
 				}
 				
-				if (!["boolean", "multiSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
+				if (!["boolean", "multiSelect", "object"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
+				if (cSettingType == "object") vContent.querySelector("input").value = pDocument.system[cModuleName][cFlag].join(",");
+				
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
 				
@@ -202,17 +263,25 @@ export class regionbaBasic {
 		let vFieldSet = pForm.querySelector(`fieldset.${cModuleName}`);
 		
 		let vFlagUpdate = {};
-		
+		console.log(vFieldSet);
 		if (vFieldSet) {
 			for (const cFlag of Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog)) {
-				let vInput = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
 
-				if (vInput) {
-					if (typeof this.Settings[cFlag].default() == "boolean") {
-						vFlagUpdate[cFlag] = Boolean(vInput.checked);
-					}
-					else {
-						vFlagUpdate[cFlag] = vInput.value;
+				let vContent = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
+				
+				if (vContent) {
+					const cSettingType = this.settingType(cFlag);
+					
+					switch (cSettingType) {
+						case "boolean":
+							vFlagUpdate[cFlag] = Boolean(vContent.checked);
+							break;
+						case "object":
+							vFlagUpdate[cFlag] = vContent.querySelector("input")?.value?.split(",")
+							break;
+						default:
+							vFlagUpdate[cFlag] = vContent.value;
+							break;
 					}
 				}
 			}

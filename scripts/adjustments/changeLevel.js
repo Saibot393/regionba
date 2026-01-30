@@ -182,8 +182,6 @@ export class RBAchangeLevel extends regionbaBasic {
 			  constrainOptions: {ignoreWalls: true}});
 		}
 		
-		CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn;
-		
 		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAgetDestinationLevels = function(region, token) {
 			if (this.regionba.targetLevelChoice == "default") {
 				//!!! CUSTOM BEHAVIOUR
@@ -263,5 +261,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			  }
 			});
 		}
+		
+		CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn;
 	}
 }
