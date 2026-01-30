@@ -10,7 +10,7 @@ Changed Behaviour Types:
   - #### Continue movement
     When active, the token will continue its previously planned movement after changing level, making the change a bit more convinient. This will respect the wall collision on the new level.
   - #### Target level
-    A custom choice of target levels. This allows for more fine control and can make the creation of stair cases easier. Available options:
+    A custom choice of target levels. This allows for more fine control and can make the creation of e.g. stair cases easier. Available options:
     - **Default (Foundry behaviour):** The default behaviour. This will only allow for the parent regions levels to be chosen, or all scene levels if the region has no set levels.
     - **Next higher elevation:** The next higher level compared to the tokens level. Here only level bottom elevations are compared.
     - **Next lower elevation:** The next lower level compared to the tokens level. Here only level bottom elevations are compared.
