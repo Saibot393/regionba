@@ -109,12 +109,27 @@ export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
 	}
 }
 
+export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {return {} }
+	
+    static events = {};
+	
+	get isRBAcustom() {
+		return true;
+	}
+}
+
 export function initCustoms() {
 	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".stopMovement"]: stopMovement});
 	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".stopMovement"]: 'fa-solid fa-ban'});
 	
 	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".changeMovement"]: changeMovement});
 	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".changeMovement"]: 'fa-solid fa-person-walking'});
+	
+	Object.assign(CONFIG.RegionBehavior.dataModels, {[cModuleName+".changeVisibility"]: changeVisibility});
+	Object.assign(CONFIG.RegionBehavior.typeIcons, {[cModuleName+".changeVisibility"]: 'fa-solid fa-eye'});
 	//CONFIG.RegionBehavior.dataModels[cModuleName+".test"] = test;
 	//game.model.RegionBehavior[cModuleName+".test"] = {};
 }

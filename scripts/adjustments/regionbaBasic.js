@@ -90,12 +90,27 @@ export class regionbaBasic {
 	}
 	
 	static settingType(pFlag) {
-		return  this.Settings[pFlag].isMultiSelect || this.Settings[pFlag].isLevelSelect ? "multiSelect" : this.Settings[pFlag].hasOwnProperty("options") ? "selection" : typeof this.Settings[pFlag].default();
+		if (this.Settings[pFlag].isMultiSelect || this.Settings[pFlag].isLevelSelect) {
+			return "multiSelect";
+		}
+		else {
+			if (this.Settings[pFlag].isColor) {
+				return "color";
+			}
+			else {
+				if (this.Settings[pFlag].hasOwnProperty("options")) {
+					return "selection";
+				}
+				else {
+					return typeof this.Settings[pFlag].default();
+				}
+			}
+		}
 	}
 	
 	static addSettingstoDialog(pRBC, pForm, pData, pOptions, pDocument) {
 		const cSettingstoAdd =  Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog);
-		
+		console.log(this.Settings);
 		if (cSettingstoAdd.length) {
 			let vFieldSet = document.createElement("fieldset");
 			vFieldSet.classList.add(cModuleName);
@@ -183,6 +198,8 @@ export class regionbaBasic {
 						
 						vContent.appendChild(vOptionsGroup);
 						break;
+					case "color":
+						vContent = document.createElement("color-picker");
 					case "object":
 						switch (this.Settings[cFlag].objectType) {
 							case "position":
@@ -198,7 +215,11 @@ export class regionbaBasic {
 							
 								switch (this.Settings[cFlag].positionType) {
 									case "localxy":
-										vButtonClick = () => {Hooks.once(cModuleName + ".onCanvasClick", (pEvent) => {try {vPositionInput.value = [pEvent.clientX, pEvent.clientY]} catch {}})}
+										vButtonClick = (pEvent) => {
+											pEvent.stopPropagation();
+											pEvent.preventDefault();
+											Hooks.once(cModuleName + ".onCanvasClick", (pEvent) => {try {vPositionInput.value = [pEvent.clientX, pEvent.clientY]} catch {}})
+										}
 									break;
 									break;
 								}
@@ -218,13 +239,23 @@ export class regionbaBasic {
 								vPlaceablesSelect.classList.add("icon", "fa-solid", "fa-file-circle-plus");
 								
 								if (this.Settings[cFlag].validSelectable) {
-									vPlaceablesSelect.onclick = () => {vPlaceablesInput.value = utils.selectedPlaceables.filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)).map(vPlaceable => vPlaceable.document.uuid)}
+									vPlaceablesSelect.onclick = (pEvent) => {
+										pEvent.stopPropagation();
+										pEvent.preventDefault();
+										console.log(utils.selectedPlaceables());
+										console.log(utils.selectedPlaceables().filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)));
+										vPlaceablesInput.value = utils.selectedPlaceables().filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)).map(vPlaceable => vPlaceable.uuid)
+									}
 								}
 								
 								vContent.appendChild(vPlaceablesInput);
 								vContent.appendChild(vPlaceablesSelect);
 								break;
 						}
+						
+						vContent.style.display = "flex";
+						vContent.style.flexDirection = "row";
+						
 				}
 				
 				if (!["boolean", "multiSelect", "object"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
@@ -252,7 +283,7 @@ export class regionbaBasic {
 				
 				vFieldSet.appendChild(vFormGroup);
 				
-				if (cSettingType == "multiSelect") vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
+				if (["multiSelect", "color"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
 			
 			vonChange({});
@@ -263,7 +294,7 @@ export class regionbaBasic {
 		let vFieldSet = pForm.querySelector(`fieldset.${cModuleName}`);
 		
 		let vFlagUpdate = {};
-		console.log(vFieldSet);
+		
 		if (vFieldSet) {
 			for (const cFlag of Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog)) {
 

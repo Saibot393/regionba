@@ -16,7 +16,8 @@
   "documentTypes": {
     "RegionBehavior": {
 	  "stopMovement" : {},
-	  "changeMovement" : {}
+	  "changeMovement" : {},
+	  "changeVisibility" : {}
     }
   },
   "languages": [

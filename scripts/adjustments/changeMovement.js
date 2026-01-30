@@ -8,14 +8,12 @@ export class RBAchangeMovement extends regionbaBasic {
 		movementTypeEnter : {
 			default : () => {return ""},
 			configDialog : true,
-			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")},
-			scChangeAll : true
+			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")}
 		},
 		movementTypeLeave : {
 			default : () => {return ""},
 			configDialog : true,
-			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")},
-			scChangeAll : true
+			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")}
 		},
 	}
 	
@@ -25,10 +23,10 @@ export class RBAchangeMovement extends regionbaBasic {
 	}
 	
 	static overrideMethods() {
-		const StopMovementRegionBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
+		const cBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
-		StopMovementRegionBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
+		cBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
 			
@@ -51,7 +49,7 @@ export class RBAchangeMovement extends regionbaBasic {
 			}
 		}
 	
-		StopMovementRegionBehaviorType.RBAonTokenMovementOut = async function(pEvent) {
+		cBehaviorType.RBAonTokenMovementOut = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
 			
@@ -74,7 +72,7 @@ export class RBAchangeMovement extends regionbaBasic {
 			}
 		}
 		
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovementIn;
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_OUT] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovementOut;
+		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
+		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_OUT] = cBehaviorType.RBAonTokenMovementOut;
 	}
 }

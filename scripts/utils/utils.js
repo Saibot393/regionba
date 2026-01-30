@@ -1,7 +1,19 @@
 export const cModuleName = "regionba";
 
 export class utils {
-	
+	static selectedPlaceables() {
+		let vSelected = [];
+		
+		for (const cType of ["tokens", "tiles", "walls", "lights"]) {
+			const cTypeSelected = canvas[cType]?.controlled;
+			
+			if (cTypeSelected) {
+				vSelected = vSelected.concat(cTypeSelected);
+			}
+		}
+		
+		return vSelected.map(vSelected => vSelected.document);
+	}
 }
 
 export function Translate(pPath, pWords = {}) {

@@ -40,10 +40,10 @@ export class RBAstopMovement extends regionbaBasic {
 	}
 	
 	static overrideMethods() {
-		const StopMovementRegionBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
+		const cBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
-		StopMovementRegionBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
+		cBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
 			
@@ -54,7 +54,7 @@ export class RBAstopMovement extends regionbaBasic {
 			if (this.regionba.movementTypeBlocked.includes(cToken.movementAction)  && pEvent.data.movement.passed.waypoints.at(-1).action != "displace") cToken.stopMovement();
 		}
 		
-		StopMovementRegionBehaviorType.RBAonTokenMovementWithin = async function(pEvent) {
+		cBehaviorType.RBAonTokenMovementWithin = async function(pEvent) {
 			console.log("test");
 			const cUser = pEvent.user;
 
@@ -72,7 +72,7 @@ export class RBAstopMovement extends regionbaBasic {
 			}
 		}
 	
-		StopMovementRegionBehaviorType.RBAonTokenMovementOut = async function(pEvent) {
+		cBehaviorType.RBAonTokenMovementOut = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
 			
@@ -83,8 +83,8 @@ export class RBAstopMovement extends regionbaBasic {
 			if (this.regionba.movementTypeTrapped.includes(cToken.movementAction)  && pEvent.data.movement.passed.waypoints.at(-1).action != "displace") cToken.stopMovement();
 		}
 		
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovementIn;
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_WITHIN] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovementWithin;
+		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
+		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_WITHIN] = cBehaviorType.RBAonTokenMovementWithin;
 		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_OUT] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovementOut;
 		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_ENTER] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovement;
 		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_EXIT] = CONFIG.RegionBehavior.dataModels[this.type].prototype.RBAonTokenMovement;
