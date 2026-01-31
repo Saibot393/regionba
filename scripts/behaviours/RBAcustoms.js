@@ -9,6 +9,8 @@ export class ping extends foundry.data.regionBehaviors.RegionBehaviorType {
     static defineSchema() {
 		return {
 			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
 				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
 				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
 				CONST.REGION_EVENTS.TOKEN_TURN_START,
@@ -34,6 +36,8 @@ export class pullCamera extends foundry.data.regionBehaviors.RegionBehaviorType 
     static defineSchema() {
 		return {
 			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
 				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
 				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
 				CONST.REGION_EVENTS.TOKEN_TURN_START,
@@ -91,6 +95,8 @@ export class changeVisibility extends foundry.data.regionBehaviors.RegionBehavio
     static defineSchema() {
 		return {
 			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
 				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
 				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
 				CONST.REGION_EVENTS.TOKEN_TURN_START,
@@ -128,6 +134,8 @@ export class changeCombatant extends foundry.data.regionBehaviors.RegionBehavior
     static defineSchema() {
 		return {
 			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
 				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
 				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
 				CONST.REGION_EVENTS.TOKEN_TURN_START,
@@ -152,7 +160,16 @@ export class conditionalTrigger extends foundry.data.regionBehaviors.RegionBehav
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: Object.values(CONST.REGION_EVENTS)})
+			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
+				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
+				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
+				CONST.REGION_EVENTS.TOKEN_TURN_START,
+				CONST.REGION_EVENTS.TOKEN_TURN_END,
+				CONST.REGION_EVENTS.TOKEN_ROUND_START,
+				CONST.REGION_EVENTS.TOKEN_ROUND_END
+			]})
 		} 
 	}
 	
@@ -185,6 +202,8 @@ export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
     static defineSchema() {
 		return {
 			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN
+				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT
 				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
 				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
 				CONST.REGION_EVENTS.TOKEN_TURN_START,
@@ -230,6 +249,8 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 		return true;
 	}
 }
+
+//CONFIG.statusEffects
 
 export function initCustoms() {
 	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger]) {

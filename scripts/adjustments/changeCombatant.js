@@ -18,7 +18,11 @@ export class RBAchangeCombatant extends regionbaBasic {
 		addPlayerTokens : {
 			default : () => {return false},
 			configDialog : true
-		},		
+		},	
+		playerTokensTriggeronly : {
+			default : () => {return true},
+			configDialog : true
+		}		
 		once : {
 			default : () => {return false},
 			configDialog : true
@@ -51,6 +55,12 @@ export class RBAchangeCombatant extends regionbaBasic {
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
+			const cToken = pEvent.data.token;
+			
+			if (this.regionba.playerTokensTriggeronly) {
+				if (![...game.users].find(vUser => vUser.character == cToken.actor)) return;
+			}
+			
 			if (this.regionba.once) {
 				this.parent.update({
 					disabled: true
@@ -64,21 +74,10 @@ export class RBAchangeCombatant extends regionbaBasic {
 				const cDocuments = this.validDocuments().filter(vDocument => !vDocument.inCombat);
 				
 				if (cDocuments.length) {
-					/*
-					if (!game.combats.viewed) {
-						const cCombatClass = foundry.utils.getDocumentClass("Combat");
-						await cCombatClass.create({active: true}, {render: false});
-					}
-					*/
 					
 					await cDocuments[0].constructor.createCombatants(cDocuments);
 				}
 				
-				/*
-				for (const cDocument of cDocuments) {
-					if (!cDocument.inCombat) await cDocument.toggleCombatant();
-				}
-				*/
 				this.lockTemporary = false;
 			}
 		}

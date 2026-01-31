@@ -11,7 +11,7 @@ export class RBArollTable extends regionbaBasic {
 			objectType : "documents",
 			validSelectable : (pPlaceable) => {return ["RollTable"].includes(pPlaceable.documentName)}
 		},
-		playerTokensonly : {
+		playerTokensTriggeronly : {
 			default : () => {return false},
 			configDialog : true
 		}
@@ -38,7 +38,7 @@ export class RBArollTable extends regionbaBasic {
 			
 			const cToken = pEvent.data.token;
 			
-			if (this.regionba.playerTokensonly) {
+			if (this.regionba.playerTokensTriggeronly) {
 				if (![...game.users].find(vUser => vUser.character == cToken.actor)) return;
 			}
 			
