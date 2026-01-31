@@ -19,7 +19,8 @@
 	  "stopMovement" : {},
 	  "changeMovement" : {},
 	  "changeVisibility" : {},
-	  "changeCombatant" : {}
+	  "changeCombatant" : {},
+	  "rollTable" : {}
     }
   },
   "languages": [

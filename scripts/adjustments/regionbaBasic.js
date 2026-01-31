@@ -205,7 +205,7 @@ export class regionbaBasic {
 						
 						let vOptionsGroup = document.createElement("optgroup");
 						
-						const cOptions = this.Settings[cFlag].isLevelSelect ? Array.from(pDocument.region.parent.levels) : this.Settings[cFlag].options();
+						const cOptions = this.Settings[cFlag].isLevelSelect ? Array.from(pDocument.region.parent.levels) : this.Settings[cFlag].options(this);
 						
 						for (const cOption of cOptions) {
 							let vOption = document.createElement("option");
@@ -226,6 +226,9 @@ export class regionbaBasic {
 								break;
 							case "placeables":
 								vContent = customInputs.placeables(this.Settings[cFlag].validSelectable);
+								break;
+							case "documents":
+								vContent = customInputs.documents(this.Settings[cFlag].validSelectable);
 								break;
 						}
 				}

@@ -7,11 +7,12 @@ import {RBAstopMovement} from "./adjustments/stopMovement.js";
 import {RBAchangeMovement} from "./adjustments/changeMovement.js";
 import {RBAchangeVisibility} from "./adjustments/changeVisibility.js";
 import {RBAchangeCombatant} from "./adjustments/changeCombatant.js";
+import {RBArollTable} from "./adjustments/rollTable.js";
 
 Hooks.once("init", () => {
 	initCustoms();
 	
-	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant]) {
+	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable]) {
 		try {
 			vRBA.onInit();
 		} 

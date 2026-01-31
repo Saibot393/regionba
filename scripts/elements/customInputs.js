@@ -96,4 +96,129 @@ export class customInputs {
 		
 		return customInputs.canvasSelector(cModuleAbbr+"placeable", {onclick : cButtonClick, icon : ["fa-solid", "fa-file-circle-plus"], hint : ""});
 	}
+	
+	static tagDIV() {
+		const cTagDIV = document.createElement(cModuleAbbr+"tagDIV");
+		cTagDIV.style.display = "flex";
+		cTagDIV.style.flexWrap = "wrap";
+		cTagDIV.style.justifyContent = "flex-end";
+		cTagDIV.style.alignItems = "center";
+		cTagDIV.style.width = "100%";
+		cTagDIV.style.gap = "0.25rem";
+		
+		const cRemoveAllTags = () => {[...cTagDIV.childNodes].forEach(vNode => vNode.remove())}
+		
+		cTagDIV.addTag = function (pTag) {
+			if (!this.hasTag(pTag)) {
+				const cTag = document.createElement("tag");
+				cTag.setAttribute("value", pTag.value);
+				cTag.style.display = "flex";
+				cTag.style.gap = "0.25rem";
+				cTag.style.alignItems = "center";
+				cTag.style.fontSize = "var(--font-size-12)";
+				cTag.style.border = "1px solid var(--color-dark-3)";
+				cTag.style.borderRadius = "4px";
+				cTag.style.padding = "1px 0.25rem";
+				
+				const cSpan = document.createElement("span");
+				cSpan.innerText = pTag.name;
+				
+				const cRemove = document.createElement("a");
+				cRemove.classList.add("fa-solid",  "fa-xmark");
+				cRemove.onclick = () => {cTag.remove()}
+				
+				cTag.appendChild(cSpan);
+				cTag.appendChild(cRemove);
+				
+				this.appendChild(cTag);
+				
+				return true;
+			}
+			
+			return false;
+		}
+		
+		cTagDIV.hasTag = function (pTag) {
+			return this.value.find(vValue => vValue == pTag.value);
+		}
+		
+		Object.defineProperty(cTagDIV, "value", {
+			get() {
+				return [...cTagDIV.childNodes].map(vNode => vNode.getAttribute("value"));
+			},
+			set(pValue) {
+				cRemoveAllTags();
+				
+				for (const cValueItem of pValue) {
+					cTagDIV.addTag(cValueItem);
+				}
+			}
+		});
+		
+		return cTagDIV;
+	}
+	
+	static documents(pSelectedableValidation) {
+		const cElement = document.createElement(cModuleAbbr+"document");
+		cElement.style.display = "flex";
+		cElement.style.flexWrap = "wrap";
+		cElement.style.alignItems = "center";
+		cElement.style.flex = 1;
+		cElement.style.gap = "0.5rem"
+		
+		const cTags = customInputs.tagDIV();
+		
+		const cUUIDInput = document.createElement("input");
+		cUUIDInput.type = "text";
+		cUUIDInput.style.flex = "1";
+		
+		const cInputButton = document.createElement("button");
+		cInputButton.classList.add("icon", "fa-solid", "fa-file-circle-plus");
+		cInputButton.style.marginLeft = "5px";
+		cInputButton.style.flexBasis = "36px";
+		
+		const cAddInput = () => {
+			const cDocument = fromUuidSync(cUUIDInput.value);
+			
+			if (cDocument && pSelectedableValidation(cDocument)) {
+				cTags.addTag({value : cDocument.uuid, name : cDocument.name});
+				
+				cUUIDInput.value = "";
+			}
+		}
+		
+		cUUIDInput.ondrop = (pEvent) => {
+			const cData = JSON.parse(pEvent.dataTransfer.getData("text/plain"));
+			
+			if (cData) {
+				cUUIDInput.value = cData.uuid;
+				
+				cAddInput();
+			}
+		};
+		
+		cInputButton.onclick = cAddInput();
+		
+		cElement.appendChild(cTags);
+		cElement.appendChild(cUUIDInput);
+		cElement.appendChild(cInputButton);
+		
+		Object.defineProperty(cElement, "value", {
+			get() {
+				return cTags.value;
+			},
+			set(pValue) {
+				const cValues = pValue.map(vValue => {
+					const cDocument = fromUuidSync(vValue);
+					if (cDocument) {
+						return ({value : cDocument.uuid, name : cDocument.name})
+					}
+				}).filter(vValue => vValue);
+				
+				cTags.value = cValues;
+			}
+		});
+		
+		return cElement;
+	}
 }

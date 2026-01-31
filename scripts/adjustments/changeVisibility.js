@@ -12,11 +12,15 @@ export class RBAchangeVisibility extends regionbaBasic {
 			validSelectable : (pPlaceable) => {return ["Tile", "Token"].includes(pPlaceable.documentName) || utils.isDoor(pPlaceable)}
 		},
 		visibilityChange : {
-			default : () => {return "toggle"},
+			default : () => {return "show"},
 			configDialog : true,
 			options : () => {return ["toggle", "show", "hide"]}
 		},
 		addTokensonRegion : {
+			default : () => {return false},
+			configDialog : true
+		},		
+		once : {
 			default : () => {return false},
 			configDialog : true
 		}
@@ -44,22 +48,34 @@ export class RBAchangeVisibility extends regionbaBasic {
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
-			const cDocuments = this.validDocuments();
-			for (const cDocument of cDocuments) {
-				switch (this.regionba.visibilityChange) {
-					case "toggle" :
-						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, !utils.doorHidden(cDocument)); 
-						else cDocument.update({hidden : !cDocument.hidden});
-						break;
-					case "show" :
-						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, false); 
-						else if (cDocument.hidden) cDocument.update({hidden : false});
-						break;
-					case "hide" :
-						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, true); 
-						else if (!cDocument.hidden) cDocument.update({hidden : true});
-						break;
+			if (this.regionba.once) {
+				this.parent.update({
+					disabled: true
+				});
+			}
+			
+			if (!this.lockTemporary) {
+				this.lockTemporary = true;
+				
+				const cDocuments = this.validDocuments();
+				for (const cDocument of cDocuments) {
+					switch (this.regionba.visibilityChange) {
+						case "toggle" :
+							if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, !utils.doorHidden(cDocument)); 
+							else cDocument.update({hidden : !cDocument.hidden});
+							break;
+						case "show" :
+							if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, false); 
+							else if (cDocument.hidden) cDocument.update({hidden : false});
+							break;
+						case "hide" :
+							if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, true); 
+							else if (!cDocument.hidden) cDocument.update({hidden : true});
+							break;
+					}
 				}
+				
+				this.lockTemporary = false;
 			}
 		}
 		

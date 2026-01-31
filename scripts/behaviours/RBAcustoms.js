@@ -174,17 +174,45 @@ export class chatMessage extends foundry.data.regionBehaviors.RegionBehaviorType
 export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
     static LOCALIZATION_PREFIXES = [];
 
-    static defineSchema() {return {} }
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
+				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
+				CONST.REGION_EVENTS.TOKEN_TURN_START,
+				CONST.REGION_EVENTS.TOKEN_TURN_END,
+				CONST.REGION_EVENTS.TOKEN_ROUND_START,
+				CONST.REGION_EVENTS.TOKEN_ROUND_END
+			]})
+		} 
+	}
 	
     static events = {};
 	
 	get isRBAcustom() {
 		return true;
 	}
+	
+	static Icon() {
+		return "fa-solid fa-table-list";
+	}
 }
 
 export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType {
     static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: [
+				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
+				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
+				CONST.REGION_EVENTS.TOKEN_TURN_START,
+				CONST.REGION_EVENTS.TOKEN_TURN_END,
+				CONST.REGION_EVENTS.TOKEN_ROUND_START,
+				CONST.REGION_EVENTS.TOKEN_ROUND_END
+			]})
+		} 
+	}
 
     static defineSchema() {return {} }
 	
@@ -196,7 +224,7 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 }
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

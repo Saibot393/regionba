@@ -32,7 +32,7 @@ export class RBAchangeMovement extends regionbaBasic {
 			
 			const cToken = pEvent.data.token;
 			
-			if (this.regionba.movementTypeEnter != "") {
+			if (this.regionba.movementTypeEnter) {
 				cToken.pauseMovement();
 				
 				let vNewWaypoints = pEvent.data.movement.pending.waypoints.map(pPoint => {
@@ -55,7 +55,7 @@ export class RBAchangeMovement extends regionbaBasic {
 			
 			const cToken = pEvent.data.token;
 			
-			if (this.regionba.movementTypeLeave != "") {
+			if (this.regionba.movementTypeLeave) {
 				cToken.pauseMovement();
 				
 				let vNewWaypoints = pEvent.data.movement.pending.waypoints.map(pPoint => {
