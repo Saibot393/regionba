@@ -14,7 +14,14 @@ export class RBAchangeCombatant extends regionbaBasic {
 		addTokensonRegion : {
 			default : () => {return false},
 			configDialog : true
-		}
+		},
+		addPlayerTokens : {
+			default : () => {return false},
+			configDialog : true
+		},
+		lockTemporary : {
+			default : () => {return false}
+		}	
 	}
 	
 	static Support() {
@@ -33,15 +40,40 @@ export class RBAchangeCombatant extends regionbaBasic {
 				vDocuments = vDocuments.concat([...this.region.tokens]);
 			}
 			
+			if (this.regionba.addPlayerTokens) {
+				vDocuments = vDocuments.concat([...this.region.parent.tokens].filter(vToken => [...game.users].find(vUser => vUser.character == vToken.actor)));
+			}
+			
 			return [...new Set(vDocuments)];
 		}
 		
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
-			const cDocuments = this.validDocuments();
-			for (const cDocument of cDocuments) {
-				if (!cDocument.inCombat) cDocument.toggleCombatant();
+			//this.lockTemporary is a bit meh, but the most reliable method i found so far
+			
+			if (!this.lockTemporary) {
+				this.lockTemporary = true;
+				
+				const cDocuments = this.validDocuments().filter(vDocument => !vDocument.inCombat);
+				
+				if (cDocuments.length) {
+					/*
+					if (!game.combats.viewed) {
+						const cCombatClass = foundry.utils.getDocumentClass("Combat");
+						await cCombatClass.create({active: true}, {render: false});
+					}
+					*/
+					
+					await cDocuments[0].constructor.createCombatants(cDocuments);
+				}
+				
+				/*
+				for (const cDocument of cDocuments) {
+					if (!cDocument.inCombat) await cDocument.toggleCombatant();
+				}
+				*/
+				this.lockTemporary = false;
 			}
 		}
 		

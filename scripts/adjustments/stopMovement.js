@@ -72,6 +72,7 @@ export class RBAstopMovement extends regionbaBasic {
 			}
 		}
 	
+		/*
 		cBehaviorType.RBAonTokenMovementOut = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
@@ -82,6 +83,7 @@ export class RBAstopMovement extends regionbaBasic {
 			
 			if (this.regionba.movementTypeTrapped.includes(cToken.movementAction)  && pEvent.data.movement.passed.waypoints.at(-1).action != "displace") cToken.stopMovement();
 		}
+		*/
 		
 		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
 		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_WITHIN] = cBehaviorType.RBAonTokenMovementWithin;
