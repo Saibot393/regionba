@@ -41,7 +41,7 @@ export class RBAchangeCombatant extends regionbaBasic {
 			
 			const cDocuments = this.validDocuments();
 			for (const cDocument of cDocuments) {
-				cDocument.toggleCombatant();
+				if (!cDocument.inCombat) cDocument.toggleCombatant();
 			}
 		}
 		

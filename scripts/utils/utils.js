@@ -1,4 +1,5 @@
 export const cModuleName = "regionba";
+export const cModuleAbbr = "RBA";
 
 export class utils {
 	static selectedPlaceables() {

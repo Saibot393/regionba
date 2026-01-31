@@ -1,4 +1,5 @@
 import {cModuleName, utils, Translate} from "../utils/utils.js";
+import {customInputs} from "../elements/customInputs.js";
 
 JSON.parse('["' + ["test",1].join('","') + '"]')
 
@@ -209,63 +210,15 @@ export class regionbaBasic {
 					case "object":
 						switch (this.Settings[cFlag].objectType) {
 							case "position":
-								vContent = document.createElement("div");
-								
-								let vPositionInput = document.createElement("input");
-								vPositionInput.type = "text";
-							
-								let vPositionSelect = document.createElement("button");
-								vPositionSelect.classList.add("icon", "fa-solid", "fa-bullseye");
-							
-								let vButtonClick;
-							
-								switch (this.Settings[cFlag].positionType) {
-									case "localxy":
-										vButtonClick = (pEvent) => {
-											pEvent.stopPropagation();
-											pEvent.preventDefault();
-											Hooks.once(cModuleName + ".onCanvasClick", (pEvent) => {try {vPositionInput.value = [pEvent.clientX, pEvent.clientY]} catch {}})
-										}
-									break;
-									break;
-								}
-								
-								vPositionSelect.onclick = vButtonClick;
-								
-								vContent.appendChild(vPositionInput);
-								vContent.appendChild(vPositionSelect);
+								vContent = customInputs.position(this.Settings[cFlag].positionType);
 								break;
 							case "placeables":
-								vContent = document.createElement("div");
-								
-								let vPlaceablesInput = document.createElement("input");
-								vPlaceablesInput.type = "text";
-							
-								let vPlaceablesSelect = document.createElement("button");
-								vPlaceablesSelect.classList.add("icon", "fa-solid", "fa-file-circle-plus");
-								
-								if (this.Settings[cFlag].validSelectable) {
-									vPlaceablesSelect.onclick = (pEvent) => {
-										pEvent.stopPropagation();
-										pEvent.preventDefault();
-										console.log(utils.selectedPlaceables());
-										console.log(utils.selectedPlaceables().filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)));
-										vPlaceablesInput.value = utils.selectedPlaceables().filter(vPlaceable => this.Settings[cFlag].validSelectable(vPlaceable)).map(vPlaceable => vPlaceable.uuid)
-									}
-								}
-								
-								vContent.appendChild(vPlaceablesInput);
-								vContent.appendChild(vPlaceablesSelect);
+								vContent = customInputs.placeables(this.Settings[cFlag].validSelectable);
 								break;
 						}
-						
-						vContent.style.display = "flex";
-						vContent.style.flexDirection = "row";
-						
 				}
 				
-				if (!["boolean", "multiSelect", "object"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
-				if (cSettingType == "object") vContent.querySelector("input").value = pDocument.system[cModuleName][cFlag].join(",");
+				if (!["boolean", "multiSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
 				
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
@@ -312,9 +265,6 @@ export class regionbaBasic {
 					switch (cSettingType) {
 						case "boolean":
 							vFlagUpdate[cFlag] = Boolean(vContent.checked);
-							break;
-						case "object":
-							vFlagUpdate[cFlag] = vContent.querySelector("input")?.value?.split(",")
 							break;
 						default:
 							vFlagUpdate[cFlag] = vContent.value;
