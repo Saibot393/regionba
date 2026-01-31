@@ -11,7 +11,7 @@ export class regionbaBasic {
 			this.overrideMethods();
 		}
 		else {
-			throw new Error(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version`);
+			console.warn(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version`);
 		}
 	}
 	
@@ -31,51 +31,57 @@ export class regionbaBasic {
 		const cSettings = this.Settings;
 		const cSupport = this.Support();
 		
-		Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type].prototype, cModuleName, {
-			get() {
-				const cBehaviour = this;
-				const cManagerObject = {};
-				
-				Object.defineProperty(cManagerObject, "Behaviour", {get() {return cBehaviour}});
-				Object.defineProperty(cManagerObject, "Support", {get() {return cSupport}});
-				
-				for (const cFlag of Object.keys(cSettings)) {
-					Object.defineProperty(cManagerObject, cFlag, {
-						get() {
-							if (this.Behaviour.parent.flags[cModuleName]?.[cFlag] != undefined) {
-								if (typeof this.Behaviour.parent.flags[cModuleName][cFlag] == typeof cSettings[cFlag].default()) {
-									return this.Behaviour.parent.flags[cModuleName][cFlag];
-								}
-							}
-						
-							return cSettings[cFlag].default();
-						},
-						set(pValue) {
-							if (!cSettings[cFlag].preventSet) {
-								if (typeof pValue == typeof cSettings[cFlag].default()) {
-									let vValueWrap = {newValue : pValue, regionBehaviour : this.Behaviour, oldValue : this[cFlag], preventChange : false};
-									
-									if (cSettings[cFlag].hasOwnProperty("onSet")) {
-										
-										cSettings[cFlag].onSet(vValueWrap)
+		try {
+			Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type].prototype, cModuleName, {
+				get() {
+					const cBehaviour = this;
+					const cManagerObject = {};
+					
+					Object.defineProperty(cManagerObject, "Behaviour", {get() {return cBehaviour}});
+					Object.defineProperty(cManagerObject, "Support", {get() {return cSupport}});
+					
+					for (const cFlag of Object.keys(cSettings)) {
+						Object.defineProperty(cManagerObject, cFlag, {
+							get() {
+								if (this.Behaviour.parent.flags[cModuleName]?.[cFlag] != undefined) {
+									if (typeof this.Behaviour.parent.flags[cModuleName][cFlag] == typeof cSettings[cFlag].default()) {
+										return this.Behaviour.parent.flags[cModuleName][cFlag];
 									}
-									
-									if (!vValueWrap.preventChange) this.Behaviour.parent.setFlag(cModuleName, cFlag, vValueWrap.newValue);
+								}
+							
+								return cSettings[cFlag].default();
+							},
+							set(pValue) {
+								if (!cSettings[cFlag].preventSet) {
+									if (typeof pValue == typeof cSettings[cFlag].default()) {
+										let vValueWrap = {newValue : pValue, regionBehaviour : this.Behaviour, oldValue : this[cFlag], preventChange : false};
+										
+										if (cSettings[cFlag].hasOwnProperty("onSet")) {
+											
+											cSettings[cFlag].onSet(vValueWrap)
+										}
+										
+										if (!vValueWrap.preventChange) this.Behaviour.parent.setFlag(cModuleName, cFlag, vValueWrap.newValue);
+									}
+									else {
+										throw new Error(`Tried to set ${cModuleName} flag ${cFlag} to a value of type ${typeof pValue}, expected ${typeof cSettings[cFlag].default()}`);
+									}
 								}
 								else {
-									throw new Error(`Tried to set ${cModuleName} flag ${cFlag} to a value of type ${typeof pValue}, expected ${typeof cSettings[cFlag].default()}`);
+									throw new Error(`Tried to set ${cModuleName} flag ${cFlag}, this flag does not want to be set, please respect its personal boundaries`)
 								}
 							}
-							else {
-								throw new Error(`Tried to set ${cModuleName} flag ${cFlag}, this flag does not want to be set, please respect its personal boundaries`)
-							}
-						}
-					})
+						})
+					}
+					
+					return cManagerObject;
 				}
-				
-				return cManagerObject;
-			}
-		})
+			})
+		}
+		catch(pError) {
+			console.error(`Error while adjusting ${this.type} behaviour`)
+			console.error(pError);
+		}
 	}
 	
 	static registerSettingDialog() {
@@ -117,7 +123,7 @@ export class regionbaBasic {
 	
 	static addSettingstoDialog(pRBC, pForm, pData, pOptions, pDocument) {
 		const cSettingstoAdd =  Object.keys(this.Settings).filter(vKey => this.Settings[vKey].configDialog);
-		console.log(this.Settings);
+
 		if (cSettingstoAdd.length) {
 			let vFieldSet = document.createElement("fieldset");
 			vFieldSet.classList.add(cModuleName);
@@ -166,8 +172,13 @@ export class regionbaBasic {
 						vContent.checked = Boolean(pDocument.system[cModuleName][cFlag])
 						break;
 					case "number":
-						vContent = document.createElement("input");
-						vContent.type = "number";
+						if (this.Settings[cFlag].hasOwnProperty("range")) {
+							vContent = customInputs.range(this.Settings[cFlag].range);
+						}
+						else {
+							vContent = document.createElement("input");
+							vContent.type = "number";
+						}
 						break;
 					case "string":
 						vContent = document.createElement("input");
@@ -207,6 +218,7 @@ export class regionbaBasic {
 						break;
 					case "color":
 						vContent = document.createElement("color-picker");
+						break;
 					case "object":
 						switch (this.Settings[cFlag].objectType) {
 							case "position":

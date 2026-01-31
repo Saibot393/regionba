@@ -15,6 +15,7 @@
   "socket": "true",
   "documentTypes": {
     "RegionBehavior": {
+	  "ping" : {},
 	  "stopMovement" : {},
 	  "changeMovement" : {},
 	  "changeVisibility" : {},

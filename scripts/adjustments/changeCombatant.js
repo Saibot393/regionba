@@ -36,7 +36,7 @@ export class RBAchangeCombatant extends regionbaBasic {
 			return [...new Set(vDocuments)];
 		}
 		
-		cBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
+		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
 			const cDocuments = this.validDocuments();
@@ -45,6 +45,6 @@ export class RBAchangeCombatant extends regionbaBasic {
 			}
 		}
 		
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
+		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
 	}
 }

@@ -15,6 +15,34 @@ export class utils {
 		
 		return vSelected.map(vSelected => vSelected.document);
 	}
+	
+	static isDoor(pWall) {
+		if (pWall.documentName == "Wall") {
+			return pWall.door > 0;
+		}
+	
+		return undefined;
+	}
+	
+	static doorHidden(pWall) {
+		if (utils.isDoor(pWall)) {
+			return pWall.door == 2;
+		}
+		
+		return undefined;
+	}
+	
+	static async setDoorHidden(pWall, pHidden) {
+		if (utils.isDoor(pWall)) {
+			const cTargetState = pHidden ? 2 : 1;
+			
+			if (pWall.door != cTargetState) {
+				await pWall.update({door : cTargetState});
+			}
+		}
+		
+		return undefined;
+	}
 }
 
 export function Translate(pPath, pWords = {}) {

@@ -1,6 +1,7 @@
 import {readyCanvasClick} from "./helpers/canvasClick.js";
 import {initCustoms} from "./behaviours/RBAcustoms.js";
 
+import {RBAping} from "./adjustments/ping.js";
 import {RBAchangeLevel} from "./adjustments/changeLevel.js";
 import {RBAstopMovement} from "./adjustments/stopMovement.js";
 import {RBAchangeMovement} from "./adjustments/changeMovement.js";
@@ -10,15 +11,15 @@ import {RBAchangeCombatant} from "./adjustments/changeCombatant.js";
 Hooks.once("init", () => {
 	initCustoms();
 	
-	for (let vRBA of [RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant]) {
+	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant]) {
 		try {
 			vRBA.onInit();
 		} 
 		catch (pError) {
+			console.error(`Error while initialising ${vRBA.name}`);
+			console.error(pError);
 		}
 	}
-	RBAchangeLevel.onInit();
-	RBAstopMovement.onInit();
 });
 
 Hooks.once("ready", function() {

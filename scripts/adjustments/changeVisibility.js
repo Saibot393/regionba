@@ -9,7 +9,7 @@ export class RBAchangeVisibility extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "placeables",
-			validSelectable : (pPlaceable) => {return ["Tile", "Token"].includes(pPlaceable.documentName)}
+			validSelectable : (pPlaceable) => {return ["Tile", "Token"].includes(pPlaceable.documentName) || utils.isDoor(pPlaceable)}
 		},
 		visibilityChange : {
 			default : () => {return "toggle"},
@@ -41,25 +41,28 @@ export class RBAchangeVisibility extends regionbaBasic {
 			return [...new Set(vDocuments)];
 		}
 		
-		cBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
+		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
 			const cDocuments = this.validDocuments();
 			for (const cDocument of cDocuments) {
 				switch (this.regionba.visibilityChange) {
 					case "toggle" :
-						cDocument.update({hidden : !cDocument.hidden});
+						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, !utils.doorHidden(cDocument)); 
+						else cDocument.update({hidden : !cDocument.hidden});
 						break;
 					case "show" :
-						if (cDocument.hidden) cDocument.update({hidden : false});
+						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, false); 
+						else if (cDocument.hidden) cDocument.update({hidden : false});
 						break;
 					case "hide" :
-						if (!cDocument.hidden) cDocument.update({hidden : true});
+						if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, true); 
+						else if (!cDocument.hidden) cDocument.update({hidden : true});
 						break;
 				}
 			}
 		}
 		
-		CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
+		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
 	}
 }

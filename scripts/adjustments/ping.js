@@ -1,101 +1,61 @@
 import {cModuleName, utils} from "../utils/utils.js";
 import {regionbaBasic} from "./regionbaBasic.js";
 
-export class RBAchangeLevel extends regionbaBasic {
-	static type = "changeLevel";
+export class RBAping extends regionbaBasic {
+	static type = cModuleName + ".ping";
 	
 	static Settings = {
-		autoSkipConfirmDialogue : {
-			default : () => {return false},
-			configDialog : true
-		},
-		continueMovement : {
-			default : () => {return false},
-			configDialog : true
-		},
-		targetLevelChoice : {
-			default : () => {return "default"},
-			configDialog : true,
-			options : () => {return ["default", "upElevation", "downElevation", "neighbourElevation", "levelChoice"]}
-		},
-		chosenLevels : {
+		pingLocation : {
 			default : () => {return []},
 			configDialog : true,
-			isLevelSelect : true,
-			showinDialog : (pFlags) => {return pFlags.targetLevelChoice.includes("levelChoice")},
-			scChangeAll : true
+			objectType : "position",
+			positionType : "localxy"
 		},
-		movementTypeExclusion : {
-			default : () => {return []},
+		pingColor : {
+			default : () => {return "#000000"},
+			isColor : true,
+			configDialog : true
+		},
+		pingDuration : {
+			default : () => {return 1},
 			configDialog : true,
-			isMultiSelect : true,
-			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")},
-			scChangeAll : true
+			range : {
+				min : 0.1,
+				max : 10,
+				step : 0.1
+			}
+		},
+		once : {
+			default : () => {return false},
+			configDialog : true
 		}
 	}
 
 	static Support() {
 		return {
-			upNeighbourLevels : (region, token) => {
-				let vTokenLevel = region.parent.levels.get(token.level);
-				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-				let vValidLevels = [];
-				
-				let vBottom = vTokenLevel.elevation.bottom;
-				for (let vCheckLevel of vAvailableLevels) {
-					if (vCheckLevel.elevation.bottom > vBottom) {
-						if (vValidLevels.length) {
-							if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
-								vValidLevels.push(vCheckLevel);
-							}
-							if (vCheckLevel.elevation.bottom < vValidLevels[0].elevation.bottom) {
-								vValidLevels = [vCheckLevel]
-							}
-						}
-						else {
-							vValidLevels.push(vCheckLevel);
-						}
-					}
-				}
-				
-				return vValidLevels;
-			},
-			downNeighbourLevels : (region, token) => {
-				let vTokenLevel = region.parent.levels.get(token.level);
-				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-				let vValidLevels = [];
-				
-				let vBottom = vTokenLevel.elevation.bottom;
-				for (let vCheckLevel of vAvailableLevels) {
-					if (vCheckLevel.elevation.bottom < vBottom) {
-						if (vValidLevels.length) {
-							if (vCheckLevel.elevation.bottom == vValidLevels[0].elevation.bottom) {
-								vValidLevels.push(vCheckLevel);
-							}
-							if (vCheckLevel.elevation.bottom > vValidLevels[0].elevation.bottom) {
-								vValidLevels = [vCheckLevel]
-							}
-						}
-						else {
-							vValidLevels.push(vCheckLevel);
-						}
-					}
-				}
-				
-				return vValidLevels;
-			}
+		
 		}
 	}
 	
 	static overrideMethods() {
-		const PingRegionBehaviorType = CONFIG.RegionBehavior.dataModels.changeLevel.prototype;
+		const PingRegionBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
 
-		PingRegionBehaviorType.RBAonTokenMoveIn = async function(event) {
-			const user = event.user;
+		PingRegionBehaviorType._handleRegionEvent = async function(pEvent) {
+			if (this.regionba.once) {
+				if (game.user.isActiveGM) {
+					this.parent.update({
+						disabled: true
+					});
+				}
+			}
+			
+			const cUser = pEvent.user;
+			if ( !cUser.isSelf ) return;
+			
+			//CONFIG.Canvas.pings.types
+			canvas.ping({x : this.regionba.pingLocation[0], y : this.regionba.pingLocation[1]}, {style : "pulse", duration :  1000 * this.regionba.pingDuration, color : this.regionba.pingColor});
 			
 		}
-		
-		CONFIG.RegionBehavior.dataModels.ping.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = PingRegionBehaviorType.RBAonTokenMoveIn;
 	}
 }
