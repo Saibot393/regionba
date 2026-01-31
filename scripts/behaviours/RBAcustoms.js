@@ -147,15 +147,23 @@ export class changeCombatant extends foundry.data.regionBehaviors.RegionBehavior
 	}
 }
 
-export class conditional extends foundry.data.regionBehaviors.RegionBehaviorType {
+export class conditionalTrigger extends foundry.data.regionBehaviors.RegionBehaviorType {
     static LOCALIZATION_PREFIXES = [];
 
-    static defineSchema() {return {} }
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: Object.values(CONST.REGION_EVENTS)})
+		} 
+	}
 	
-    static events = {};
+	static events = {};
 	
 	get isRBAcustom() {
 		return true;
+	}
+	
+	static Icon() {
+		return "fa-solid fa-question";
 	}
 }
 
@@ -224,7 +232,7 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 }
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

@@ -18,9 +18,10 @@ export class RBAchangeCombatant extends regionbaBasic {
 		addPlayerTokens : {
 			default : () => {return false},
 			configDialog : true
-		},
-		lockTemporary : {
-			default : () => {return false}
+		},		
+		once : {
+			default : () => {return false},
+			configDialog : true
 		}	
 	}
 	
@@ -50,8 +51,13 @@ export class RBAchangeCombatant extends regionbaBasic {
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
-			//this.lockTemporary is a bit meh, but the most reliable method i found so far
+			if (this.regionba.once) {
+				this.parent.update({
+					disabled: true
+				});
+			}
 			
+			//this.lockTemporary is a bit meh, but the most reliable method i found so far
 			if (!this.lockTemporary) {
 				this.lockTemporary = true;
 				

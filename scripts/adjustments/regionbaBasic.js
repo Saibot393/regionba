@@ -181,8 +181,15 @@ export class regionbaBasic {
 						}
 						break;
 					case "string":
-						vContent = document.createElement("input");
-						vContent.type = "text";
+						if (this.Settings[cFlag].isScript) {
+							vContent = document.createElement("code-mirror");
+							vContent.setAttribute("language", "javascript");
+							vContent.setAttribute("indent", "2");
+						}
+						else {
+							vContent = document.createElement("input");
+							vContent.type = "text";
+						}
 						break;
 					case "selection":
 						vContent = document.createElement("select");

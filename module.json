@@ -20,7 +20,8 @@
 	  "changeMovement" : {},
 	  "changeVisibility" : {},
 	  "changeCombatant" : {},
-	  "rollTable" : {}
+	  "rollTable" : {},
+	  "conditionalTrigger" : {}
     }
   },
   "languages": [
