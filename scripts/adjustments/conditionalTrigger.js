@@ -14,7 +14,11 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
-			validSelectable : (pPlaceable) => {return ["Item"].includes(pPlaceable.documentName)}
+			validSelectable : (pDocument) => {return ["Item"].includes(pDocument.documentName) && !pDocument.actor}
+		},
+		checkItemZero : {
+			default : () => {return false},
+			configDialog : true
 		},
 		conditionalMacros : {
 			default : () => {return []},
@@ -58,9 +62,13 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			const cItems = pEvent.data.token?.actor?.items;
 			
 			if (cItems) {
-				const cInventory = [...cItems];
+				let vInventory = [...cItems];
 				
-				vValues = vValues.concat(this.regionba.conditionalItems.map(vItemCondition => Boolean(cInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));
+				if (this.regionba.checkItemZero) {
+					vInventory = vInventory.filter(vItem => vItem.system?.quantity > 0);
+				}
+				
+				vValues = vValues.concat(this.regionba.conditionalItems.map(vItemCondition => Boolean(vInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));
 			}
 			
 			return vValues;
@@ -111,8 +119,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 		}
 		
 		cBehaviourType._handleRegionEvent = async function(pEvent) {
-			if ( !game.user.isActiveGM ) return;
-			
+			//if ( !game.user.isActiveGM ) return;
 			let vConditionValues = [];
 			
 			vConditionValues = vConditionValues.concat(await this.conditionalItemsValue(pEvent));

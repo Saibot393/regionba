@@ -19,7 +19,11 @@ export class RBAchangeVisibility extends regionbaBasic {
 		addTokensonRegion : {
 			default : () => {return false},
 			configDialog : true
-		},		
+		},	
+		playerTokensTriggeronly : {
+			default : () => {return true},
+			configDialog : true
+		},			
 		once : {
 			default : () => {return false},
 			configDialog : true
@@ -48,6 +52,12 @@ export class RBAchangeVisibility extends regionbaBasic {
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
+			const cToken = pEvent.data.token;
+			
+			if (this.regionba.playerTokensTriggeronly) {
+				if (!utils.isPlayerToken(cToken)) return;
+			}
+			
 			if (this.regionba.once) {
 				this.parent.update({
 					disabled: true
@@ -57,8 +67,7 @@ export class RBAchangeVisibility extends regionbaBasic {
 			if (!this.lockTemporary) {
 				this.lockTemporary = true;
 				
-				const cDocuments = this.validDocuments();
-				for (const cDocument of cDocuments) {
+				for (const cDocument of this.validDocuments()) {
 					switch (this.regionba.visibilityChange) {
 						case "toggle" :
 							if (utils.isDoor(cDocument)) utils.setDoorHidden(cDocument, !utils.doorHidden(cDocument)); 

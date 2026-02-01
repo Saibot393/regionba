@@ -9,7 +9,7 @@ export class RBArollTable extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
-			validSelectable : (pPlaceable) => {return ["RollTable"].includes(pPlaceable.documentName)}
+			validSelectable : (pDocument) => {return ["RollTable"].includes(pDocument.documentName)}
 		},
 		playerTokensTriggeronly : {
 			default : () => {return false},
@@ -31,9 +31,9 @@ export class RBArollTable extends regionbaBasic {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviorType.validDocuments = function() {
-			let vDocuments = this.regionba.rollTable.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
+			const cDocuments = this.regionba.rollTable.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
-			return [...new Set(vDocuments)];
+			return [...new Set(cDocuments)];
 		}
 		
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
@@ -43,7 +43,7 @@ export class RBArollTable extends regionbaBasic {
 			const cToken = pEvent.data.token;
 			
 			if (this.regionba.playerTokensTriggeronly) {
-				if (![...game.users].find(vUser => vUser.character == cToken.actor)) return;
+				if (!utils.isPlayerToken(cToken)) return;
 			}
 			
 			if (this.regionba.once) {

@@ -58,7 +58,7 @@ export class RBAchangeCombatant extends regionbaBasic {
 			const cToken = pEvent.data.token;
 			
 			if (this.regionba.playerTokensTriggeronly) {
-				if (![...game.users].find(vUser => vUser.character == cToken.actor)) return;
+				if (!utils.isPlayerToken(cToken)) return;
 			}
 			
 			if (this.regionba.once) {
@@ -74,7 +74,6 @@ export class RBAchangeCombatant extends regionbaBasic {
 				const cDocuments = this.validDocuments().filter(vDocument => !vDocument.inCombat);
 				
 				if (cDocuments.length) {
-					
 					await cDocuments[0].constructor.createCombatants(cDocuments);
 				}
 				

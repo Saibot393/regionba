@@ -9,11 +9,12 @@ import {RBAchangeVisibility} from "./adjustments/changeVisibility.js";
 import {RBAchangeCombatant} from "./adjustments/changeCombatant.js";
 import {RBArollTable} from "./adjustments/rollTable.js";
 import {RBAconditionalTrigger} from "./adjustments/conditionalTrigger.js";
+import {RBAchangeItem} from "./adjustments/changeItem.js";
 
 Hooks.once("init", () => {
 	initCustoms();
 	
-	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger]) {
+	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem]) {
 		try {
 			vRBA.onInit();
 		} 

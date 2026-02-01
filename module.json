@@ -21,7 +21,8 @@
 	  "changeVisibility" : {},
 	  "changeCombatant" : {},
 	  "rollTable" : {},
-	  "conditionalTrigger" : {}
+	  "conditionalTrigger" : {},
+	  "changeItem" : {}
     }
   },
   "languages": [

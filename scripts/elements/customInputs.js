@@ -11,7 +11,7 @@ export class customInputs {
 		
 		const cNumberInput = document.createElement("input");
 		cNumberInput.type = "number";
-		cNumberInput.style.width = "40px";
+		cNumberInput.style.width = "36px";
 		cNumberInput.style.marginLeft = "5px";
 		
 		for (const cKey of Object.keys(pRange)) {
@@ -26,7 +26,7 @@ export class customInputs {
 		
 		Object.defineProperty(cRange, "value", {
 			get() {
-				return cNumberLine.value;
+				return Number(cNumberLine.value);
 			},
 			set(pValue) {
 				cNumberLine.value = pValue;
