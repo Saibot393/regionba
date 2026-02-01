@@ -1,10 +1,12 @@
 {
 	"regionba" : {
 		"Titles" : {
-			"regionba" : "Region Behaviour Adjustments"
+			"regionba" : "Region Behaviour Adjustments",
+			
+			"genericPosition" : "position (x:{x}, y:{y})"
 		},
 		
-		"Settings" : {
+		"BehaviourSettings" : {
 			"scChangeHint" : "[shift+l-click to add all, shift+r-click to remove all]",
 			
 			"autoSkipConfirmDialogue" : {
@@ -38,6 +40,10 @@
 				"name" : "Excluded movement types",
 				"hint" : "Tokens that enter the region with this movement will not trigger this behaviour"
 			}
+		},
+		
+		"Settings" : {
+			
 		}
 	}
 }

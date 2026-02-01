@@ -2,6 +2,31 @@ export const cModuleName = "regionba";
 export const cModuleAbbr = "RBA";
 
 export class utils {
+	static isvalidID(pID) {
+		return (typeof pID == "string" && pID.length == 16);
+	}
+	
+	static toPositionObject(pPositionArray)  {
+		const cPosition = {RBAvalid : false};
+		
+		if (pPositionArray.length == 3) {
+			let vValid = true;
+			
+			if (utils.isvalidID(pPositionArray[0])) cPosition.sceneID = pPositionArray[0]
+			else vValid = false;
+			
+			if (!isNaN(pPositionArray[1])) cPosition.x = Number(pPositionArray[1])
+			else vValid = false;
+			
+			if (!isNaN(pPositionArray[2])) cPosition.y = Number(pPositionArray[2])
+			else vValid = false;
+			
+			cPosition.RBAvalid = vValid;
+		}
+		
+		return cPosition;
+	}
+	
 	static selectedPlaceables() {
 		let vSelected = [];
 		
@@ -52,8 +77,6 @@ export class utils {
 		if (pActor?.items) {
 			const cInventory = [...pActor.items];
 			
-			console.log(cInventory);
-			console.log(cInventory.map(vItem => vItem._stats.compendiumSource));
 			return cInventory.find(vItem => [vItem._stats.compendiumSource, vItem._stats.duplicateSource].includes(pItem.uuid))
 		}
 	}

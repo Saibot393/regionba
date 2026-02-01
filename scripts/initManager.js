@@ -1,6 +1,9 @@
 import {readyCanvasClick} from "./helpers/canvasClick.js";
 import {initCustoms} from "./behaviours/RBAcustoms.js";
 
+import {registerSettings, activeAdjustments} from "./settings/settings.js";
+
+/*
 import {RBAping} from "./adjustments/ping.js";
 import {RBAchangeLevel} from "./adjustments/changeLevel.js";
 import {RBAstopMovement} from "./adjustments/stopMovement.js";
@@ -10,11 +13,15 @@ import {RBAchangeCombatant} from "./adjustments/changeCombatant.js";
 import {RBArollTable} from "./adjustments/rollTable.js";
 import {RBAconditionalTrigger} from "./adjustments/conditionalTrigger.js";
 import {RBAchangeItem} from "./adjustments/changeItem.js";
+import {RBAteleportToken} from "./adjustments/teleportToken.js";
+*/
 
 Hooks.once("init", () => {
 	initCustoms();
 	
-	for (let vRBA of [RBAping, RBAchangeLevel, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem]) {
+	registerSettings();
+	
+	for (let vRBA of activeAdjustments()) {
 		try {
 			vRBA.onInit();
 		} 

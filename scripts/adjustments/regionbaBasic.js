@@ -30,6 +30,7 @@ export class regionbaBasic {
 	static registerPropertyAccess() {
 		const cSettings = this.Settings;
 		const cSupport = this.Support();
+		const cBehaviourName = this.name;
 		
 		try {
 			Object.defineProperty(CONFIG.RegionBehavior.dataModels[this.type].prototype, cModuleName, {
@@ -41,6 +42,8 @@ export class regionbaBasic {
 					Object.defineProperty(cManagerObject, "Support", {get() {return cSupport}});
 					
 					for (const cFlag of Object.keys(cSettings)) {
+						const cWorldDefault = cSettings[cFlag].worldDefault && cSettings[cFlag].worldDefault();
+						
 						Object.defineProperty(cManagerObject, cFlag, {
 							get() {
 								if (this.Behaviour.parent.flags[cModuleName]?.[cFlag] != undefined) {
@@ -49,7 +52,8 @@ export class regionbaBasic {
 									}
 								}
 							
-								return cSettings[cFlag].default();
+								if (cWorldDefault) return game.settings.get(cModuleName, `${cBehaviourName}_${cFlag}_default`)
+								else return cSettings[cFlag].default();
 							},
 							set(pValue) {
 								if (!cSettings[cFlag].preventSet) {
@@ -163,7 +167,7 @@ export class regionbaBasic {
 				vFormGroup.style.alignItem = "center";
 				
 				let vLabel = document.createElement("label");
-				vLabel.innerText = Translate(`${cModuleName}.Settings.${cFlag}.name`);
+				vLabel.innerText = Translate(`${cModuleName}.BehaviourSettings.${cFlag}.name`);
 				vLabel.style.flex = "1";
 				
 				let vFormField = document.createElement("div");
@@ -208,7 +212,7 @@ export class regionbaBasic {
 							}
 							else {
 								vOption.value = cOption;
-								vOption.innerText = Translate(`${cModuleName}.Settings.${cFlag}.options.${cOption}`);
+								vOption.innerText = Translate(`${cModuleName}.BehaviourSettings.${cFlag}.options.${cOption}`);
 							}
 							vContent.appendChild(vOption);
 						}
@@ -253,7 +257,7 @@ export class regionbaBasic {
 				
 				let vHint = document.createElement("p");
 				vHint.classList.add("hint");
-				vHint.innerText = Translate(`${cModuleName}.Settings.${cFlag}.hint`);
+				vHint.innerText = Translate(`${cModuleName}.BehaviourSettings.${cFlag}.hint`);
 				vHint.style.flex = "0 0 100%";
 
 				vFormField.appendChild(vContent)
@@ -266,7 +270,7 @@ export class regionbaBasic {
 					vFormGroup.onclick = (pEvent) => {if (pEvent.shiftKey) vContent.value = (this.Settings[cFlag].isLevelSelect ? Array.from(pDocument.region.parent.levels) : this.Settings[cFlag].options()).map(vOption => vOption.id)};
 					vFormGroup.oncontextmenu = (pEvent) => {if (pEvent.shiftKey) vContent.value = []};
 					
-					vHint.innerText = vHint.innerText + " " + Translate(`${cModuleName}.Settings.scChangeHint`);
+					vHint.innerText = vHint.innerText + " " + Translate(`${cModuleName}.BehaviourSettings.scChangeHint`);
 				}
 				
 				vFieldSet.appendChild(vFormGroup);

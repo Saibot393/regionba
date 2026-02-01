@@ -7,10 +7,12 @@ export class RBAchangeLevel extends regionbaBasic {
 	static Settings = {
 		autoSkipConfirmDialogue : {
 			default : () => {return false},
+			worldDefault : () => {return true},
 			configDialog : true
 		},
 		continueMovement : {
 			default : () => {return false},
+			worldDefault : () => {return true},
 			configDialog : true
 		},
 		targetLevelChoice : {
@@ -93,7 +95,7 @@ export class RBAchangeLevel extends regionbaBasic {
 		
 		//The following functions are copied and adapted from foundry.mjs with the goal of altering the logic according to the above defined options
 		//the function "replace" '#functionName' with 'RBAfunctionName'
-		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn = async function(event) {
+		ChangeLevelRegionBehaviorType.RBAonTokenMoveIn = async function(event) {
 			const user = event.user;
 			if ( !user.isSelf ) return;
 
@@ -158,7 +160,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			//!!! CUSTOM BEHAVIOUR
 		}
 		
-		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAmoveToken = async function(token, destinationLevel, action, snap) {
+		ChangeLevelRegionBehaviorType.RBAmoveToken = async function(token, destinationLevel, action, snap) {
 			const originLevel = token.parent.levels.get(token._source.level);
 
 			// Snap the token first if the original movement was snapped
@@ -182,7 +184,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			  constrainOptions: {ignoreWalls: true}});
 		}
 		
-		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAgetDestinationLevels = function(region, token) {
+		ChangeLevelRegionBehaviorType.RBAgetDestinationLevels = function(region, token) {
 			if (this.regionba.targetLevelChoice == "default") {
 				//!!! CUSTOM BEHAVIOUR
 				if ( !region.levels.size ) return region.parent.levels.contents.filter(l => l.id !== token.level);
@@ -222,7 +224,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			}
 		}
 		
-		CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAconfirmDialog = async function(region, token) {
+		ChangeLevelRegionBehaviorType.RBAconfirmDialog = async function(region, token) {
 			const levels = this.RBAgetDestinationLevels(region, token);
 			if ( !levels.length ) return null;
 			

@@ -1,7 +1,7 @@
 {
   "id": "regionba",
-  "title": "Region Behaviour Adjustment",
-  "description": "A module to add additional options to fine tune Foundry VTT region behaviours",
+  "title": "Region Behaviour Adjustments",
+  "description": "A module that adds new behaviours and additional options to fine tune core Foundry VTT region behaviours",
   "authors": [
     {
     "name": "saibot"
