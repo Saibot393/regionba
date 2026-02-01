@@ -14,6 +14,10 @@ export class RBArollTable extends regionbaBasic {
 		playerTokensTriggeronly : {
 			default : () => {return false},
 			configDialog : true
+		},	
+		once : {
+			default : () => {return false},
+			configDialog : true
 		}
 	}
 	
@@ -40,6 +44,12 @@ export class RBArollTable extends regionbaBasic {
 			
 			if (this.regionba.playerTokensTriggeronly) {
 				if (![...game.users].find(vUser => vUser.character == cToken.actor)) return;
+			}
+			
+			if (this.regionba.once) {
+				this.parent.update({
+					disabled: true
+				});
 			}
 			
 			for (const cDocument of this.validDocuments()) {

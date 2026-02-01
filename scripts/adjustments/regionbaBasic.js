@@ -147,7 +147,7 @@ export class regionbaBasic {
 
 						let vFormGroup = vInput?.closest("div.form-group");
 
-						if (vFormGroup) vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
+						if (vFormGroup) vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "flex" : "none";
 					}
 				}
 			}	
@@ -157,9 +157,14 @@ export class regionbaBasic {
 				
 				let vFormGroup = document.createElement("div");
 				vFormGroup.classList.add("form-group");
+				vFormGroup.style.display = "flex";
+				vFormGroup.style.flexDirection = "row";
+				vFormGroup.style.flexWrap = "wrap";
+				vFormGroup.style.alignItem = "center";
 				
 				let vLabel = document.createElement("label");
 				vLabel.innerText = Translate(`${cModuleName}.Settings.${cFlag}.name`);
+				vLabel.style.flex = "1";
 				
 				let vFormField = document.createElement("div");
 				vFormField.classList.add("form-fields");
@@ -185,6 +190,7 @@ export class regionbaBasic {
 							vContent = document.createElement("code-mirror");
 							vContent.setAttribute("language", "javascript");
 							vContent.setAttribute("indent", "2");
+							vFormField.style.flex = "0 0 100%";
 						}
 						else {
 							vContent = document.createElement("input");
@@ -248,6 +254,7 @@ export class regionbaBasic {
 				let vHint = document.createElement("p");
 				vHint.classList.add("hint");
 				vHint.innerText = Translate(`${cModuleName}.Settings.${cFlag}.hint`);
+				vHint.style.flex = "0 0 100%";
 
 				vFormField.appendChild(vContent)
 

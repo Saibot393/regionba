@@ -22,7 +22,7 @@ export class RBAchangeCombatant extends regionbaBasic {
 		playerTokensTriggeronly : {
 			default : () => {return true},
 			configDialog : true
-		}		
+		},	
 		once : {
 			default : () => {return false},
 			configDialog : true

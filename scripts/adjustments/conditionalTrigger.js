@@ -49,20 +49,21 @@ export class RBAconditionalTrigger extends regionbaBasic {
 	}
 	
 	static overrideMethods() {
-		const cBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
+		const cBehaviourType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviourType.conditionalItemsValue = async function(pEvent) {
-			let vValue = [];
+			let vValues = [];
 			
 			const cItems = pEvent.data.token?.actor?.items;
 			
 			if (cItems) {
 				const cInventory = [...cItems];
 				
-				vValue = vValue.concat(this.regionba.conditionalItems.map(vItemCondition => Boolean(cInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition)));
+				vValues = vValues.concat(this.regionba.conditionalItems.map(vItemCondition => Boolean(cInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));
 			}
-			return vValue;
+			
+			return vValues;
 		}
 		
 		cBehaviourType.conditionalMacroValue = async function(pEvent) {
@@ -71,12 +72,12 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			const cMacros = this.regionba.conditionalMacros.map(vMacro => fromUuidSync(vMacro)).filter(vMacro => vMacro);
 			
 		    const {scene, region, behavior} = this;
-			const cToken = event.data.token;
-			const cSpeaker = token ? {scene: token.parent?.id ?? null, actor: token.actor?.id ?? null, token: token.id, alias: token.name} : {scene: scene.id, actor: null, token: null, alias: region.name};
+			const cToken = pEvent.data.token;
+			const cSpeaker = cToken ? {scene: cToken.parent?.id ?? null, actor: cToken.actor?.id ?? null, token: cToken.id, alias: cToken.name} : {scene: scene.id, actor: null, token: null, alias: region.name};
 			
 			for (cMacro of cMacros) {
 				try {
-					const cMacroResult = await cMacro.execute({speaker : cSpeaker, actor: token?.actor, token: token?.object, scene, region, behavior, event : pEvent});
+					const cMacroResult = await cMacro.execute({speaker : cSpeaker, actor: cToken?.actor, token: cToken?.object, scene, region, behavior, event : pEvent});
 				} catch(err) {
 					console.error(err);
 				}
@@ -84,29 +85,32 @@ export class RBAconditionalTrigger extends regionbaBasic {
 				vValues.push(cMacroResult);
 			}
 			
-			return vValue;
+			return vValues;
 		}
 		
 		cBehaviourType.conditionalScriptValue = async function(pEvent) {
-			let vValue = [];
+			let vValues = [];
 			
 			try {
-			  const cFunction = new AsyncFunction("scene", "region", "behavior", "event", "token", "actor", `{${this.regionba.conditionalScript}\n}`);
-			  vValue.push(await cFunction.call(globalThis, this.scene, this.region, this.behavior, pEvent, pEvent.data.token, pEvent.data.token?.actor));
+				const cFunction = new foundry.utils.AsyncFunction("scene", "region", "behavior", "event", "token", "actor", `{${this.regionba.conditionalScript}\n}`);
+				const cResult = await cFunction.call(globalThis, this.scene, this.region, this.behavior, pEvent, pEvent.data.token, pEvent.data.token?.actor);
+			  
+				if (Array.isArray(cResult)) vValues.push(...cResult);
+				else vValues.push(cResult);
 			} catch(err) {
 				console.error(err);
 			}
 			
-			return vValue;
+			return vValues;
 		}
 		
-		cBehaviorType.validtriggerBehaviours = function() {
+		cBehaviourType.validtriggerBehaviours = function() {
 			let vDocuments = this.regionba.triggerBehaviours.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			return [...new Set(vDocuments)];
 		}
 		
-		cBehaviorType._handleRegionEvent = async function(pEvent) {
+		cBehaviourType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
 			let vConditionValues = [];
@@ -122,7 +126,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			let vConditionsResult;
 			switch (this.regionba.logicMode) {
 				case "AND":
-					vConditionsResult = !vConditionValues.find(vValue => !vValue);
+					vConditionsResult = vConditionValues.find(vValue => !vValue) == undefined;
 					break;
 				case "OR":
 					vConditionsResult = vConditionValues.find(vValue => vValue);
@@ -133,11 +137,11 @@ export class RBAconditionalTrigger extends regionbaBasic {
 		
 			if (vConditionsResult) {
 				for (const cBehaviour of this.validtriggerBehaviours()) {
-					cBehaviour._handleRegionEvent(pEvent)
+					if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
+						cBehaviour._handleRegionEvent(pEvent);
+					}
 				}
 			}
 		}
-		
-		//CONFIG.RegionBehavior.dataModels[this.type].events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = cBehaviorType.RBAonTokenMovementIn;
 	}
 }
