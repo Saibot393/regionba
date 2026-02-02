@@ -115,7 +115,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 		cBehaviourType.validtriggerBehaviours = function() {
 			let vDocuments = this.regionba.triggerBehaviours.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
-			return [...new Set(vDocuments)];
+			return [...new Set(vDocuments)].filter(vBehaviour => vBehaviour != this);
 		}
 		
 		cBehaviourType.handleRegionEvent = async function(pEvent) {
@@ -145,7 +145,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			if (vConditionsResult) {
 				for (const cBehaviour of this.validtriggerBehaviours()) {
 					if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
-						cBehaviour.handleRegionEvent(pEvent);
+						cBehaviour._handleRegionEvent(pEvent);
 					}
 				}
 			}

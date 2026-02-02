@@ -53,8 +53,7 @@ export class RBAchangeItem extends regionbaBasic {
 		}
 		
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
-			const cUser = pEvent.user;
-			if ( !cUser.isSelf ) return;
+			if ( !game.user.isActiveGM ) return;
 			
 			const cToken = pEvent.data.token;
 			

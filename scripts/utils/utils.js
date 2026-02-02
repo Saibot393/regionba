@@ -87,8 +87,8 @@ export class utils {
 		return undefined;
 	}
 	
-	static isPlayerToken(pToken) {
-		return [...game.users].find(vUser => vUser.character == pToken.actor);
+	static isPlayerToken(pToken, pActiveOnly = false) {
+		return [...game.users].filter(vUser => !pActiveOnly || vUser.active).find(vUser => vUser.character == pToken.actor);
 	}
 	
 	static findIteminActor(pActor, pItem) {

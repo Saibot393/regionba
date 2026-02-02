@@ -42,6 +42,8 @@ export class RBArollTable extends regionbaBasic {
 			
 			const cToken = pEvent.data.token;
 			
+			if (utils.isPlayerToken(cToken, true) && game.user.isGM) return; //GMs should not play for player tokens
+			
 			if (this.regionba.playerTokensTriggeronly) {
 				if (!utils.isPlayerToken(cToken)) return;
 			}

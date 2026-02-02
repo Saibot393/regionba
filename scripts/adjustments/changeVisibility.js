@@ -43,7 +43,7 @@ export class RBAchangeVisibility extends regionbaBasic {
 			let vDocuments = this.regionba.visibilityDocuments.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			if (this.regionba.addTokensonRegion) {
-				vDocuments = vDocuments.concat([...this.region.tokens]);
+				vDocuments = vDocuments.concat([...this.region.tokens]).filter(vToken => !utils.isPlayerToken(vToken));
 			}
 			
 			return [...new Set(vDocuments)];
