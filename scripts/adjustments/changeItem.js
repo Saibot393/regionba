@@ -67,7 +67,7 @@ export class RBAchangeItem extends regionbaBasic {
 					
 					let vTokenItem = utils.findIteminActor(cActor, cItemDocument);
 					
-					const cCurrentQuantity = vTokenItem?.system.quantity || 0;
+					const cCurrentQuantity = cHasQuantity ? (vTokenItem?.system.quantity || 0) : (vTokenItem ? 1 : 0);
 					
 					let vChange = 0;
 					

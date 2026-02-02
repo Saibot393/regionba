@@ -1,5 +1,14 @@
 import {cModuleName} from "../utils/utils.js";
 
+export const cDefaultEvents = [CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
+						CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
+						CONST.REGION_EVENTS.TOKEN_MOVE_IN,
+						CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
+						CONST.REGION_EVENTS.TOKEN_TURN_START,
+						CONST.REGION_EVENTS.TOKEN_TURN_END,
+						CONST.REGION_EVENTS.TOKEN_ROUND_START,
+						CONST.REGION_EVENTS.TOKEN_ROUND_END];
+
 //I know that there is a really nice way to add custom behaviours directly, however:
 //1) I already have a nice "adjust behaviour" workflow so i want to use it
 //2) I need special input types for have of these and implementing the foundry way will limit me in certain ways
@@ -8,16 +17,7 @@ export class ping extends foundry.data.regionBehaviors.RegionBehaviorType {
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 	
@@ -35,16 +35,7 @@ export class pullCamera extends foundry.data.regionBehaviors.RegionBehaviorType 
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 	
@@ -62,16 +53,7 @@ export class changeItem extends foundry.data.regionBehaviors.RegionBehaviorType 
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 	
@@ -121,16 +103,7 @@ export class changeVisibility extends foundry.data.regionBehaviors.RegionBehavio
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
    
@@ -160,16 +133,7 @@ export class changeCombatant extends foundry.data.regionBehaviors.RegionBehavior
 	
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 	
@@ -187,16 +151,6 @@ export class conditionalTrigger extends foundry.data.regionBehaviors.RegionBehav
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
 		} 
 	}
 	
@@ -228,16 +182,7 @@ export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
-				CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 	
@@ -257,14 +202,7 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [
-				CONST.REGION_EVENTS.TOKEN_MOVE_IN,
-				CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
-				CONST.REGION_EVENTS.TOKEN_TURN_START,
-				CONST.REGION_EVENTS.TOKEN_TURN_END,
-				CONST.REGION_EVENTS.TOKEN_ROUND_START,
-				CONST.REGION_EVENTS.TOKEN_ROUND_END
-			]})
+			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
 

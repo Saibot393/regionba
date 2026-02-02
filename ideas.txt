@@ -1,16 +1,10 @@
--Active Effects
- -Remove
 -Teleport
  -Slide
- -Quick select
 -Display Scrolling Text
  -Duration
--Ping
--Invisible/Visible
--Block specific movement/set movement type
 -Chat card
 -Lock/Unlock door
 -Light on/off
 -Sound on/off
--Roll Table
+-Change Wall
 -Condition

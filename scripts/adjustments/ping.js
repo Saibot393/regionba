@@ -72,7 +72,7 @@ export class RBAping extends regionbaBasic {
 			if ( !cUser.isSelf ) return;
 			
 			//CONFIG.Canvas.pings.types
-			for (const cPosition of this.pingPosition) {
+			for (const cPosition of this.pingPosition()) {
 				canvas.ping(cPosition, {style : "pulse", duration :  1000 * this.regionba.pingDuration, color : this.regionba.pingColor});
 			}
 		}

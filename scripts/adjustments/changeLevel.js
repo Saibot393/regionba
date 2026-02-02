@@ -161,27 +161,59 @@ export class RBAchangeLevel extends regionbaBasic {
 		}
 		
 		ChangeLevelRegionBehaviorType.RBAmoveToken = async function(token, destinationLevel, action, snap) {
-			const originLevel = token.parent.levels.get(token._source.level);
+			const {x, y, elevation, width, height, depth, shape, level} = token._source;
+			const originLevel = token.parent.levels.get(level);
 
-			// Snap the token first if the original movement was snapped
-			if ( snap ) {
-			  const {x, y, elevation, width, height, depth, shape, level} = token._source;
-			  const snappedPosition = {...token.getSnappedPosition({x, y, elevation, width, height, shape}),
-				width, height, depth, shape, level};
-			  if ( token.testInsideRegion(this.region, snappedPosition) ) {
-				await token.move({...snappedPosition, action, snapped: true});
-				if ( token.level !== originLevel.id ) return;
+			// First move the token such that its center is inside the region
+			const waypoints = [];
+			const center = token.getCenterPoint(token._source);
+			const closestToCenter = this.region.polygonTree.findClosestPoint(center);
+			const closestWaypoint = {
+			  x: Math.round(closestToCenter.x - (center.x - x)),
+			  y: Math.round(closestToCenter.y - (center.y - y)),
+			  elevation, width, height, depth, shape, level, action
+			};
+			if ( token.testInsideRegion(this.region, closestWaypoint) ) waypoints.push(closestWaypoint);
+
+			// Then snap the token if the original movement was snapped
+			if ( snap && !token.parent.grid.isGridless ) {
+			  let found = false;
+			  const {x, y} = waypoints.at(-1) ?? token._source;
+			  for ( const dx of [0, 1, -1] ) {
+				for ( const dy of [0, 1, -1] ) {
+				  const snappedPosition = token.getSnappedPosition({x: x + dx, y: y + dy, width, height, shape});
+				  const snappedWaypoint = {
+					x: Math.round(snappedPosition.x),
+					y: Math.round(snappedPosition.y),
+					elevation, width, height, depth, shape, level, action, snapped: true
+				  };
+				  if ( token.testInsideRegion(this.region, snappedWaypoint) ) {
+					waypoints.push(snappedWaypoint);
+					found = true;
+					break;
+				  }
+				}
+				if ( found ) break;
 			  }
 			}
 
+			// Try to move the token into position before changing the level.
+			// Note that we might move the token out of the region here if this movement is not fully contained
+			// within the region and is constrained outside of the region. This is probably unlikely to occur in
+			// practice though.
+			if ( waypoints.length ) {
+			  await token.move(waypoints);
+			  if ( token.level !== originLevel.id ) return;
+			}
+
 			// Try to keep the same relative elevation to the level the token is in
-			const relativeElevation = token._source.elevation - (originLevel?._source.elevation.bottom ?? 0);
-			const elevation = destinationLevel.clampElevation(relativeElevation
-			  + (destinationLevel._source.elevation.bottom ?? 0), token._source.depth);
+			const relativeElevation = token._source.elevation - (Number.isFinite(originLevel?.elevation.bottom)
+			  ? originLevel.elevation.bottom : 0);
+			const destinationElevation = destinationLevel.clampElevation(relativeElevation + (Number.isFinite(
+			  destinationLevel.elevation.bottom) ? destinationLevel.elevation.bottom : 0), token._source.depth);
 
 			// Move the token to the destination level. Ignore surfaces.
-			await token.move({elevation, level: destinationLevel.id, action}, {animate: false,
-			  constrainOptions: {ignoreWalls: true}});
+			await token.move({elevation: destinationElevation, level: destinationLevel.id, action}, {animate: false, constrainOptions: {ignoreWalls: true}});
 		}
 		
 		ChangeLevelRegionBehaviorType.RBAgetDestinationLevels = function(region, token) {
@@ -267,3 +299,106 @@ export class RBAchangeLevel extends regionbaBasic {
 		CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn;
 	}
 }
+
+/* Code the above code is directly based on, for comparison to spot changes easier
+
+  static async #onTokenMoveIn(event) {
+    const user = event.user;
+    if ( !user.isSelf ) return;
+
+    // Displacement does not trigger level change
+    const movement = event.data.movement;
+    if ( movement.passed.waypoints.at(-1).action === "displace" ) return;
+
+    // If the region doesn't span multiple levels, there's nothing to do
+    const token = event.data.token;
+    const levels = ChangeLevelRegionBehaviorType.#getDestinationLevels(this.region, token);
+    if ( !levels.length ) return;
+
+    // Pause movement while the user decides whether to change the level
+    const resumeMovement = token.pauseMovement();
+
+    // When the browser tab is/becomes hidden, don't wait for the movement animation and
+    // proceed immediately. Otherwise wait for the movement animation to complete.
+    if ( token.rendered && token.object.movementAnimationPromise ) {
+      await game.raceWithWindowHidden(token.object.movementAnimationPromise);
+    }
+
+    // Confirm the level change
+    const levelId = await ChangeLevelRegionBehaviorType.#confirmDialog(this.region, token);
+    if ( !levelId || (levelId === token.level) ) {
+      resumeMovement();
+      return;
+    }
+    const level = token.parent.levels.get(levelId);
+    if ( !level ) return;
+
+    // Move the token to the destination level unless the token has been moved in the meantime
+    if ( token.movement.id !== movement.id ) return;
+    const action = movement.passed.waypoints.at(-1).action;
+    const snap = movement.pending.waypoints.at(0)?.snapped ?? movement.passed.waypoints.at(-1).snapped;
+    await this.#moveToken(token, level, action, snap);
+
+    // The view isn't automatically changed for GM users
+    if ( !game.user.isGM || !token.parent.isView ) return;
+    await token.parent.view({level: levelId, controlledTokens: [token.id]});
+  }
+  
+  async #moveToken(token, destinationLevel, action, snap) {
+    const {x, y, elevation, width, height, depth, shape, level} = token._source;
+    const originLevel = token.parent.levels.get(level);
+
+    // First move the token such that its center is inside the region
+    const waypoints = [];
+    const center = token.getCenterPoint(token._source);
+    const closestToCenter = this.region.polygonTree.findClosestPoint(center);
+    const closestWaypoint = {
+      x: Math.round(closestToCenter.x - (center.x - x)),
+      y: Math.round(closestToCenter.y - (center.y - y)),
+      elevation, width, height, depth, shape, level, action
+    };
+    if ( token.testInsideRegion(this.region, closestWaypoint) ) waypoints.push(closestWaypoint);
+
+    // Then snap the token if the original movement was snapped
+    if ( snap && !token.parent.grid.isGridless ) {
+      let found = false;
+      const {x, y} = waypoints.at(-1) ?? token._source;
+      for ( const dx of [0, 1, -1] ) {
+        for ( const dy of [0, 1, -1] ) {
+          const snappedPosition = token.getSnappedPosition({x: x + dx, y: y + dy, width, height, shape});
+          const snappedWaypoint = {
+            x: Math.round(snappedPosition.x),
+            y: Math.round(snappedPosition.y),
+            elevation, width, height, depth, shape, level, action, snapped: true
+          };
+          if ( token.testInsideRegion(this.region, snappedWaypoint) ) {
+            waypoints.push(snappedWaypoint);
+            found = true;
+            break;
+          }
+        }
+        if ( found ) break;
+      }
+    }
+
+    // Try to move the token into position before changing the level.
+    // Note that we might move the token out of the region here if this movement is not fully contained
+    // within the region and is constrained outside of the region. This is probably unlikely to occur in
+    // practice though.
+    if ( waypoints.length ) {
+      await token.move(waypoints);
+      if ( token.level !== originLevel.id ) return;
+    }
+
+    // Try to keep the same relative elevation to the level the token is in
+    const relativeElevation = token._source.elevation - (Number.isFinite(originLevel?.elevation.bottom)
+      ? originLevel.elevation.bottom : 0);
+    const destinationElevation = destinationLevel.clampElevation(relativeElevation + (Number.isFinite(
+      destinationLevel.elevation.bottom) ? destinationLevel.elevation.bottom : 0), token._source.depth);
+
+    // Move the token to the destination level. Ignore surfaces.
+    await token.move({elevation: destinationElevation, level: destinationLevel.id, action}, {animate: false,
+      constrainOptions: {ignoreWalls: true}});
+  }
+  
+*/

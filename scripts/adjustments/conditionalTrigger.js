@@ -118,7 +118,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			return [...new Set(vDocuments)];
 		}
 		
-		cBehaviourType._handleRegionEvent = async function(pEvent) {
+		cBehaviourType.handleRegionEvent = async function(pEvent) {
 			//if ( !game.user.isActiveGM ) return;
 			let vConditionValues = [];
 			
@@ -149,6 +149,19 @@ export class RBAconditionalTrigger extends regionbaBasic {
 					}
 				}
 			}
+		}
+		
+		const cTriggerEvents = [CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
+								CONST.REGION_EVENTS.TOKEN_ANIMATE_OUT,
+								CONST.REGION_EVENTS.TOKEN_MOVE_IN,
+								CONST.REGION_EVENTS.TOKEN_MOVE_OUT,
+								CONST.REGION_EVENTS.TOKEN_TURN_START,
+								CONST.REGION_EVENTS.TOKEN_TURN_END,
+								CONST.REGION_EVENTS.TOKEN_ROUND_START,
+								CONST.REGION_EVENTS.TOKEN_ROUND_END];
+							
+		for (const cEvent of cTriggerEvents) {
+			CONFIG.RegionBehavior.dataModels[this.type].events[cEvent] = cBehaviourType.handleRegionEvent;
 		}
 	}
 }
