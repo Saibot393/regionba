@@ -11,6 +11,10 @@ export class RBAchangeVisibility extends regionbaBasic {
 			objectType : "placeables",
 			validSelectable : (pPlaceable) => {return ["Tile", "Token"].includes(pPlaceable.documentName) || utils.isDoor(pPlaceable)}
 		},
+		playerTokensTriggeronly : {
+			default : () => {return true},
+			configDialog : true
+		},	
 		visibilityChange : {
 			default : () => {return "show"},
 			configDialog : true,
@@ -18,10 +22,6 @@ export class RBAchangeVisibility extends regionbaBasic {
 		},
 		addTokensonRegion : {
 			default : () => {return false},
-			configDialog : true
-		},	
-		playerTokensTriggeronly : {
-			default : () => {return true},
 			configDialog : true
 		},			
 		once : {

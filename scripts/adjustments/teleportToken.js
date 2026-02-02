@@ -55,7 +55,7 @@ export class RBAteleportToken extends regionbaBasic {
 				}
 
 				// Otherwise teleport the token to the different scene
-				vDestinationToken.updateSource({x : pPosition.x + pToken.object.width/2, y : pPosition.y  + pToken.object.height/2, elevation : pToken.elevation, level : pPosition.level});
+				vDestinationToken.updateSource({x : pPosition.x - pToken.width/2 * cDestinationScene.grid.sizeX, y : pPosition.y  - pToken.height/2 * cDestinationScene.grid.sizeY, elevation : pToken.elevation, level : pPosition.level});
 
 				// Create the new token
 				const cDestinationTokenData = vDestinationToken.toObject();
@@ -143,6 +143,8 @@ export class RBAteleportToken extends regionbaBasic {
 				}
 			}
 			else {
+				if (!destination) return;
+				
 				await destination.teleportToken(token);
 				
 				// View destination scene / Pull the user to the destination scene only if the user is currently viewing the origin

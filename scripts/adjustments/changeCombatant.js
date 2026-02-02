@@ -11,16 +11,16 @@ export class RBAchangeCombatant extends regionbaBasic {
 			objectType : "placeables",
 			validSelectable : (pPlaceable) => {return ["Token"].includes(pPlaceable.documentName)}
 		},
+		playerTokensTriggeronly : {
+			default : () => {return true},
+			configDialog : true
+		},	
 		addTokensonRegion : {
 			default : () => {return false},
 			configDialog : true
 		},
 		addPlayerTokens : {
 			default : () => {return false},
-			configDialog : true
-		},	
-		playerTokensTriggeronly : {
-			default : () => {return true},
 			configDialog : true
 		},	
 		once : {
