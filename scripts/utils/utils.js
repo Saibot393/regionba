@@ -24,6 +24,24 @@ export class utils {
 			cPosition.RBAvalid = vValid;
 		}
 		
+		if (pPositionArray.length == 4) {
+			let vValid = true;
+			
+			if (utils.isvalidID(pPositionArray[0])) cPosition.sceneID = pPositionArray[0]
+			else vValid = false;
+			
+			if (utils.isvalidID(pPositionArray[1])) cPosition.level = pPositionArray[1]
+			else vValid = false;
+			
+			if (!isNaN(pPositionArray[2])) cPosition.x = Number(pPositionArray[2])
+			else vValid = false;
+			
+			if (!isNaN(pPositionArray[3])) cPosition.y = Number(pPositionArray[3])
+			else vValid = false;
+			
+			cPosition.RBAvalid = vValid;
+		}
+		
 		return cPosition;
 	}
 	

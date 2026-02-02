@@ -84,7 +84,10 @@ export class customInputs {
 			break;
 			case "globalxy":
 				vButtonClick = (pEvent, pInput) => {
-					Hooks.once(cModuleName + ".onCanvasClick", ({pEvent, pMousePosition}) => {try {pInput.setValue([canvas.scene?.id, Math.round(pMousePosition.x), Math.round(pMousePosition.y)].join(","))} catch {}})
+					Hooks.once(cModuleName + ".onCanvasClick", ({pEvent, pMousePosition}) => {try {pInput.setValue([canvas.scene?.id, 
+																													canvas.level?.id ?? "defaultLevel0000", //thank god[a.k.a foundry development team] there is a default level
+																													Math.round(pMousePosition.x), 
+																													Math.round(pMousePosition.y)].join(","))} catch {}})
 				}
 			break;
 		}

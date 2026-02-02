@@ -145,7 +145,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			if (vConditionsResult) {
 				for (const cBehaviour of this.validtriggerBehaviours()) {
 					if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
-						cBehaviour._handleRegionEvent(pEvent);
+						cBehaviour.handleRegionEvent(pEvent);
 					}
 				}
 			}
