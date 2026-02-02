@@ -61,8 +61,13 @@ export class regionbaBasic {
 										let vValueWrap = {newValue : pValue, regionBehaviour : this.Behaviour, oldValue : this[cFlag], preventChange : false};
 										
 										if (cSettings[cFlag].hasOwnProperty("onSet")) {
-											
 											cSettings[cFlag].onSet(vValueWrap)
+										}
+										
+										if (["placeables", "documents"].includes(cSettings[cFlag].objectType)) {
+											if (cSettings[cFlag].validSelectable) {
+												vValueWrap.newValue = vValueWrap.newValue.filter(vValue => fromUuidSync(vValue)).filter(vDocument => cSettings[cFlag].validSelectable(vDocument));
+											}
 										}
 										
 										if (!vValueWrap.preventChange) this.Behaviour.parent.setFlag(cModuleName, cFlag, vValueWrap.newValue);

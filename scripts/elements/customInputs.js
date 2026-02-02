@@ -204,7 +204,11 @@ export class customInputs {
 			}
 		};
 		
-		cInputButton.onclick = cAddInput();
+		cInputButton.onclick = (pEvent) => {
+			pEvent.stopPropagation();
+			pEvent.preventDefault();
+			cAddInput(pEvent);
+		}
 		
 		cElement.appendChild(cTags);
 		cElement.appendChild(cUUIDInput);
