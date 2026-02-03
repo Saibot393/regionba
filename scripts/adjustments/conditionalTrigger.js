@@ -14,7 +14,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			isMultiSelect : true,
-			options : () => {return ["itemsintoken", "macros", "script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
+			options : () => {return ["ItemsinToken", "Macros", "Script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
 			scChangeAll : true
 		},
 		conditionalItemsinToken : {
@@ -22,25 +22,25 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			configDialog : true,
 			objectType : "documents",
 			validSelectable : (pDocument) => {return ["Item"].includes(pDocument.documentName) && !pDocument.actor},
-			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("itemsintoken")}
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("ItemsinToken")}
 		},
 		checkIteminTokenZero : {
 			default : () => {return false},
 			configDialog : true,
-			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("itemsintoken")}
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("ItemsinToken")}
 		},
 		conditionalMacros : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
 			validSelectable : (pPlaceable) => {return ["Macro"].includes(pPlaceable.documentName)},
-			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("macros")}
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("Macros")}
 		},
 		conditionalScript : {
 			default : () => {return ""},
 			configDialog : true,
 			isScript : true,
-			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("script")}
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("Script")}
 		},
 		invertResult : {
 			default : () => {return false},
@@ -73,7 +73,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 		const cBehaviourType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
-		cBehaviourType.conditionalItemsValue = async function(pEvent) {
+		cBehaviourType.conditionalItemsinTokenValue = async function(pEvent) {
 			let vValues = [];
 			
 			const cItems = pEvent.data.token?.actor?.items;
@@ -91,7 +91,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			return vValues;
 		}
 		
-		cBehaviourType.conditionalMacroValue = async function(pEvent) {
+		cBehaviourType.conditionalMacrosValue = async function(pEvent) {
 			let vValues = [];
 			
 			const cMacros = this.regionba.conditionalMacros.map(vMacro => fromUuidSync(vMacro)).filter(vMacro => vMacro);
@@ -146,11 +146,16 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			
 			let vConditionValues = [];
 			
+			/*
 			vConditionValues = vConditionValues.concat(await this.conditionalItemsValue(pEvent));
 			
 			vConditionValues = vConditionValues.concat(await this.conditionalMacroValue(pEvent));
 			
 			vConditionValues = vConditionValues.concat(await this.conditionalScriptValue(pEvent));
+			*/
+			for (cConditional in this.regionba.conditionTypes) {
+				vConditionValues = vConditionValues.concat(await this[`conditional${cConditional}Value`](pEvent));
+			}
 			
 			vConditionValues = vConditionValues.filter(vValue => [true, false].includes(vValue));
 			
