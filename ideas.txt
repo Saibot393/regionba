@@ -8,3 +8,5 @@
 -Sound on/off
 -Change Wall
 -Condition
+-Change tile/token art
+-Delay
