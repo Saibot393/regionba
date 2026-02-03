@@ -37,13 +37,162 @@
 			},
 			
 			"movementTypeExclusion" : {
-				"name" : "Excluded movement types",
-				"hint" : "Tokens that enter the region with this movement will not trigger this behaviour"
+				"name" : "Excluded movement",
+				"hint" : "Tokens that enter the region with this movement type will not trigger this behaviour"
+			},
+			
+			"combatantDocuments" : {
+				"name" : "Combatants",
+				"hint" : "Tokens to be added as combatants"
+			},
+			
+			"playerTokensTriggeronly" : {
+				"name" : "Characters trigger",
+				"hint" : "If only tokens set as a player character should trigger this region"
+			},
+			
+			"addTokensonRegion" : {
+				"name" : "Tokens on Region",
+				"hint" : "If the Tokens curently standing on this region should be added"
+			},
+			
+			"addPlayerTokens" : {
+				"name" : "Player Characters",
+				"hint" : "If tokens set as a player character should be added"
+			},
+			
+			"once" : {
+				"name" : "Once",
+				"hint" : "Disable the behaviour after the first time it's triggered"
+			},
+			
+			"movementTypeEnter" : {
+				"name" : "Enter Movement",
+				"hint" : "The movement type tokens entering the behaviours region are set to"
+			},
+			
+			"movementTypeLeave" : {
+				"name" : "Leave Movement",
+				"hint" : "The movement type tokens leaving the behaviours region are set to"
+			},
+			
+			"visibilityDocuments" : {
+				"name" : "Placeables",
+				"hint" : "Placeables (Tokens, Tiles, Doors) whose visibility is changed"
+			},
+			
+			"visibilityChange" : {
+				"name" : "Change",
+				"hint" : "How the visibility is changed",
+				"options" : {
+					"toggle" : "Toggle",
+					"show" : "Show",
+					"hide" : "Hide"
+				}
+			},
+			
+			"logicMode" : {
+				"name" : "Logic",
+				"hint" : "The way the following values are combined",
+				"options" : {
+					"AND" : "AND",
+					"OR" : "OR"
+				}
+			},
+			
+			"conditionTypes" : {
+				"name" : "Condition types",
+				"hint" : "Activate and deactivate types of conditions",
+				"options" : {
+					"ItemsinToken" : "Items in token",
+					"Macros" : "Macros",
+					"Script" : "Script"
+				}
+			},
+			
+			"invertResult" : {
+				"name" : "Invert",
+				"hint" : "Inverts logical result"
+			},
+			
+			"triggerBehavioursTRUE" : {
+				"name" : "On TRUE",
+				"hint" : "Behaviours triggered when TRUE"
+			},
+			
+			"triggerBehavioursFALSE" : {
+				"name" : "On FALSE",
+				"hint" : "Behaviours triggered when FALSE"
+			},
+			
+			"ignoreDisabled" : {
+				"name" : "Ignore disabled",
+				"hint" "If the disabled state of the triggered behaviours should be ignored [In most cases you will want this set to true and the target behaviours set to disabled]"
+			}
+			
+			"conditionalItemsinToken" : {
+				"name" : "Items",
+				"hint" : "Entering token is checked for these Items"
+			},
+			
+			"checkIteminTokenZero" : {
+				"name" : "Check Quntity",
+				"hint" : "If the above items should be checked for a quantity higher than 0"
+			},
+			
+			"conditionalMacros" : {
+				"name" : "Macros",
+				"hint" : "Macros should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: speaker, actor, token, scene, region, behavior, event]"
+			},
+			
+			"conditionalScript" : {
+				"name" : "Script",
+				"hint" : "The script should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: actor, token, scene, region, behavior, event]"
+			},
+			
+			"changeItemDocuments" : {
+				"name" : "Items",
+				"hint" : "Items to be chnaged in the tokens inventory" 
+			},
+			
+			"changeItemMode" : {
+				"name" : "Mode",
+				"hint" : "The way the above defined items quantity is changed",
+				"options" : {
+					"give" : "give",
+					"remove" : "remove",
+					"setto" : "set to"
+				}
+			},
+			
+			"itemQuantity" : {
+				"name" : "Quantity",
+				"hint" : "Quantity for the above defined mode"
+			},
+			
+			"deleteItemonZero" : {
+				"name" : "Delete on zero",
+				"hint" : "If the changed items should be deletet if the quantity reaches 0"
 			}
 		},
 		
 		"Settings" : {
 			
+		}
+	},
+	
+	"TYPES" : {
+		"RegionBehavior" : {
+			"regionba" : {
+				"changeCombatant" : "[RBA] Add Combatants",
+				"changeItem" : "[RBA] Give/Take Item",
+				"changeMovement" : "[RBA] Change Movement Type",
+				"changeVisibility" : "[RBA] Change Visibility",
+				"conditionalTrigger" : "[RBA] Conditional Trigger",
+				"ping" : "[RBA] Ping",
+				"rollTable" : "[RBA] Roll Table",
+				"stopMovement" : "[RBA] Prevent Movement"
+			}
 		}
 	}
 }

@@ -5,7 +5,7 @@ export class RBAchangeItem extends regionbaBasic {
 	static type = cModuleName + ".changeItem";
 	
 	static Settings = {
-		itemDocuments : {
+		changeItemDocuments : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
@@ -47,7 +47,7 @@ export class RBAchangeItem extends regionbaBasic {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviorType.validItems = function() {
-			const cDocuments = this.regionba.itemDocuments.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
+			const cDocuments = this.regionba.changeItemDocuments.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			return [...new Set(cDocuments)];
 		}

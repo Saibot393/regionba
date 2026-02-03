@@ -101,13 +101,16 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			const cSpeaker = cToken ? {scene: cToken.parent?.id ?? null, actor: cToken.actor?.id ?? null, token: cToken.id, alias: cToken.name} : {scene: scene.id, actor: null, token: null, alias: region.name};
 			
 			for (cMacro of cMacros) {
+				let vMacroResult;
+				
 				try {
-					const cMacroResult = await cMacro.execute({speaker : cSpeaker, actor: cToken?.actor, token: cToken?.object, scene, region, behavior, event : pEvent});
+					let vMacroResult = await cMacro.execute({speaker : cSpeaker, actor: cToken?.actor, token: cToken?.object, scene, region, behavior, event : pEvent});
 				} catch(err) {
 					console.error(err);
 				}
 			
-				vValues.push(cMacroResult);
+				if (Array.isArray(vMacroResult)) vValues.push(...vMacroResult);
+				else vValues.push(vMacroResult);
 			}
 			
 			return vValues;
@@ -153,7 +156,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			
 			vConditionValues = vConditionValues.concat(await this.conditionalScriptValue(pEvent));
 			*/
-			for (cConditional in this.regionba.conditionTypes) {
+			for (const cConditional of this.regionba.conditionTypes) {
 				vConditionValues = vConditionValues.concat(await this[`conditional${cConditional}Value`](pEvent));
 			}
 			

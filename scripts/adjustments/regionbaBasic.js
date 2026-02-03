@@ -138,7 +138,7 @@ export class regionbaBasic {
 			vFieldSet.classList.add(cModuleName);
 			let vLegend = document.createElement("legend");
 			if (pDocument.system.isRBAcustom) {
-				vLegend.innerText = Translate(`${cModuleName}.Titles.${pDocument.type}`);
+				vLegend.innerText = Translate(`TYPES.RegionBehavior.${pDocument.type}`);
 			}
 			else {
 				vLegend.innerText = Translate(`${cModuleName}.Titles.${cModuleName}`);
