@@ -10,32 +10,49 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			configDialog : true,
 			options : () => {return ["AND", "OR"]}
 		},
-		conditionalItems : {
+		conditionTypes : {
+			default : () => {return []},
+			configDialog : true,
+			isMultiSelect : true,
+			options : () => {return ["itemsintoken", "macros", "script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
+			scChangeAll : true
+		},
+		conditionalItemsinToken : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
-			validSelectable : (pDocument) => {return ["Item"].includes(pDocument.documentName) && !pDocument.actor}
+			validSelectable : (pDocument) => {return ["Item"].includes(pDocument.documentName) && !pDocument.actor},
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("itemsintoken")}
 		},
-		checkItemZero : {
+		checkIteminTokenZero : {
 			default : () => {return false},
-			configDialog : true
+			configDialog : true,
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("itemsintoken")}
 		},
 		conditionalMacros : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
-			validSelectable : (pPlaceable) => {return ["Macro"].includes(pPlaceable.documentName)}
+			validSelectable : (pPlaceable) => {return ["Macro"].includes(pPlaceable.documentName)},
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("macros")}
 		},
 		conditionalScript : {
 			default : () => {return ""},
 			configDialog : true,
-			isScript : true
+			isScript : true,
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("script")}
 		},
 		invertResult : {
 			default : () => {return false},
 			configDialog : true
 		},
-		triggerBehaviours : {
+		triggerBehavioursTRUE : {
+			default : () => {return []},
+			configDialog : true,
+			objectType : "documents",
+			validSelectable : (pPlaceable) => {return ["RegionBehavior"].includes(pPlaceable.documentName)}
+		},
+		triggerBehavioursFALSE : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
@@ -64,11 +81,11 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			if (cItems) {
 				let vInventory = [...cItems];
 				
-				if (this.regionba.checkItemZero) {
+				if (this.regionba.checkIteminTokenZero) {
 					vInventory = vInventory.filter(vItem => vItem.system?.quantity > 0);
 				}
 				
-				vValues = vValues.concat(this.regionba.conditionalItems.map(vItemCondition => Boolean(vInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));
+				vValues = vValues.concat(this.regionba.conditionalItemsinToken.map(vItemCondition => Boolean(vInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));
 			}
 			
 			return vValues;
@@ -112,14 +129,21 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			return vValues;
 		}
 		
-		cBehaviourType.validtriggerBehaviours = function() {
-			let vDocuments = this.regionba.triggerBehaviours.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
+		cBehaviourType.validtriggerBehaviours = function(pType) {
+			let vDocuments = this.regionba["triggerBehaviours"+(pType ? "TRUE" : "FALSE")].map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			return [...new Set(vDocuments)].filter(vBehaviour => vBehaviour != this);
 		}
 		
 		cBehaviourType.handleRegionEvent = async function(pEvent) {
 			//if ( !game.user.isActiveGM ) return;
+			if (!pEvent[cModuleName]?.triggerHistory) pEvent[cModuleName] = {triggerHistory : {}};
+			if (!pEvent[cModuleName]?.triggerHistory[game.user.id]) pEvent[cModuleName].triggerHistory[game.user.id] = [];
+			
+			if (pEvent[cModuleName].triggerHistory[game.user.id].includes(this.id)) return; //prevent recursion
+			
+			pEvent[cModuleName].triggerHistory[game.user.id].push(this.id);
+			
 			let vConditionValues = [];
 			
 			vConditionValues = vConditionValues.concat(await this.conditionalItemsValue(pEvent));
@@ -142,11 +166,9 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			
 			if (this.regionba.invertResult) vConditionsResult = !vConditionsResult;
 		
-			if (vConditionsResult) {
-				for (const cBehaviour of this.validtriggerBehaviours()) {
-					if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
-						cBehaviour._handleRegionEvent(pEvent);
-					}
+			for (const cBehaviour of this.validtriggerBehaviours(vConditionsResult)) {
+				if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
+					cBehaviour._handleRegionEvent(pEvent);
 				}
 			}
 		}
