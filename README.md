@@ -79,30 +79,30 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     Delete item if it reaches a quantity of zero
   - **Character Trigger**
     So that it is only triggered by player characters
-  - **Once
+  - **Once**
  
-  - ## Ping
-    - **Ping Position**
-      Position to ping on this scene
-    - **Ping Color**
-      Color of the Ping
-    - **Ping Duration**
-      Duration of the Ping
-    - **Ping Tokens on Region**
-      To also ping the tokens in the region
-    - **Once**
+- ## Ping
+  - **Ping Position**
+    Position to ping on this scene
+  - **Ping Color**
+    Color of the Ping
+  - **Ping Duration**
+    Duration of the Ping
+  - **Ping Tokens on Region**
+    To also ping the tokens in the region
+  - **Once**
    
-  - ## Prevent Movement
-    This Region prevents movement of a certain type/types into or within this region. A GM using unrestricted movement will ignore this behaviour.
-    - **Prevented Movement**
-      Movement type(s) to prevent
+- ## Prevent Movement
+  This Region prevents movement of a certain type/types into or within this region. A GM using unrestricted movement will ignore this behaviour.
+  - **Prevented Movement**
+    Movement type(s) to prevent
 
-  - ## Roll Table
-    - **Roll Table**
-      Table(s) rolled by the triggering player
-    - **Character Trigger**
-      So that it is only triggered by player characters
-    - **Once**
+- ## Roll Table
+  - **Roll Table**
+    Table(s) rolled by the triggering player
+  - **Character Trigger**
+    So that it is only triggered by player characters
+  - **Once**
 
 ### Languages:
 
