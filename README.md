@@ -34,17 +34,17 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     Add all tokens on region as combatants
   - **Player Characters**
     Add all player characters as combatants
-  - **Once
+  - **Once**
  
 - ## Change Movement Type
   - **Enter Movement**
-    - Movement type tokens entering the region are set to
+    Movement type tokens entering the region are set to
   - **Leave Movement**
-    - Movement type tokens leaving the region are set to
+    Movement type tokens leaving the region are set to
    
 - ## Change Visibility
   - **Placeables**
-    - Placeables [Tokens, Tiles, Doors] whoose visibility will be altered
+    Placeables [Tokens, Tiles, Doors] whoose visibility will be altered
   - **Character Trigger**
     So that it is only triggered by player characters
   - **Change**
