@@ -4,13 +4,13 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
 
 # Changed Behaviour Types:
 - ## Teleport Token
-  - ### Teleport Position
-    - Allows for the selection of a destination [scene,level,x,y] without the need of a new region by simply clicking on the target.
+  - **Teleport Position** 
+	Allows for the selection of a destination [scene,level,x,y] without the need of a new region by simply clicking on the target.
 
 - ## Change Level [v14]
-  - ##### Skip confirm dialogue
+  - **Skip confirm dialogue**
     This setting can make level changes a bit smoother and force the level change onto the player by removing the confirm/choose dialog when only one target region is available
-  - ##### Continue movement
+  - **Continue movement**
     When active, the token will continue its previously planned movement after changing level, making the change a bit more convinient. This will respect the wall collision on the new level.
   - ##### Target level
     A custom choice of target levels. This allows for more fine control and can make the creation of e.g. stair cases easier. Available options:
