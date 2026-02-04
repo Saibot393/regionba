@@ -47,10 +47,12 @@ export class customInputs {
 		
 		const cInput = document.createElement("input");
 		cInput.type = "text";
+		cInput.placeholder = Translate(cModuleName+".Titles.documentUUID");
 	
 		const cSelect = document.createElement("button");
 		cSelect.classList.add("icon", ...pButton.icon);
 		cSelect.style.marginLeft = "5px";
+		cSelect.setAttribute("data-tooltip", pButton.hint);
 		
 		cSelect.onclick = (pEvent) => {
 			pEvent.stopPropagation();
@@ -92,7 +94,7 @@ export class customInputs {
 			break;
 		}
 		
-		return customInputs.canvasSelector(cModuleAbbr+"position", {onclick : vButtonClick, icon : ["fa-solid", "fa-bullseye"], hint : ""});
+		return customInputs.canvasSelector(cModuleAbbr+"position", {onclick : vButtonClick, icon : ["fa-solid", "fa-bullseye"], hint : Translate(cModuleName+".Titles.clickCanvas")});
 	}
 	
 	static placeables(pSelectedableValidation) {
@@ -101,7 +103,7 @@ export class customInputs {
 			else pInput.setValue(utils.selectedPlaceables().filter(vPlaceable => pSelectedableValidation(vPlaceable)).map(vPlaceable => vPlaceable.uuid));
 		}
 		
-		return customInputs.canvasSelector(cModuleAbbr+"placeable", {onclick : cButtonClick, icon : ["fa-solid", "fa-file-circle-plus"], hint : ""});
+		return customInputs.canvasSelector(cModuleAbbr+"placeable", {onclick : cButtonClick, icon : ["fa-solid", "fa-file-circle-plus"], hint : Translate(cModuleName+".Titles.addSelectedDocuments")});
 	}
 	
 	static tagDIV() {
@@ -178,11 +180,13 @@ export class customInputs {
 		const cUUIDInput = document.createElement("input");
 		cUUIDInput.type = "text";
 		cUUIDInput.style.flex = "1";
+		cUUIDInput.placeholder = Translate(cModuleName+".Titles.enterdropUUID");
 		
 		const cInputButton = document.createElement("button");
 		cInputButton.classList.add("icon", "fa-solid", "fa-file-circle-plus");
 		cInputButton.style.marginLeft = "5px";
 		cInputButton.style.flexBasis = "36px";
+		cInputButton.setAttribute("data-tooltip", Translate(cModuleName+".Titles.addUUID"));
 		
 		const cAddInput = () => {
 			const cDocument = fromUuidSync(cUUIDInput.value);

@@ -5,7 +5,7 @@ export class RBArollTable extends regionbaBasic {
 	static type = cModuleName + ".rollTable";
 	
 	static Settings = {
-		rollTable : {
+		rollTables : {
 			default : () => {return []},
 			configDialog : true,
 			objectType : "documents",
@@ -31,7 +31,7 @@ export class RBArollTable extends regionbaBasic {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviorType.validDocuments = function() {
-			const cDocuments = this.regionba.rollTable.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
+			const cDocuments = this.regionba.rollTables.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument);
 			
 			return [...new Set(cDocuments)];
 		}

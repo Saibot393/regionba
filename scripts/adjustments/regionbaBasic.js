@@ -183,7 +183,8 @@ export class regionbaBasic {
 					case "boolean":
 						vContent = document.createElement("input");
 						vContent.type = "checkbox";
-						vContent.checked = Boolean(pDocument.system[cModuleName][cFlag])
+						vContent.checked = Boolean(pDocument.system[cModuleName][cFlag]);
+						vFormField.style.flex = "0.2";
 						break;
 					case "number":
 						if (this.Settings[cFlag].hasOwnProperty("range")) {

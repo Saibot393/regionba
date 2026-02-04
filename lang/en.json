@@ -3,11 +3,20 @@
 		"Titles" : {
 			"regionba" : "Region Behaviour Adjustments",
 			
-			"genericPosition" : "position (x:{x}, y:{y})"
+			"genericPosition" : "position (x:{x}, y:{y})",
+			
+			"enterdropUUID" : "Enter UUID or Drop Document",
+			
+			"addUUID" : "Add Document from UUID",
+			"documentUUID" : "Document UUIDs"
+			
+			"clickCanvas" : "Choose Scene Position",
+			
+			"addSelectedDocuments" : "Set selected documents [SHIFT to add]"
 		},
 		
 		"BehaviourSettings" : {
-			"scChangeHint" : "[shift+l-click to add all, shift+r-click to remove all]",
+			"scChangeHint" : "[shift+L-click to add all, shift+R-click to remove all]",
 			
 			"autoSkipConfirmDialogue" : {
 				"name" : "Skip confirm dialogue",
@@ -127,8 +136,8 @@
 			
 			"ignoreDisabled" : {
 				"name" : "Ignore disabled",
-				"hint" "If the disabled state of the triggered behaviours should be ignored [In most cases you will want this set to true and the target behaviours set to disabled]"
-			}
+				"hint" : "If the disabled state of the triggered behaviours should be ignored [In most cases you will want this set to true and the target behaviours set to disabled]"
+			},
 			
 			"conditionalItemsinToken" : {
 				"name" : "Items",
@@ -173,11 +182,63 @@
 			"deleteItemonZero" : {
 				"name" : "Delete on zero",
 				"hint" : "If the changed items should be deletet if the quantity reaches 0"
+			},
+			
+			"pingPosition" : {
+				"name" : "Ping Position",
+				"hint" : "Coordinates of the point to ping [x,y]"
+			},
+			
+			"pingColor" : {
+				"name" : "Ping Color",
+				"hint" : "Color of the ping"
+			},
+			
+			"pingDuration" : {
+				"name" : "Ping Duration",
+				"hint" : "Duration of the ping in seconds"
+			},
+			
+			"pingTokensonRegion" : {
+				"name" : "Ping Tokens on Region",
+				"hint" : "If tokens currently standing on this region should also be pinged"
+			},
+			
+			"movementTypeBlocked" : {
+				"name" : "Prevented Movement",
+				"hint" : "Movement types to prevent in this region (a GM can still move tokens using unconstrained movement)"
+			},
+			
+			"rollTables" : {
+				"name" : "Roll Tables",
+				"hint" : "Roll tables rolled by the user when triggered"
 			}
 		},
 		
 		"Settings" : {
+			"RBAteleportToken" : {
+				"active" : {
+					"name" : "Adjust Teleport Token behaviour",
+					"hint" : "If the teleport token behaviour should be modified (custom teleport target without region)"
+				}
+			},
 			
+			"RBAchangeLevel" : {
+				"active" : {
+					"name" : "Adjust Change Level behaviour",
+					"hint" : "If the change level behaviour should be modified (skip dialog, continue movement, custom level choice, exclude movement type)"
+				},
+				
+				"autoSkipConfirmDialogue_default" : {
+					"name" : "Skip Change Level dialog by default",
+					"hint" : "If the change level dialog confirmation should be skipped by default if only one valid target level is available"
+				},
+				
+				"continueMovement_default" : {
+					"name" : "Change Level continue Movement by default",
+					"hint" : "If the movement should continue after changing levels by default"
+				}
+			}
 		}
 	},
 	
