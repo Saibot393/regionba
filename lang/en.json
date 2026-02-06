@@ -62,7 +62,7 @@
 			
 			"playerTokensTriggeronly" : {
 				"name" : "Characters trigger",
-				"hint" : "If only tokens set as a player character should trigger this region"
+				"hint" : "If only tokens set as a player character should trigger this behaviour"
 			},
 			
 			"addTokensonRegion" : {

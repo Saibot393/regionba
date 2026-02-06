@@ -1,6 +1,264 @@
 {
 	"regionba" : {
 		"Titles" : {
+			"regionba" : "Region Behaviour Adjustments",
+			
+			"genericPosition" : "Position (x:{x}, y:{y})",
+			
+			"enterdropUUID" : "UUID eingeben oder Dokument ablegen",
+			
+			"addUUID" : "Document aus UUID hinzufügen",
+			"documentUUID" : "Dokument UUIDs",
+			
+			"clickCanvas" : "Szenen Position wählen",
+			
+			"addSelectedDocuments" : "Setze ausgewählte Dokumente [SHIFT zum hinzufügen]"
+		},
+		
+		"BehaviourSettings" : {
+			"scChangeHint" : "[shift+L-click um alle hinzuzufügen, shift+R-click um alle zu entfernen]",
+			
+			"autoSkipConfirmDialogue" : {
+				"name" : "Dialog überspringen",
+				"hint" : "Ob der Bestätigungsdialog übersprungen werden soll, wenn nur eine Zieleben verfügbar ist"
+			},
+			
+			"continueMovement" : {
+				"name" : "Bewegung fortsetzen",
+				"hint" : "Ob nach dem Ebenenwechsle die Token Bewegung fortgesetzt werden soll (beachtet Wandkollision auf neuer Ebene)"
+			},
+			
+			"targetLevelChoice" : {
+				"name" : "Ziel Ebene",
+				"hint" : "Die Ebenen auf welche dieses Behaviour Token senden kann (nicht limitiert durch Regions Ebenen)",
+				"options" : {
+					"default" : "Normal (Foundry verhalten)",
+					"upElevation" : "Nächst höhere höhe",
+					"downElevation" : "Nächst niedrigere höhe",
+					"neighbourElevation" : "Nachbar höhen",
+					"levelChoice" : "Eigene Liste"
+				}
+			},
+			
+			"chosenLevels" : {
+				"name" : "Ebenen Auswahl",
+				"hint" : "Ebenen für die Ziel Ebene. Wenn keine Auswahl getroffen wird, sind alle verfügbar."
+			},
+			
+			"movementTypeExclusion" : {
+				"name" : "Ausgeschlossene Bewegung",
+				"hint" : "Tokens welche diesen Bewegungstypen haben wechseln die Ebene nicht"
+			},
+			
+			"teleportPosition" : {
+				"name" : "Teleport Position",
+				"hint" : "Koordinaten des Teleport Zielpunktes [sceneUUID,levelUUID,x,y]"
+			},
+			
+			"combatantDocuments" : {
+				"name" : "Kämpfer",
+				"hint" : "Tokens welche als Kämpfer hinzugefügt werden"
+			},
+			
+			"playerTokensTriggeronly" : {
+				"name" : "Charakter Auslösung",
+				"hint" : "Ob nur Spieler Tokens dieses Verhalten auslösen können"
+			},
+			
+			"addTokensonRegion" : {
+				"name" : "Tokens in Region",
+				"hint" : "Ob Tokens die sich in der Region aufhalten hinzugefügt werden sollen"
+			},
+			
+			"addPlayerTokens" : {
+				"name" : "Spieler Charaktere",
+				"hint" : "Ob Tokens welche als Spielercharakter ausgewählt wurden hinzugefügt werden sollen"
+			},
+			
+			"once" : {
+				"name" : "Einmalig",
+				"hint" : "Das Behaviour wird nach dem ersten Auslösen ausgeschaltet"
+			},
+			
+			"movementTypeEnter" : {
+				"name" : "Betreten Bewegung",
+				"hint" : "Die Bewegungsart welche Tokens beim betreten der Region erhalten"
+			},
+			
+			"movementTypeLeave" : {
+				"name" : "Verlassen Bewegung",
+				"hint" : "Die Bewegungsart welche Tokens beim verlassen der Region erhalten"
+			},
+			
+			"visibilityDocuments" : {
+				"name" : "Platzierbare",
+				"hint" : "Platzierbare (Tokens, Tiles, Türen) derren Sichtbarkeit geändert wird"
+			},
+			
+			"visibilityChange" : {
+				"name" : "Änderung",
+				"hint" : "Wie die Sichtbarkeit geändert wird",
+				"options" : {
+					"toggle" : "Umschalten",
+					"show" : "Zeigen",
+					"hide" : "Verstecken"
+				}
+			},
+			
+			"logicMode" : {
+				"name" : "Logik",
+				"hint" : "Wie die Werte kombiniert werden",
+				"options" : {
+					"AND" : "UND",
+					"OR" : "ODER"
+				}
+			},
+			
+			"conditionTypes" : {
+				"name" : "Bedingungstypen",
+				"hint" : "Aktivieren und Deaktivieren von Bewegungstypen",
+				"options" : {
+					"ItemsinToken" : "Gegenstände im Token",
+					"Macros" : "Macros",
+					"Script" : "Skript"
+				}
+			},
+			
+			"invertResult" : {
+				"name" : "Invertieren",
+				"hint" : "Das logische Ergebnis invertieren"
+			},
+			
+			"triggerBehavioursTRUE" : {
+				"name" : "Wenn WAHR",
+				"hint" : "Behaviours welche bei WAHR ausgelöst werden"
+			},
+			
+			"triggerBehavioursFALSE" : {
+				"name" : "Wenn FALSCH",
+				"hint" : "Behaviours welche bei WAHR ausgelöst FALSCH"
+			},
+			
+			"ignoreDisabled" : {
+				"name" : "Ausgeschaltet ignorieren",
+				"hint" : "Ob der ausgeschaltet Zustand von Behaviourn ignoriert werden soll [In den meisten Fällen ist es praktisch diese Einstellung an zu lassen und ausgelöste Behaviour auszuschalten]"
+			},
+			
+			"conditionalItemsinToken" : {
+				"name" : "Items",
+				"hint" : "Entering token is checked for these Items"
+			},
+			
+			"checkIteminTokenZero" : {
+				"name" : "Check Quntity",
+				"hint" : "If the above items should be checked for a quantity higher than 0"
+			},
+			
+			"conditionalMacros" : {
+				"name" : "Macros",
+				"hint" : "Macros should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: speaker, actor, token, scene, region, behavior, event]"
+			},
+			
+			"conditionalScript" : {
+				"name" : "Script",
+				"hint" : "The script should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: actor, token, scene, region, behavior, event]"
+			},
+			
+			"changeItemDocuments" : {
+				"name" : "Items",
+				"hint" : "Items to be chnaged in the tokens inventory" 
+			},
+			
+			"changeItemMode" : {
+				"name" : "Mode",
+				"hint" : "The way the above defined items quantity is changed",
+				"options" : {
+					"give" : "give",
+					"remove" : "remove",
+					"setto" : "set to"
+				}
+			},
+			
+			"itemQuantity" : {
+				"name" : "Quantity",
+				"hint" : "Quantity for the above defined mode"
+			},
+			
+			"deleteItemonZero" : {
+				"name" : "Delete on zero",
+				"hint" : "If the changed items should be deletet if the quantity reaches 0"
+			},
+			
+			"pingPosition" : {
+				"name" : "Ping Position",
+				"hint" : "Coordinates of the point to ping [x,y]"
+			},
+			
+			"pingColor" : {
+				"name" : "Ping Color",
+				"hint" : "Color of the ping"
+			},
+			
+			"pingDuration" : {
+				"name" : "Ping Duration",
+				"hint" : "Duration of the ping in seconds"
+			},
+			
+			"pingTokensonRegion" : {
+				"name" : "Ping Tokens on Region",
+				"hint" : "If tokens currently standing on this region should also be pinged"
+			},
+			
+			"movementTypeBlocked" : {
+				"name" : "Prevented Movement",
+				"hint" : "Movement types to prevent in this region (a GM can still move tokens using unconstrained movement)"
+			},
+			
+			"rollTables" : {
+				"name" : "Roll Tables",
+				"hint" : "Roll tables rolled by the user when triggered"
+			}
+		},
+		
+		"Settings" : {
+			"RBAteleportToken" : {
+				"active" : {
+					"name" : "Adjust Teleport Token behaviour",
+					"hint" : "If the teleport token behaviour should be modified (custom teleport target without region)"
+				}
+			},
+			
+			"RBAchangeLevel" : {
+				"active" : {
+					"name" : "Adjust Change Level behaviour",
+					"hint" : "If the change level behaviour should be modified (skip dialog, continue movement, custom level choice, exclude movement type)"
+				},
+				
+				"autoSkipConfirmDialogue_default" : {
+					"name" : "Skip Change Level dialog by default",
+					"hint" : "If the change level dialog confirmation should be skipped by default if only one valid target level is available"
+				},
+				
+				"continueMovement_default" : {
+					"name" : "Change Level continue Movement by default",
+					"hint" : "If the movement should continue after changing levels by default"
+				}
+			}
+		}
+	},
+	
+	"TYPES" : {
+		"RegionBehavior" : {
+			"regionba" : {
+				"changeCombatant" : "[RBA] Kämpfer hinzufügen",
+				"changeItem" : "[RBA] Gegenstand geben/nehmen",
+				"changeMovement" : "[RBA] Bewegungstyp ändern",
+				"changeVisibility" : "[RBA] Sichtbarkeit ändern",
+				"conditionalTrigger" : "[RBA] Bedingtes Auslösen",
+				"ping" : "[RBA] Ping",
+				"rollTable" : "[RBA] Auf Tabelle rollen",
+				"stopMovement" : "[RBA] Bewegung verhindern"
+			}
 		}
 	}
 }
