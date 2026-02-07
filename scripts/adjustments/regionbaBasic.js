@@ -12,6 +12,10 @@ export class regionbaBasic {
 		}
 		else {
 			console.warn(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version`);
+			
+			if (CONFIG.RegionBehavior.dataModels[this.type].prototype.isRBAcustom) {
+				delete game.model?.RegionBehavior[this.type]; //this will only be an empty shell, better delete it
+			}
 		}
 	}
 	

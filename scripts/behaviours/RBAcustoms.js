@@ -21,9 +21,7 @@ export class ping extends foundry.data.regionBehaviors.RegionBehaviorType {
 		} 
 	}
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-bullseye";
@@ -39,9 +37,7 @@ export class pullCamera extends foundry.data.regionBehaviors.RegionBehaviorType 
 		} 
 	}
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-bullseye";
@@ -57,9 +53,7 @@ export class changeItem extends foundry.data.regionBehaviors.RegionBehaviorType 
 		} 
 	}
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-suitcase";
@@ -73,9 +67,7 @@ export class stopMovement extends foundry.data.regionBehaviors.RegionBehaviorTyp
 	
 	static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-ban";
@@ -89,9 +81,7 @@ export class changeMovement extends foundry.data.regionBehaviors.RegionBehaviorT
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-person-walking";
@@ -107,9 +97,7 @@ export class changeVisibility extends foundry.data.regionBehaviors.RegionBehavio
 		} 
 	}
    
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-eye";
@@ -123,9 +111,7 @@ export class changeLockState extends foundry.data.regionBehaviors.RegionBehavior
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 }
 
 export class changeCombatant extends foundry.data.regionBehaviors.RegionBehaviorType {
@@ -137,9 +123,7 @@ export class changeCombatant extends foundry.data.regionBehaviors.RegionBehavior
 		} 
 	}
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-shield";
@@ -156,9 +140,7 @@ export class conditionalTrigger extends foundry.data.regionBehaviors.RegionBehav
 	
 	static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-question";
@@ -172,9 +154,7 @@ export class chatMessage extends foundry.data.regionBehaviors.RegionBehaviorType
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 }
 
 export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
@@ -188,9 +168,7 @@ export class rollTable extends foundry.data.regionBehaviors.RegionBehaviorType {
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-table-list";
@@ -208,9 +186,7 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-block-brick";
@@ -228,9 +204,7 @@ export class delayTrigger extends foundry.data.regionBehaviors.RegionBehaviorTyp
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-stopwatch";
@@ -248,9 +222,7 @@ export class changeDoorState extends foundry.data.regionBehaviors.RegionBehavior
 	
     static events = {};
 	
-	get isRBAcustom() {
-		return true;
-	}
+	static isRBAcustom = true;
 	
 	static Icon() {
 		return "fa-solid fa-door-closed";
@@ -259,6 +231,15 @@ export class changeDoorState extends foundry.data.regionBehaviors.RegionBehavior
 
 //CONFIG.statusEffects
 //CONST.WALL_RESTRICTION_TYPES
+
+//For vision area:
+//vshader = foundry.canvas.rendering.shaders.FogShader
+//r = canvas.regions.placeables[0]
+//mesh = new foundry.canvas.placeables.regions.RegionMesh(r/*, vshader*/);
+//canvas.visibility.vision.addChild(mesh)
+////canvas.visibility.explored.addChild(mesh)
+////canvas.fog.sprite.addChild(mesh)
+//canvas.tokens.get("TPvi4u08DOeuED2f").__defineGetter__("isVisible", () => {return true})
 
 export function initCustoms() {
 	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState]) {
