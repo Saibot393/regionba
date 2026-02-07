@@ -11,13 +11,10 @@ import {RBAchangeCombatant} from "../adjustments/changeCombatant.js";
 import {RBArollTable} from "../adjustments/rollTable.js";
 import {RBAconditionalTrigger} from "../adjustments/conditionalTrigger.js";
 import {RBAchangeItem} from "../adjustments/changeItem.js";
+import {RBAdelayTrigger} from "../adjustments/delayTrigger.js";
 
 const cCoreAdjustments = [RBAchangeLevel, RBAteleportToken];
-const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem];
-
-function activeCoreAdjustments() {
-	return cCoreAdjustments.filter(vAdjustment => game.settings.get(cModuleName, `${vAdjustment.name}_active`));
-}
+const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger];
 
 export function registerSettings() {
 	for (const cAdjustment of cCoreAdjustments) {
@@ -51,6 +48,10 @@ export function registerSettings() {
 			}
 		}
 	}
+}
+
+function activeCoreAdjustments() {
+	return cCoreAdjustments.filter(vAdjustment => game.settings.get(cModuleName, `${vAdjustment.name}_active`));
 }
 
 export function activeAdjustments() {

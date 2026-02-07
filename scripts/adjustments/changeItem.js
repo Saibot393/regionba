@@ -61,12 +61,11 @@ export class RBAchangeItem extends regionbaBasic {
 				const cActor = cToken.actor;
 				
 				for (const cItemDocument of this.validItems()) {
-
-					const cHasQuantity = cItemDocument.system?.hasOwnProperty("quantity");
+					const cHasQuantity = utils.hasQuantity(cItemDocument);//cItemDocument.system?.hasOwnProperty("quantity");
 					
 					let vTokenItem = utils.findIteminActor(cActor, cItemDocument);
 					
-					const cCurrentQuantity = cHasQuantity ? (vTokenItem?.system.quantity || 0) : (vTokenItem ? 1 : 0);
+					const cCurrentQuantity = cHasQuantity ? (utils.getItemQuantity(vTokenItem)/*vTokenItem?.system.quantity*/ || 0) : (vTokenItem ? 1 : 0);
 					
 					let vChange = 0;
 					
@@ -89,7 +88,7 @@ export class RBAchangeItem extends regionbaBasic {
 							vTokenItem = await utils.giveItemtoActor(cActor, cItemDocument);
 						}
 						
-						if (cHasQuantity && vTokenItem) await vTokenItem.update({system : {quantity : cTargetQuantity}})
+						if (cHasQuantity && vTokenItem) await utils.setItemQuantity(vTokenItem, cTargetQuantity);//vTokenItem.update({system : {quantity : cTargetQuantity}})
 					}
 					
 					if (cHasQuantity && vTokenItem && cTargetQuantity == 0 && this.regionba.deleteItemonZero) {

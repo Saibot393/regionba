@@ -1,5 +1,3 @@
--Teleport
- -Slide
 -Display Scrolling Text
  -Duration
 -Chat card
@@ -8,5 +6,12 @@
 -Sound on/off
 -Change Wall
 -Condition
+  -Lock State
+  -Reach through items
+  -Movement Type
+  -User/User Type
 -Change tile/token art
 -Delay
+-Shove (move by delta, through walls?)
+-Prevent Movement
+ -Uni directional

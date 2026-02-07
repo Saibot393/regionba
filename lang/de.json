@@ -90,6 +90,11 @@
 				"hint" : "Die Bewegungsart welche Tokens beim verlassen der Region erhalten"
 			},
 			
+			"noChangeMovementType" : {
+				"name" : "Ausgenommene Typen",
+				"hint" : "Für Tokens mit diesen Bewegungsarten wird die Bewegungsart nicht geändert"
+			},
+			
 			"visibilityDocuments" : {
 				"name" : "Platzierbare",
 				"hint" : "Platzierbare (Tokens, Tiles, Türen) derren Sichtbarkeit geändert wird"
@@ -145,103 +150,113 @@
 			},
 			
 			"conditionalItemsinToken" : {
-				"name" : "Items",
-				"hint" : "Entering token is checked for these Items"
+				"name" : "Gegenstände",
+				"hint" : "Das betretende Token wird auf die Gegenstände überprüft"
 			},
 			
 			"checkIteminTokenZero" : {
-				"name" : "Check Quntity",
-				"hint" : "If the above items should be checked for a quantity higher than 0"
+				"name" : "Anzahl überprüfen",
+				"hint" : "Ob die Anzahl der obrigen Gegenstände auf einen Wert größer 0 überprüft werden soll"
 			},
 			
 			"conditionalMacros" : {
 				"name" : "Macros",
-				"hint" : "Macros should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: speaker, actor, token, scene, region, behavior, event]"
+				"hint" : "Macros sollten 'true', 'false', 'undefined' (skip) oder ein Array dieser Werte zurück geben [Parameter: speaker, actor, token, scene, region, behavior, event]"
 			},
 			
 			"conditionalScript" : {
-				"name" : "Script",
-				"hint" : "The script should return 'true', 'false', 'undefined' (skip) or an array thereof [Parameters: actor, token, scene, region, behavior, event]"
+				"name" : "Skript",
+				"hint" : "Das Skript sollte 'true', 'false', 'undefined' (skip) oder ein Array dieser Werte zurück geben [Parameter: actor, token, scene, region, behavior, event]"
 			},
 			
 			"changeItemDocuments" : {
-				"name" : "Items",
-				"hint" : "Items to be chnaged in the tokens inventory" 
+				"name" : "Gegenstände",
+				"hint" : "Gegenstände welche im Inventar des Tokens geändert werden" 
 			},
 			
 			"changeItemMode" : {
-				"name" : "Mode",
-				"hint" : "The way the above defined items quantity is changed",
+				"name" : "Modus",
+				"hint" : "Die Art und Weise wie die Gegenstände geändert werden",
 				"options" : {
-					"give" : "give",
-					"remove" : "remove",
-					"setto" : "set to"
+					"give" : "gebe",
+					"remove" : "entferne",
+					"setto" : "setze auf"
 				}
 			},
 			
 			"itemQuantity" : {
-				"name" : "Quantity",
-				"hint" : "Quantity for the above defined mode"
+				"name" : "Anzahl",
+				"hint" : "Anzahl für den oben definierten Modus"
 			},
 			
 			"deleteItemonZero" : {
-				"name" : "Delete on zero",
-				"hint" : "If the changed items should be deletet if the quantity reaches 0"
+				"name" : "Bei Null löschen",
+				"hint" : "Ob ein geänderte Gegenstand bei einer Menge von 0 gelöscht werden soll"
 			},
 			
 			"pingPosition" : {
 				"name" : "Ping Position",
-				"hint" : "Coordinates of the point to ping [x,y]"
+				"hint" : "Koordinaten des gepingten Punktes [x,y]"
 			},
 			
 			"pingColor" : {
-				"name" : "Ping Color",
-				"hint" : "Color of the ping"
+				"name" : "Ping Farbe",
+				"hint" : "Farbe des Pings"
 			},
 			
 			"pingDuration" : {
-				"name" : "Ping Duration",
-				"hint" : "Duration of the ping in seconds"
+				"name" : "Ping Dauer",
+				"hint" : "Dauer des Pings in Sekunden"
 			},
 			
 			"pingTokensonRegion" : {
-				"name" : "Ping Tokens on Region",
-				"hint" : "If tokens currently standing on this region should also be pinged"
+				"name" : "Tokens in Region pingen",
+				"hint" : "Ob Token in der Region gepingt werden sollen"
 			},
 			
 			"movementTypeBlocked" : {
-				"name" : "Prevented Movement",
-				"hint" : "Movement types to prevent in this region (a GM can still move tokens using unconstrained movement)"
+				"name" : "Verhinderte Bewegung",
+				"hint" : "Bewegungstypen welche in dieser Region verhindert werden (ein GM kann Tokens mit unconstrained movement trotzdem bewegen)"
 			},
 			
 			"rollTables" : {
 				"name" : "Roll Tables",
-				"hint" : "Roll tables rolled by the user when triggered"
+				"hint" : "Roll tables welche von dem auslösenden Nutzer gerollt werden sollen"
+			},
+			
+			"triggerDelay" : {
+				"name" : "Auslöse Verzögerung",
+				"hint" : "Die Zeit bis zur Auslösung in Sekunden"
+			},
+			
+			"triggerBehaviours" : {
+				"name" : "Auszulösen",
+				"hint" : "Liste an auszulösenden Behaviours"
 			}
 		},
 		
 		"Settings" : {
 			"RBAteleportToken" : {
 				"active" : {
-					"name" : "Adjust Teleport Token behaviour",
-					"hint" : "If the teleport token behaviour should be modified (custom teleport target without region)"
+					"name" : "Teleport Token Behaviour justieren",
+					"hint" : "Ob das teleport token behaviour modifiziert werden soll (Teleport Ziel ohne Region)"
 				}
 			},
 			
 			"RBAchangeLevel" : {
 				"active" : {
-					"name" : "Adjust Change Level behaviour",
-					"hint" : "If the change level behaviour should be modified (skip dialog, continue movement, custom level choice, exclude movement type)"
+					"name" : "Change Level Behaviour justieren",
+					"hint" : "Ob das change level behaviour modifiziert werden soll (Dialog überspringen, Bewegung fortsetzen, Level auswahl, Bewegungstyp ausschließen)"
 				},
 				
 				"autoSkipConfirmDialogue_default" : {
-					"name" : "Skip Change Level dialog by default",
-					"hint" : "If the change level dialog confirmation should be skipped by default if only one valid target level is available"
+					"name" : "Change Level Dialog überspringen Normalwert",
+					"hint" : "Ob der Bestätigungsdialog normalerweise übersprungen werden soll, wenn nur es nur ein gültiges Ziellevel gibt"
 				},
 				
 				"continueMovement_default" : {
-					"name" : "Change Level continue Movement by default",
-					"hint" : "If the movement should continue after changing levels by default"
+					"name" : "Change Level Bewegung fortsetzen Normalwert",
+					"hint" : "Ob die Bewegung normalerweise nach dem ändern des Levels fortgesetzt werden soll"
 				}
 			}
 		}
@@ -257,7 +272,8 @@
 				"conditionalTrigger" : "[RBA] Bedingtes Auslösen",
 				"ping" : "[RBA] Ping",
 				"rollTable" : "[RBA] Auf Tabelle rollen",
-				"stopMovement" : "[RBA] Bewegung verhindern"
+				"stopMovement" : "[RBA] Bewegung verhindern",
+				"delayTrigger" : "[RBA] Auslösen verzögern"
 			}
 		}
 	}

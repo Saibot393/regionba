@@ -90,6 +90,11 @@
 				"hint" : "The movement type tokens leaving the behaviours region are set to"
 			},
 			
+			"noChangeMovementType" : {
+				"name" : "Excluded types",
+				"hint" : "The movement type of tokens with these movement types will not be changed"
+			},
+			
 			"visibilityDocuments" : {
 				"name" : "Placeables",
 				"hint" : "Placeables (Tokens, Tiles, Doors) whose visibility is changed"
@@ -150,7 +155,7 @@
 			},
 			
 			"checkIteminTokenZero" : {
-				"name" : "Check Quntity",
+				"name" : "Check Quantity",
 				"hint" : "If the above items should be checked for a quantity higher than 0"
 			},
 			
@@ -166,7 +171,7 @@
 			
 			"changeItemDocuments" : {
 				"name" : "Items",
-				"hint" : "Items to be chnaged in the tokens inventory" 
+				"hint" : "Items to be changed in the tokens inventory" 
 			},
 			
 			"changeItemMode" : {
@@ -217,6 +222,16 @@
 			"rollTables" : {
 				"name" : "Roll Tables",
 				"hint" : "Roll tables rolled by the user when triggered"
+			},
+			
+			"triggerDelay" : {
+				"name" : "Trigger Delay",
+				"hint" : "Delay until behaviour trigger in seconds"
+			},
+			
+			"triggerBehaviours" : {
+				"name" : "To trigger",
+				"hint" : "List of Behaviours to trigger"
 			}
 		},
 		
@@ -257,7 +272,8 @@
 				"conditionalTrigger" : "[RBA] Conditional Trigger",
 				"ping" : "[RBA] Ping",
 				"rollTable" : "[RBA] Roll Table",
-				"stopMovement" : "[RBA] Prevent Movement"
+				"stopMovement" : "[RBA] Prevent Movement",
+				"delayTrigger" : "[RBA] Delay Trigger"
 			}
 		}
 	}

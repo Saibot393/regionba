@@ -1,8 +1,15 @@
 export const cModuleName = "regionba";
 export const cModuleAbbr = "RBA";
 
+const cSimpleQuantityKeys = ["quantity", "qty"];
+
 export class utils {
+	static async wait(pms) {
+		return new Promise(pResolve => setTimeout(pResolve, pms))
+	}
+	
 	static isvalidID(pID) {
+		
 		return (typeof pID == "string" && pID.length == 16);
 	}
 	
@@ -108,6 +115,40 @@ export class utils {
 			if (cTokenItem.length) {
 				return cTokenItem[0];
 			}
+		}
+	}
+	
+	static getItemQuantity(pItem) {
+		if (!pItem) return;
+		
+		for (const cKey of cSimpleQuantityKeys) {
+			if (pItem.system.hasOwnProperty(cKey)) {
+				return pItem.system[cKey];
+			}	
+		}
+	}
+	
+	static hasQuantity(pItem) {
+		if (!pItem) return;
+		
+		for (const cKey of cSimpleQuantityKeys) {
+			if (pItem.system.hasOwnProperty(cKey)) {
+				return !isNaN(pItem.system[cKey]);
+			}	
+		}
+		
+		return false;
+	}
+	
+	static async setItemQuantity(pItem, pQuantity) {
+		if (!pItem || isNaN(pQuantity)) return;
+		
+		for (const cKey of cSimpleQuantityKeys) {
+			if (pItem.system.hasOwnProperty(cKey)) {
+				await pItem.update({system : {[cKey] : pQuantity}});
+				
+				return true;
+			}	
 		}
 	}
 }

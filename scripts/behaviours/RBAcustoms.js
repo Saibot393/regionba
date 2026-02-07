@@ -215,10 +215,30 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 	}
 }
 
+export class delayTrigger extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {} 
+	}
+
+    static defineSchema() {return {} }
+	
+    static events = {};
+	
+	get isRBAcustom() {
+		return true;
+	}
+	
+	static Icon() {
+		return "fa-solid fa-stopwatch";
+	}
+}
+
 //CONFIG.statusEffects
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

@@ -82,7 +82,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 				let vInventory = [...cItems];
 				
 				if (this.regionba.checkIteminTokenZero) {
-					vInventory = vInventory.filter(vItem => vItem.system?.quantity > 0);
+					vInventory = vInventory.filter(vItem => utils.getItemQuantity(vItem)/*vItem.system?.quantity*/ > 0);
 				}
 				
 				vValues = vValues.concat(this.regionba.conditionalItemsinToken.map(vItemCondition => Boolean(vInventory.find(vItem => vItem._stats.compendiumSource == vItemCondition))));

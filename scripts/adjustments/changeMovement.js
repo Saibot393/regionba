@@ -15,6 +15,13 @@ export class RBAchangeMovement extends regionbaBasic {
 			configDialog : true,
 			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")}
 		},
+		noChangeMovementType : {
+			default : () => {return []},
+			configDialog : true,
+			isMultiSelect : true,
+			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : Translate(CONFIG.Token.movement.actions[vKey].label)}}).filter(vItem => vItem.id != "displace")},
+			scChangeAll : true
+		}
 	}
 	
 	static Support() {
@@ -38,12 +45,12 @@ export class RBAchangeMovement extends regionbaBasic {
 				let vNewWaypoints = pEvent.data.movement.pending.waypoints.map(pPoint => {
 					let vNewPoint = {...pPoint};
 					
-					vNewPoint.action = this.regionba.movementTypeEnter;
+					if (!this.regionba.noChangeMovementType.includes(pPoint.action)) vNewPoint.action = this.regionba.movementTypeEnter;
 					
 					return vNewPoint;
 				});
 
-				await cToken.update({movementAction : this.regionba.movementTypeEnter})
+				if (!this.regionba.noChangeMovementType.includes(cToken.movementAction)) await cToken.update({movementAction : this.regionba.movementTypeEnter})
 				
 				cToken.move(vNewWaypoints)
 			}
@@ -61,12 +68,12 @@ export class RBAchangeMovement extends regionbaBasic {
 				let vNewWaypoints = pEvent.data.movement.pending.waypoints.map(pPoint => {
 					let vNewPoint = {...pPoint};
 					
-					vNewPoint.action = this.regionba.movementTypeLeave;
+					if (!this.regionba.noChangeMovementType.includes(pPoint.action)) vNewPoint.action = this.regionba.movementTypeLeave;
 					
 					return vNewPoint;
 				});
 
-				await cToken.update({movementAction : this.regionba.movementTypeLeave})
+				if (!this.regionba.noChangeMovementType.includes(cToken.movementAction)) await cToken.update({movementAction : this.regionba.movementTypeLeave})
 				
 				cToken.move(vNewWaypoints)
 			}

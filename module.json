@@ -22,7 +22,8 @@
 	  "changeCombatant" : {},
 	  "rollTable" : {},
 	  "conditionalTrigger" : {},
-	  "changeItem" : {}
+	  "changeItem" : {},
+	  "delayTrigger" : {}
     }
   },
   "languages": [
