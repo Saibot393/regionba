@@ -36,11 +36,22 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     Add all player characters as combatants
   - **Once**
  
+- ## Change Door State
+  - **Doors**
+   	Doors to change
+  - **Character trigger**
+    So that it is only triggered by player characters
+  - **State Change**
+    The type of change applied to the doors [locked, unlocked(but closed), open, change lock, change closed/open]
+  - **Once**
+ 
 - ## Change Movement Type
   - **Enter Movement**
     Movement type tokens entering the region are set to
   - **Leave Movement**
     Movement type tokens leaving the region are set to
+  - **Excluded types**
+	Movement types not changed by this behaviour
    
 - ## Change Visibility
   - **Placeables**
@@ -53,18 +64,35 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     If the tokens present on the region should also be changed
   - **Once**
  
+- ## Change Wall
+  This behaviour allows for the normal wall settings (Movement, Light, Sight, Sound) to be changed
+  - **Walls**
+    Walls to change
+  - **Character Trigger**
+    So that it is only triggered by player characters
+  - **Once**
+ 
 - ## Conditional Trigger
   This Behaviour allows you to set certain conditions for the triggering of outher behaviours. You can also trigger behaviours of other regions. **Note**, that the trigger tpye of the target behaviour will need to match the trigger type of this behaviour
   - **Logic**
     With which logic operator values are combined [AND, OR]
   - **Condition Types**
-    Choose applied condition types that are checked [Item in token, Macros, Script]
+    Choose applied condition types that are checked [Item in token, Door State, Macros, Script]
   - **Invert**
     If the result should be inverted
   - **On TRUE**
     Behaviours triggered when the outcome is TRUE
   - **On FALSE**
     Behaviours triggered when the outcome is FALSE
+  - **Ignore disabled**
+    If the disabled setting of triggered behaviours should be ignored. You normally want this set to true and all triggered behaviours disabled, as this behaviour will not prevent behaviours to be triggered the normal way.
+
+- ## Delay Trigger
+  This behaviours allows for the triggering of a behaviour to be delayed by certain time
+  - **Trigger Delay**
+    Delay until the trigger happens in seconds
+  - **To trigger**
+    The behaviours triggered after the delay
   - **Ignore disabled**
     If the disabled setting of triggered behaviours should be ignored. You normally want this set to true and all triggered behaviours disabled, as this behaviour will not prevent behaviours to be triggered the normal way.
 
