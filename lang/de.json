@@ -124,6 +124,7 @@
 				"hint" : "Aktivieren und Deaktivieren von Bewegungstypen",
 				"options" : {
 					"ItemsinToken" : "Gegenstände im Token",
+					"DoorState" : "Tür Zustand",
 					"Macros" : "Macros",
 					"Script" : "Skript"
 				}
@@ -157,6 +158,23 @@
 			"checkIteminTokenZero" : {
 				"name" : "Anzahl überprüfen",
 				"hint" : "Ob die Anzahl der obrigen Gegenstände auf einen Wert größer 0 überprüft werden soll"
+			},
+			
+			"conditionalDoors" : {
+				"name" : "Zustands Türen",
+				"hint" : "Türen welche auf ihren Zustand überprüft werden"
+			},
+			
+			"conditionalDoorState" : {
+				"name" : "Überprüfter Tür Zustand",
+				"hint" : "Zustand auf welchen überprüft wird",
+				"options" : {
+					"locked" : "abgeschlossen",
+					"unlocked" : "unabgeschlossen (offen order zu)",
+					"opened" : "offen",
+					"closed" : "zu (un/abgeschlossen)",
+					"unlockedclosed" : "unabgeschlossen zu"
+				}
 			},
 			
 			"conditionalMacros" : {
@@ -232,21 +250,68 @@
 			"triggerBehaviours" : {
 				"name" : "Auszulösen",
 				"hint" : "Liste an auszulösenden Behaviours"
+			},
+			
+			"changeDoorDocuments" : {
+				"name" : "Türen",
+				"hint" : "Türen derren Zustand geändert wird"
+			},
+			
+			"changeDoorType" : {
+				"name" : "Zustands Änderung",
+				"hint" : "Zustand auf den die Tür gesetzt wird bzw. wie dieser geändert wird",
+				"options" : {
+					"lock" : "abgeschlossen",
+					"unlock" : "aufgeschlossen (aber zu)",
+					"open" : "offen",
+					"togglelock" : "Schlosszustand ändern",
+					"toggleopen" : "auf/zu ändern"
+				}
+			},
+			
+			"changeWallDocuments" : {
+				"name" : "Wände",
+				"hint" : "Zu ändernde Wände"
+			},
+			
+			"wallChangemove" : {
+				"name" : "Bewegung",
+				"hint" : ""
+			},
+			
+			"wallChangelight" : {
+				"name" : "Licht",
+				"hint" : ""
+			},
+			
+			"wallChangesight" : {
+				"name" : "Sicht",
+				"hint" : ""
+			},
+			
+			"wallChangesound" : {
+				"name" : "Geräusche",
+				"hint" : ""
+			},
+			
+			"wallChangePTA" : {
+				"name" : "Nähe dämpfungs Grenze",
+				"hint" : "Einfach versuchen, ist einfacher als das zu erklären"
 			}
 		},
 		
 		"Settings" : {
 			"RBAteleportToken" : {
 				"active" : {
-					"name" : "Teleport Token Behaviour justieren",
-					"hint" : "Ob das teleport token behaviour modifiziert werden soll (Teleport Ziel ohne Region)"
+					"name" : "Token Teleportieren Behaviour justieren",
+					"hint" : "Ob das Token Teleportieren behaviour modifiziert werden soll (Teleport Ziel ohne Region)"
 				}
 			},
 			
 			"RBAchangeLevel" : {
 				"active" : {
-					"name" : "Change Level Behaviour justieren",
-					"hint" : "Ob das change level behaviour modifiziert werden soll (Dialog überspringen, Bewegung fortsetzen, Level auswahl, Bewegungstyp ausschließen)"
+					"name" : "Level Wechseln Behaviour justieren",
+					"hint" : "Ob das Level Wechseln behaviour modifiziert werden soll (Dialog überspringen, Bewegung fortsetzen, Level auswahl, Bewegungstyp ausschließen)"
 				},
 				
 				"autoSkipConfirmDialogue_default" : {
@@ -273,8 +338,16 @@
 				"ping" : "[RBA] Ping",
 				"rollTable" : "[RBA] Auf Tabelle rollen",
 				"stopMovement" : "[RBA] Bewegung verhindern",
-				"delayTrigger" : "[RBA] Auslösen verzögern"
+				"delayTrigger" : "[RBA] Auslösen verzögern",
+				"changeDoorState" : "[RBA] Türzustand ändern",
+				"changeWall" : "[RBA] Wand ändern"
 			}
+		}
+	},
+	
+	"WALL" : {
+		"SenseTypes" : {
+			"RBAunchanged" : "Unverändert"
 		}
 	}
 }

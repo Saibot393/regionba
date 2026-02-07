@@ -40,7 +40,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return "locked"},
 			configDialog : true,
 			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("DoorState")},
-			options : () => {return ["locked", "unlocked", "opened", "closed"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`}})}
+			options : () => {return ["locked", "unlocked", "opened", "closed", "unlockedclosed"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`}})}
 		},
 		conditionalMacros : {
 			default : () => {return []},
@@ -120,6 +120,9 @@ export class RBAconditionalTrigger extends regionbaBasic {
 					vChecker = (pDoor) => {return pDoor.ds == 1};
 					break;
 				case "closed" :
+					vChecker = (pDoor) => {return [0, 2].includes(pDoor.ds)};
+					break;
+				case "unlockedclosed" : 
 					vChecker = (pDoor) => {return pDoor.ds == 0};
 					break;
 			}

@@ -124,6 +124,7 @@
 				"hint" : "Activate and deactivate types of conditions",
 				"options" : {
 					"ItemsinToken" : "Items in token",
+					"DoorState" : "Door state",
 					"Macros" : "Macros",
 					"Script" : "Script"
 				}
@@ -157,6 +158,23 @@
 			"checkIteminTokenZero" : {
 				"name" : "Check Quantity",
 				"hint" : "If the above items should be checked for a quantity higher than 0"
+			},
+			
+			"conditionalDoors" : {
+				"name" : "Conditional Doors",
+				"hint" : "Doors for the door check state"
+			},
+			
+			"conditionalDoorState" : {
+				"name" : "Conditional Door State",
+				"hint" : "State to check the doors for",
+				"options" : {
+					"locked" : "locked",
+					"unlocked" : "unlocked (opened or closed)",
+					"opened" : "opened",
+					"closed" : "closed (locked or unlocked)",
+					"unlockedclosed" : "unlocked closed"
+				}
 			},
 			
 			"conditionalMacros" : {
@@ -232,6 +250,53 @@
 			"triggerBehaviours" : {
 				"name" : "To trigger",
 				"hint" : "List of Behaviours to trigger"
+			},
+			
+			"changeDoorDocuments" : {
+				"name" : "Doors",
+				"hint" : "Doors which will be changed"
+			},
+			
+			"changeDoorType" : {
+				"name" : "State Change",
+				"hint" : "State the doors will be changed to/ the way the state will be changed",
+				"options" : {
+					"lock" : "locked",
+					"unlock" : "unlocked (but closed)",
+					"open" : "open",
+					"togglelock" : "Change lock",
+					"toggleopen" : "Change closed/open"
+				}
+			},
+			
+			"changeWallDocuments" : {
+				"name" : "Walls",
+				"hint" : "Walls that will be changed"
+			},
+			
+			"wallChangemove" : {
+				"name" : "Movement",
+				"hint" : ""
+			},
+			
+			"wallChangelight" : {
+				"name" : "Light",
+				"hint" : ""
+			},
+			
+			"wallChangesight" : {
+				"name" : "Sight",
+				"hint" : ""
+			},
+			
+			"wallChangesound" : {
+				"name" : "Sound",
+				"hint" : ""
+			},
+			
+			"wallChangePTA" : {
+				"name" : "Proximity Threshold Attenuation",
+				"hint" : "Just try it, thats easier than explaining what this does"
 			}
 		},
 		
@@ -273,8 +338,16 @@
 				"ping" : "[RBA] Ping",
 				"rollTable" : "[RBA] Roll Table",
 				"stopMovement" : "[RBA] Prevent Movement",
-				"delayTrigger" : "[RBA] Delay Trigger"
+				"delayTrigger" : "[RBA] Delay Trigger",
+				"changeDoorState" : "[RBA] Change Door State",
+				"changeWall" : "[RBA] Change Wall"
 			}
+		}
+	},
+	
+	"WALL" : {
+		"SenseTypes" : {
+			"RBAunchanged" : "Unchanged"
 		}
 	}
 }
