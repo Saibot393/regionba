@@ -14,7 +14,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			isMultiSelect : true,
-			options : () => {return ["ItemsinToken", "Macros", "Script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
+			options : () => {return ["ItemsinToken", "DoorState", "Macros", "Script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
 			scChangeAll : true
 		},
 		conditionalItemsinToken : {
@@ -28,6 +28,19 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return false},
 			configDialog : true,
 			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("ItemsinToken")}
+		},
+		conditionalDoors : {
+			default : () => {return []},
+			configDialog : true,
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("DoorState")},
+			objectType : "placeables",
+			validSelectable : (pPlaceable) => {return utils.isDoor(pPlaceable)}
+		},
+		conditionalDoorState : {
+			default : () => {return "locked"},
+			configDialog : true,
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("DoorState")},
+			options : () => {return ["locked", "unlocked", "opened", "closed"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`}})}
 		},
 		conditionalMacros : {
 			default : () => {return []},
@@ -89,6 +102,29 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			}
 			
 			return vValues;
+		}
+		
+		cBehaviourType.conditionalDoorStateValue = async function(pEvent) {
+			const cDoors = this.regionba.conditionalDoors.map(vDoor => fromUuidSync(vDoor)).filter(vDoor => vDoor);
+			
+		    let vChecker = () => {};
+			
+			switch (this.regionba.conditionalDoorState) {
+				case "locked" :
+					vChecker = (pDoor) => {return pDoor.ds == 2};
+					break;
+				case "unlocked" :
+					vChecker = (pDoor) => {return [0, 1].includes(pDoor.ds)};
+					break;
+				case "opened" :
+					vChecker = (pDoor) => {return pDoor.ds == 1};
+					break;
+				case "closed" :
+					vChecker = (pDoor) => {return pDoor.ds == 0};
+					break;
+			}
+			
+			return cDoors.map(cDoor => vChecker(cDoor));
 		}
 		
 		cBehaviourType.conditionalMacrosValue = async function(pEvent) {

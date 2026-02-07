@@ -24,7 +24,8 @@
 	  "conditionalTrigger" : {},
 	  "changeItem" : {},
 	  "delayTrigger" : {},
-	  "changeWall" : {}
+	  "changeWall" : {},
+	  "changeDoorState" : {}
     }
   },
   "languages": [

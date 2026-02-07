@@ -124,7 +124,12 @@ export class regionbaBasic {
 					return "selection";
 				}
 				else {
-					return typeof this.Settings[pFlag].default();
+					if (this.Settings[pFlag].default() == null) {
+						return "number";
+					}
+					else {
+						return typeof this.Settings[pFlag].default();
+					}
 				}
 			}
 		}
@@ -154,7 +159,7 @@ export class regionbaBasic {
 					if (this.Settings[cFlag].hasOwnProperty("showinDialog")) {
 						let vInput = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
 
-						if (this.Settings[cFlag].hasOwnProperty("subSetting")) vInput.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
+						if (this.Settings[cFlag].hasOwnProperty("subSettingof")) vInput.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
 						else {
 							let vFormGroup = vInput?.closest("div.form-group");
 
@@ -166,7 +171,7 @@ export class regionbaBasic {
 			
 			for (const cFlag of cSettingstoAdd) {
 				const cSettingType = this.settingType(cFlag);
-				const cisSubSetting = this.Settings[cFlag].hasOwnProperty("subSetting");
+				const cisSubSetting = this.Settings[cFlag].hasOwnProperty("subSettingof");
 
 				let vFormGroup = document.createElement("div");
 				vFormGroup.classList.add("form-group");
@@ -272,7 +277,7 @@ export class regionbaBasic {
 
 				if (!cisSubSetting) vFormField.appendChild(vContent);
 				else {
-					const vMainSetting = vFieldSet.querySelector(`[id="${cModuleName}.${this.Settings[cFlag].subSetting}"]`);
+					const vMainSetting = vFieldSet.querySelector(`[id="${cModuleName}.${this.Settings[cFlag].subSettingof}"]`);
 					vMainSetting.after(vContent);
 				}
 
@@ -312,6 +317,9 @@ export class regionbaBasic {
 					switch (cSettingType) {
 						case "boolean":
 							vFlagUpdate[cFlag] = Boolean(vContent.checked);
+							break;
+						case "number":
+							vFlagUpdate[cFlag] = Number(vContent.value);
 							break;
 						default:
 							vFlagUpdate[cFlag] = vContent.value;

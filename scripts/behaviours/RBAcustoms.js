@@ -205,8 +205,6 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 			events: this._createEventsField({events: cDefaultEvents})
 		} 
 	}
-
-    static defineSchema() {return {} }
 	
     static events = {};
 	
@@ -239,13 +237,31 @@ export class delayTrigger extends foundry.data.regionBehaviors.RegionBehaviorTyp
 	}
 }
 
+export class changeDoorState extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+	
+    static events = {};
+	
+	get isRBAcustom() {
+		return true;
+	}
+	
+	static Icon() {
+		return "fa-solid fa-door-closed";
+	}
+}
+
 //CONFIG.statusEffects
 //CONST.WALL_RESTRICTION_TYPES
-//CONST.WALL_MOVEMENT_TYPES
-//CONST.WALL_SENSE_TYPES
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});
