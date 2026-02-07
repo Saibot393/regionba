@@ -213,6 +213,10 @@ export class changeWall extends foundry.data.regionBehaviors.RegionBehaviorType 
 	get isRBAcustom() {
 		return true;
 	}
+	
+	static Icon() {
+		return "fa-solid fa-block-brick";
+	}
 }
 
 export class delayTrigger extends foundry.data.regionBehaviors.RegionBehaviorType {
@@ -236,9 +240,12 @@ export class delayTrigger extends foundry.data.regionBehaviors.RegionBehaviorTyp
 }
 
 //CONFIG.statusEffects
+//CONST.WALL_RESTRICTION_TYPES
+//CONST.WALL_MOVEMENT_TYPES
+//CONST.WALL_SENSE_TYPES
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

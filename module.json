@@ -23,7 +23,8 @@
 	  "rollTable" : {},
 	  "conditionalTrigger" : {},
 	  "changeItem" : {},
-	  "delayTrigger" : {}
+	  "delayTrigger" : {},
+	  "changeWall" : {}
     }
   },
   "languages": [

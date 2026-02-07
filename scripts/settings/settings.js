@@ -12,9 +12,10 @@ import {RBArollTable} from "../adjustments/rollTable.js";
 import {RBAconditionalTrigger} from "../adjustments/conditionalTrigger.js";
 import {RBAchangeItem} from "../adjustments/changeItem.js";
 import {RBAdelayTrigger} from "../adjustments/delayTrigger.js";
+import {RBAchangeWall} from "../adjustments/changeWall.js";
 
 const cCoreAdjustments = [RBAchangeLevel, RBAteleportToken];
-const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger];
+const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger, RBAchangeWall];
 
 export function registerSettings() {
 	for (const cAdjustment of cCoreAdjustments) {

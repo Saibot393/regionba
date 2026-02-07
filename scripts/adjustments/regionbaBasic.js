@@ -154,16 +154,20 @@ export class regionbaBasic {
 					if (this.Settings[cFlag].hasOwnProperty("showinDialog")) {
 						let vInput = vFieldSet.querySelector(`[id="${cModuleName}.${cFlag}"]`);
 
-						let vFormGroup = vInput?.closest("div.form-group");
+						if (this.Settings[cFlag].hasOwnProperty("subSetting")) vInput.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "" : "none";
+						else {
+							let vFormGroup = vInput?.closest("div.form-group");
 
-						if (vFormGroup) vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "flex" : "none";
+							if (vFormGroup) vFormGroup.style.display = this.Settings[cFlag].showinDialog(vUpdateData) ? "flex" : "none";
+						}
 					}
 				}
 			}	
 			
 			for (const cFlag of cSettingstoAdd) {
 				const cSettingType = this.settingType(cFlag);
-				
+				const cisSubSetting = this.Settings[cFlag].hasOwnProperty("subSetting");
+
 				let vFormGroup = document.createElement("div");
 				vFormGroup.classList.add("form-group");
 				vFormGroup.style.display = "flex";
@@ -266,7 +270,11 @@ export class regionbaBasic {
 				vHint.innerText = Translate(`${cModuleName}.BehaviourSettings.${cFlag}.hint`);
 				vHint.style.flex = "0 0 100%";
 
-				vFormField.appendChild(vContent)
+				if (!cisSubSetting) vFormField.appendChild(vContent);
+				else {
+					const vMainSetting = vFieldSet.querySelector(`[id="${cModuleName}.${this.Settings[cFlag].subSetting}"]`);
+					vMainSetting.after(vContent);
+				}
 
 				vFormGroup.appendChild(vLabel);
 				vFormGroup.appendChild(vFormField);
@@ -279,7 +287,7 @@ export class regionbaBasic {
 					vHint.innerText = vHint.innerText + " " + Translate(`${cModuleName}.BehaviourSettings.scChangeHint`);
 				}
 				
-				vFieldSet.appendChild(vFormGroup);
+				if (!cisSubSetting) vFieldSet.appendChild(vFormGroup);
 				
 				if (["multiSelect", "color"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
