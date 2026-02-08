@@ -48,13 +48,13 @@ export class RBAdelayTrigger extends regionbaBasic {
 			
 			if (pEvent[cModuleName].triggerHistory[game.user.id].includes(this.id)) return; //prevent recursion
 			
-			await utils.wait(this.regionba.triggerDelay * 1000);
-		
-			for (const cBehaviour of this.validtriggerBehaviours()) {
-				if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
-					cBehaviour._handleRegionEvent(pEvent);
+			utils.wait(this.regionba.triggerDelay * 1000).then(() => {
+				for (const cBehaviour of this.validtriggerBehaviours()) {
+					if (!cBehaviour.disabled || this.regionba.ignoreDisabled) {
+						cBehaviour._handleRegionEvent(pEvent);
+					}
 				}
-			}
+			});
 		}
 		
 		const cTriggerEvents = [CONST.REGION_EVENTS.TOKEN_ANIMATE_IN,
