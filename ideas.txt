@@ -11,3 +11,6 @@
 -Shove (move by delta, through walls?)
 -Prevent Movement
  -Uni directional
+-GM confirm
+-Change Ownership
+-Show Players

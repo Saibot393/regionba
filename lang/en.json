@@ -125,6 +125,8 @@
 				"options" : {
 					"ItemsinToken" : "Items in token",
 					"DoorState" : "Door state",
+					"TokeninRegions" : "Token within Regions",
+					"TokennotinRegions" : "Token outside Regions",
 					"Macros" : "Macros",
 					"Script" : "Script"
 				}
@@ -175,6 +177,16 @@
 					"closed" : "closed (locked or unlocked)",
 					"unlockedclosed" : "unlocked closed"
 				}
+			},
+			
+			"conditionalTokeninRegions" : {
+				"name" : "Token within Regions",
+				"hint" : "Check if the triggering Token is within these Regions during the trigger event"
+			},
+			
+			"conditionalTokennotinRegions" : {
+				"name" : "Token outside Regions",
+				"hint" : "Check if the triggering Token is outside these Regions during the trigger event"
 			},
 			
 			"conditionalMacros" : {

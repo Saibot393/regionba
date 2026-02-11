@@ -151,6 +151,18 @@ export class utils {
 			}	
 		}
 	}
+	
+	static strictBooleanInverter(pBoolean) {
+		if (pBoolean === true) {
+			return false;
+		}
+		
+		if (pBoolean === false) {
+			return true;
+		}
+		
+		return undefined;
+	}
 }
 
 export function Translate(pPath, pWords = {}) {

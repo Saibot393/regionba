@@ -125,6 +125,8 @@
 				"options" : {
 					"ItemsinToken" : "Gegenstände im Token",
 					"DoorState" : "Tür Zustand",
+					"TokeninRegions" : "Token innerhalb Regionen",
+					"TokennotinRegions" : "Token außerhalb Regionen",
 					"Macros" : "Macros",
 					"Script" : "Skript"
 				}
@@ -175,6 +177,16 @@
 					"closed" : "zu (un/abgeschlossen)",
 					"unlockedclosed" : "unabgeschlossen zu"
 				}
+			},
+			
+			"conditionalTokeninRegions" : {
+				"name" : "Token innerhalb Regionen",
+				"hint" : "Überprüft ob das auslösende Token während des Ereignisses innerhalb dieser Regionen ist"
+			},
+			
+			"conditionalTokennotinRegions" : {
+				"name" : "Token außerhalb Regionen",
+				"hint" : "Überprüft ob das auslösende Token während des Ereignisses außerhalb dieser Regionen ist"
 			},
 			
 			"conditionalMacros" : {

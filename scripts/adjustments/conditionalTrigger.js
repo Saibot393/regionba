@@ -14,7 +14,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return []},
 			configDialog : true,
 			isMultiSelect : true,
-			options : () => {return ["ItemsinToken", "DoorState", "Macros", "Script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
+			options : () => {return ["ItemsinToken", "DoorState", "TokeninRegions", "TokennotinRegions", "Macros", "Script"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionTypes.options.${vKey}`}})},
 			scChangeAll : true
 		},
 		conditionalItemsinToken : {
@@ -41,6 +41,20 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			configDialog : true,
 			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("DoorState")},
 			options : () => {return ["locked", "unlocked", "opened", "closed", "unlockedclosed"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`}})}
+		},
+		conditionalTokeninRegions : {
+			default : () => {return []},
+			configDialog : true,
+			objectType : "documents",
+			validSelectable : (pPlaceable) => {return ["Region"].includes(pPlaceable.documentName)},
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("TokeninRegions")}
+		},
+		conditionalTokennotinRegions : {
+			default : () => {return []},
+			configDialog : true,
+			objectType : "documents",
+			validSelectable : (pPlaceable) => {return ["Region"].includes(pPlaceable.documentName)},
+			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("TokennotinRegions")}
 		},
 		conditionalMacros : {
 			default : () => {return []},
@@ -128,6 +142,24 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			}
 			
 			return cDoors.map(cDoor => vChecker(cDoor));
+		}
+		
+		cBehaviourType.conditionalTokeninRegionsValue = async function(pEvent, pCheckRegions = undefined) {
+			let vValues = [];
+			
+			const cToken = pEvent.data.token;
+			
+			if (cToken) {
+				const cCheckRegions = (pCheckRegions || this.regionba.conditionalTokeninRegions).map(vRegion => fromUuidSync(vRegion)).filter(vRegion => vRegion);
+				
+				vValues = cCheckRegions.map(vRegion => cToken.regions.has(vRegion));
+			}
+			
+			return vValues;
+		}
+		
+		cBehaviourType.conditionalTokennotinRegionsValue = async function(pEvent, pCheckRegions) {
+			return (await this.conditionalTokeninRegionsValue(pEvent, this.regionba.conditionalTokennotinRegions)).map(vValue => utils.strictBooleanInverter(vValue));
 		}
 		
 		cBehaviourType.conditionalMacrosValue = async function(pEvent) {
