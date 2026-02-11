@@ -1,3 +1,8 @@
+## v1.2.0
+- Added **Token within/outside Regions** conditions to **Conditional Trigger**, this allows for example for regions/behaviours to only be triggered when a token enters the region from a certain direction
+- Improved **Delay Trigger** behaviour
+- Preperation for Module/System/Version dependent custom behaviours
+
 ## v1.1.0
 - Added new behaviour **Delay Trigger**
 - Added new behaviour **Change Door State**
