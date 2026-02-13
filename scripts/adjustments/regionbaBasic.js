@@ -124,15 +124,20 @@ export class regionbaBasic {
 				return "color";
 			}
 			else {
-				if (this.Settings[pFlag].hasOwnProperty("options")) {
-					return "selection";
+				if (this.Settings[pFlag].isDirection) {
+					return "direction";
 				}
 				else {
-					if (this.Settings[pFlag].default() == null) {
-						return "number";
+					if (this.Settings[pFlag].hasOwnProperty("options")) {
+						return "selection";
 					}
 					else {
-						return typeof this.Settings[pFlag].default();
+						if (this.Settings[pFlag].default() == null) {
+							return "number";
+						}
+						else {
+							return typeof this.Settings[pFlag].default();
+						}
 					}
 				}
 			}
@@ -254,6 +259,9 @@ export class regionbaBasic {
 						break;
 					case "color":
 						vContent = document.createElement("color-picker");
+						break;
+					case "direction":
+						vContent = customInputs.direction();
 						break;
 					case "object":
 						switch (this.Settings[cFlag].objectType) {

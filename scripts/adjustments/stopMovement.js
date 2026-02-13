@@ -11,7 +11,13 @@ export class RBAstopMovement extends regionbaBasic {
 			isMultiSelect : true,
 			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")},
 			scChangeAll : true
-		}/*,
+		},
+		blockDirection : {
+			default : () => {return 0},
+			configDialog : true,
+			isDirection : true
+		}
+		/*,
 		movementTypeTrapped : {
 			default : () => {return []},
 			configDialog : true,

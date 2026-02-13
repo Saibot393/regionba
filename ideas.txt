@@ -10,7 +10,7 @@
 -Change tile/token art
 -Shove (move by delta, through walls?)
 -Prevent Movement
- -Uni directional
+ -Onedirectional
 -GM confirm
 -Change Ownership
 -Show Players

@@ -8,7 +8,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 		logicMode : {
 			default : () => {return "AND"},
 			configDialog : true,
-			options : () => {return ["AND", "OR"]}
+			options : () => {return ["AND", "OR"].map(vKey => {return {id : vKey, name : Translate(`${cModuleName}.BehaviourSettings.logicMode.options.${vKey}`)}})}
 		},
 		conditionTypes : {
 			default : () => {return []},
@@ -40,7 +40,7 @@ export class RBAconditionalTrigger extends regionbaBasic {
 			default : () => {return "locked"},
 			configDialog : true,
 			showinDialog : (pFlags) => {return pFlags.conditionTypes.includes("DoorState")},
-			options : () => {return ["locked", "unlocked", "opened", "closed", "unlockedclosed"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`}})}
+			options : () => {return ["locked", "unlocked", "opened", "closed", "unlockedclosed"].map(vKey => {return {id : vKey, name : Translate(`${cModuleName}.BehaviourSettings.conditionalDoorState.options.${vKey}`)}})}
 		},
 		conditionalTokeninRegions : {
 			default : () => {return []},

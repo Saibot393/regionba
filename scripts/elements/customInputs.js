@@ -236,4 +236,140 @@ export class customInputs {
 		
 		return cElement;
 	}
+	
+	static directionPicker(pDrawSettings = {size : "36", color : "#f7f3e8", lineWidth : "2"}) {
+		pDrawSettings = {size : "36", color : "#f7f3e8", lineWidth : "2", ...pDrawSettings};
+		
+		const cElement = document.createElement(cModuleAbbr+"directionPicker");
+		cElement.setAttribute("_angle", 0);
+
+		const cArrow = document.createElement("canvas");
+		cArrow.style.height = pDrawSettings.size + "px";
+		cArrow.style.width = pDrawSettings.size + "px";
+		cArrow.height = pDrawSettings.size;
+		cArrow.width = pDrawSettings.size;
+		cArrow.style.position = "relative";
+		
+		cElement.appendChild(cArrow);
+		
+		const fUpdateAngle = () => {
+			const cDrawer = cArrow.getContext("2d");
+		
+			let vWidth = pDrawSettings.size;
+			let vHeight = pDrawSettings.size;
+			let vRadius = Math.min(vWidth, vHeight)/2 - pDrawSettings.lineWidth;
+			let vAngle = cElement.getAttribute("_angle")/180 * Math.PI;
+			
+			const cArrowAngleDiff = 10/180 * Math.PI;
+			const cArrowRadiusDiff = vRadius * 0.85;
+			
+			let cCenter = {x : vWidth/2, y : vHeight/2};
+			let cArrowCenter = {x : cCenter.x + Math.cos(vAngle) * vRadius, y : cCenter.y + Math.sin(vAngle) * vRadius};
+			let cArrowLeft = {x : cCenter.x + Math.cos(vAngle + cArrowAngleDiff) * cArrowRadiusDiff, y : cCenter.y + Math.sin(vAngle + cArrowAngleDiff) * cArrowRadiusDiff};
+			let cArrowRight = {x : cCenter.x + Math.cos(vAngle - cArrowAngleDiff) * cArrowRadiusDiff, y : cCenter.y + Math.sin(vAngle - cArrowAngleDiff) * cArrowRadiusDiff};
+			
+			cDrawer.clearRect(0, 0, pDrawSettings.size, pDrawSettings.size);
+		
+			cDrawer.strokeStyle = pDrawSettings.color;
+			cDrawer.lineWidth = pDrawSettings.lineWidth + "px";
+		
+			for (const cLine of [[cCenter, cArrowCenter], [cArrowCenter, cArrowLeft], [cArrowCenter, cArrowRight]]) {
+				cDrawer.beginPath();
+				cDrawer.moveTo(cLine[0].x, cLine[0].y);
+				cDrawer.lineTo(cLine[1].x, cLine[1].y);
+				cDrawer.stroke();
+			}
+		}
+		
+		Object.defineProperty(cElement, "value", {
+			get() {
+				return cElement.getAttribute("_angle");
+			},
+			set(pValue) {
+				cElement.setAttribute("_angle", pValue%360);
+				fUpdateAngle();
+				
+				if (cElement.onchange) {
+					cElement.onchange({value : pValue%360});
+				}
+			}
+		});
+		
+		cElement.onclick = (pEvent) => {
+			const cLocalx = pEvent.layerX - pDrawSettings.size/2;
+			const cLocaly = pEvent.layerY - pDrawSettings.size/2;
+			
+			const xytoAngle = (px, py) => {
+				let vAngle = Math.atan(py/px);
+				
+				if (px < 0) {
+					vAngle = vAngle + Math.PI;
+				}
+				
+				if (vAngle < 0) {
+					vAngle = vAngle + 2 * Math.PI;
+				}
+				
+				return Math.ceil(vAngle / (2 * Math.PI/360));
+			}
+			
+			cElement.value = xytoAngle(cLocalx, cLocaly);
+		}
+		
+		fUpdateAngle();
+		
+		return cElement;
+	}
+	
+	static direction() {
+		const cAngleDiff = 90; //Difference between graphical angle (0° to the right) and foundry angle (0° to bottom)
+		
+		const cElement = document.createElement(cModuleAbbr+"direction");
+		cElement.style.display = "flex";
+		cElement.style.flexDirection = "row";
+		
+		const cInput = document.createElement("input");
+		cInput.type = "number";
+		cInput.placeholder = Translate(cModuleName+".Titles.angle");
+		cInput.style.marginTop = "auto";
+		cInput.style.marginBottom = "auto";
+	
+		const cPicker = customInputs.directionPicker();
+		cPicker.style.width = "36px";
+		cPicker.style.height = "36px";
+		cPicker.style.marginLeft = "5px";
+		
+		cElement.appendChild(cInput);
+		cElement.appendChild(cPicker);
+		
+		cInput.onchange = () => {
+			const cPickerAngle = (Number(cInput.value) + cAngleDiff)%360;
+			
+			if (cPicker.value != cPickerAngle) {
+				cPicker.value = cPickerAngle;
+			}
+		}
+		
+		cPicker.onchange = () => {
+			let vPickerAngle = (cPicker.value - cAngleDiff)%360;
+			
+			if (vPickerAngle < 0) {
+				vPickerAngle = vPickerAngle + 360;
+			}
+			
+			cInput.value = vPickerAngle;
+		}
+		
+		Object.defineProperty(cElement, "value", {
+			get() {
+				return Number(cInput.value);
+			},
+			set(pValue) {
+				cInput.value = pValue;
+				cInput.onchange();
+			}
+		});
+		
+		return cElement;
+	}
 }
