@@ -12,10 +12,15 @@ export class RBAstopMovement extends regionbaBasic {
 			options : () => {return Object.keys(CONFIG.Token.movement.actions).map(vKey => {return {id : vKey, name : CONFIG.Token.movement.actions[vKey].label}}).filter(vItem => vItem.id != "displace")},
 			scChangeAll : true
 		},
+		blockDirectionOnly : {
+			default : () => {return false},
+			configDialog : true
+		},
 		blockDirection : {
 			default : () => {return 0},
 			configDialog : true,
-			isDirection : true
+			isDirection : true,
+			showinDialog : (pFlags) => {return pFlags.blockDirectionOnly}
 		}
 		/*,
 		movementTypeTrapped : {
@@ -48,20 +53,48 @@ export class RBAstopMovement extends regionbaBasic {
 	static overrideMethods() {
 		const cBehaviorType = CONFIG.RegionBehavior.dataModels[this.type].prototype;
 		const DialogV2 = foundry.applications.api.DialogV2;
+		const cAngleOffset = 90;
+		const cDirectionThreshold = 1e-13; //Foundry WASD movement includes a very small orthogonal displacement which is smaller than 1e-13
+		
+		cBehaviorType.ignoreMovementDirection = function(pEvent) {
+			if (!this.regionba.blockDirectionOnly) return false;
+			
+			const cMovementDelta = {x : pEvent.data.movement.destination.x - pEvent.data.movement.origin.x, y : pEvent.data.movement.destination.y - pEvent.data.movement.origin.y};
+			
+			const cBlockAngle = (this.regionba.blockDirection + cAngleOffset)/180 * Math.PI;
+			
+			return (Math.cos(cBlockAngle) * cMovementDelta.x + Math.sin(cBlockAngle) * cMovementDelta.y) <= cDirectionThreshold;
+		}
 		
 		cBehaviorType.RBAonTokenMovementIn = async function(pEvent) {
 			const cUser = pEvent.user;
 			if ( !cUser.isSelf ) return;
 			
+			if (this.ignoreMovementDirection(pEvent)) return;
+			
 			if (this.regionba.Support.GMOverride()) return;
 			
 			const cToken = pEvent.data.token;
 			
-			if (this.regionba.movementTypeBlocked.includes(cToken.movementAction)  && pEvent.data.movement.passed.waypoints.at(-1).action != "displace") cToken.stopMovement();
+			if (this.regionba.movementTypeBlocked.includes(cToken.movementAction)  && pEvent.data.movement.passed.waypoints.at(-1).action != "displace") {
+				cToken.stopMovement();
+				
+				/*
+				const cMovementDelta = {x : pEvent.data.movement.destination.x - pEvent.data.movement.origin.x, y : pEvent.data.movement.destination.y - pEvent.data.movement.origin.y};
+				const cMovementLength = Math.sqrt(cMovementDelta.x * cMovementDelta.x + cMovementDelta.y * cMovementDelta.y);
+				const cMovementDirection = {x : cMovementDelta.x/cMovementLength, y : cMovementDelta.y/cMovementLength};
+				const cTargetPoint = cToken.layer.getSnappedPoint({x : pEvent.data.movement.destination.x -cMovementDirection.x * this.regionba.Support.stickyDistance(this.region), y : pEvent.data.movement.destination.y -cMovementDirection.y * this.regionba.Support.stickyDistance(this.region)});
+				console.log({x : cToken.x, y : cToken.y})
+				console.log(cTargetPoint);
+				cToken.move({...cTargetPoint, action : "displace"});
+				*/
+			}
 		}
 		
 		cBehaviorType.RBAonTokenMovementWithin = async function(pEvent) {
 			const cUser = pEvent.user;
+			
+			if (this.ignoreMovementDirection(pEvent)) return;
 			
 			if (this.regionba.Support.GMOverride()) return;
 			
