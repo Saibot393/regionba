@@ -14,9 +14,10 @@ import {RBAchangeItem} from "../adjustments/changeItem.js";
 import {RBAdelayTrigger} from "../adjustments/delayTrigger.js";
 import {RBAchangeWall} from "../adjustments/changeWall.js";
 import {RBAchangeDoorState} from "../adjustments/changeDoorState.js";
+import {RBAmoveToken} from "../adjustments/moveToken.js";
 
 const cCoreAdjustments = [RBAchangeLevel, RBAteleportToken];
-const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger, RBAchangeWall, RBAchangeDoorState];
+const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger, RBAchangeWall, RBAchangeDoorState, RBAmoveToken];
 
 export function registerSettings() {
 	for (const cAdjustment of cCoreAdjustments) {

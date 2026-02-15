@@ -25,7 +25,8 @@
 	  "changeItem" : {},
 	  "delayTrigger" : {},
 	  "changeWall" : {},
-	  "changeDoorState" : {}
+	  "changeDoorState" : {},
+	  "moveToken" : {}
     }
   },
   "languages": [

@@ -229,6 +229,24 @@ export class changeDoorState extends foundry.data.regionBehaviors.RegionBehavior
 	}
 }
 
+export class moveToken extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+	
+    static events = {};
+	
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-solid fa-person-walking";
+	}
+}
+
 //CONFIG.statusEffects
 //CONST.WALL_RESTRICTION_TYPES
 
@@ -242,7 +260,7 @@ export class changeDoorState extends foundry.data.regionBehaviors.RegionBehavior
 //canvas.tokens.get("TPvi4u08DOeuED2f").__defineGetter__("isVisible", () => {return true})
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState, moveToken]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

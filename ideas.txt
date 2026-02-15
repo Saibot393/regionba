@@ -8,9 +8,8 @@
   -Movement Type
   -User/User Type
 -Change tile/token art
--Shove (move by delta, through walls?)
--Prevent Movement
- -Onedirectional
 -GM confirm
 -Change Ownership
+-Random
+-Spawn Players
 -Show Players
