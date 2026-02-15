@@ -1,4 +1,4 @@
-import {cModuleName, utils} from "../utils/utils.js";
+import {cModuleName, Translate, utils} from "../utils/utils.js";
 import {regionbaBasic} from "./regionbaBasic.js";
 
 export class RBAmoveToken extends regionbaBasic {
@@ -8,7 +8,7 @@ export class RBAmoveToken extends regionbaBasic {
 		movementModus : {
 			default : () => {return "relative"},
 			configDialog : true,
-			options : () => {return ["relative", "fromCenter"].map(vKey => {return {id : vKey, name : `${cModuleName}.BehaviourSettings.movementModus.options.${vKey}`}})},
+			options : () => {return ["relative", "fromCenter"].map(vKey => {return {id : vKey, name : Translate(`${cModuleName}.BehaviourSettings.movementModus.options.${vKey}`)}})},
 		},
 		movementDirection : {
 			default : () => {return 0},
@@ -25,7 +25,7 @@ export class RBAmoveToken extends regionbaBasic {
 			configDialog : true,
 			options : () => {
 				return Object.keys(CONFIG.Token.movement.actions).concat("RBAcurrentMovement").map(vKey => {
-					return {id : vKey, name : vKey == "RBAcurrentMovement" ? `${cModuleName}.BehaviourSettings.movementModus.options.${vKey}` : CONFIG.Token.movement.actions[vKey].label}
+					return {id : vKey, name : vKey == "RBAcurrentMovement" ? Translate(`${cModuleName}.BehaviourSettings.movementType.options.${vKey}`) : Translate(CONFIG.Token.movement.actions[vKey].label)}
 				}).filter(vItem => vItem.id != "displace")
 			}
 		},

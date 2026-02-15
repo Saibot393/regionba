@@ -249,6 +249,16 @@
 				"hint" : "Movement types to prevent in this region (a GM can still move tokens using unconstrained movement)"
 			},
 			
+			"blockDirectionOnly" : {
+				"name" : "Directional Block",
+				"hint" : "If only a certain direction should be blocked"
+			},
+			
+			"blockDirection" : {
+				"name" : "Block Direction",
+				"hint" : "Blocked movement direction"
+			},
+			
 			"rollTables" : {
 				"name" : "Roll Tables",
 				"hint" : "Roll tables rolled by the user when triggered"
@@ -309,6 +319,38 @@
 			"wallChangePTA" : {
 				"name" : "Proximity Threshold Attenuation",
 				"hint" : "Just try it, thats easier than explaining what this does"
+			},
+			
+			"movementModus" : {
+				"name" : "Movement Modus",
+				"hint" : "The way the triggered movement is defined",
+				"options" : {
+					"relative" : "Relative to Token",
+					"fromCenter" : "Relative to Region"
+				}
+			},
+			
+			"movementDirection" : {
+				"name" : "Direction",
+				"hint" : "Direction the triggering token is moved to"
+			},
+			
+			"movementDistance" : {
+				"name" : "Distance",
+				"hint" : "Distance the triggering token is moved"
+			},
+			
+			"movementType" : {
+				"name" : "Movement Type",
+				"hint" : "The movement type used ofr the triggered movement",
+				"options" : {
+					"RBAcurrentMovement" : "current Movement"
+				}
+			},
+			
+			"onlySpawnActiveUsers" : {
+				"name" : "Only active players",
+				"hint" : "If only characters of currently active users should be spawned"
 			}
 		},
 		
@@ -352,7 +394,9 @@
 				"stopMovement" : "[RBA] Prevent Movement",
 				"delayTrigger" : "[RBA] Delay Trigger",
 				"changeDoorState" : "[RBA] Change Door State",
-				"changeWall" : "[RBA] Change Wall"
+				"changeWall" : "[RBA] Change Wall",
+				"moveToken" : "[RBA] Move Token",
+				"spawnPlayers" : "[RBA] Spawn Player Characters"
 			}
 		}
 	},

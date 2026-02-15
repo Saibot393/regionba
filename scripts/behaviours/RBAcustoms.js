@@ -247,6 +247,24 @@ export class moveToken extends foundry.data.regionBehaviors.RegionBehaviorType {
 	}
 }
 
+export class spawnPlayers extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+		} 
+	}
+	
+    static events = {};
+	
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-solid fa-arrow-right-to-bracket";
+	}
+	//BEHAVIOR_VIEWED
+}
+
 //CONFIG.statusEffects
 //CONST.WALL_RESTRICTION_TYPES
 
@@ -260,7 +278,7 @@ export class moveToken extends foundry.data.regionBehaviors.RegionBehaviorType {
 //canvas.tokens.get("TPvi4u08DOeuED2f").__defineGetter__("isVisible", () => {return true})
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState, moveToken]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState, moveToken, spawnPlayers]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

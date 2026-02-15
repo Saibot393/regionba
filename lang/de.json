@@ -249,6 +249,16 @@
 				"hint" : "Bewegungstypen welche in dieser Region verhindert werden (ein GM kann Tokens mit unconstrained movement trotzdem bewegen)"
 			},
 			
+			"blockDirectionOnly" : {
+				"name" : "Richtung verhindern",
+				"hint" : "Ob nur Bewegungen in eine Richtung verhindert werden sollen"
+			},
+			
+			"blockDirection" : {
+				"name" : "Verhinderungs Richtung",
+				"hint" : "Die Richtung in welche Bewegungen blockiert werden"
+			},
+			
 			"rollTables" : {
 				"name" : "Roll Tables",
 				"hint" : "Roll tables welche von dem auslösenden Nutzer gerollt werden sollen"
@@ -309,6 +319,38 @@
 			"wallChangePTA" : {
 				"name" : "Nähe dämpfungs Grenze",
 				"hint" : "Einfach versuchen, ist einfacher als das zu erklären"
+			},
+			
+			"movementModus" : {
+				"name" : "Bewegungs Modus",
+				"hint" : "Die Weise auf die die Bewegung deffiniert wird",
+				"options" : {
+					"relative" : "Relativ zum Token",
+					"fromCenter" : "Relativ zur Region"
+				}
+			},
+			
+			"movementDirection" : {
+				"name" : "Richtung",
+				"hint" : "Richtung in welche das auslösende Token bewegt wird"
+			},
+			
+			"movementDistance" : {
+				"name" : "Distanz",
+				"hint" : "Distanz um welche das auslösende Token bewegt wird"
+			},
+			
+			"movementType" : {
+				"name" : "Bewegungstyp",
+				"hint" : "Der Bewegungstyp mit welchem das Token bewegt wird",
+				"options" : {
+					"RBAcurrentMovement" : "momentaner Bewegungstyp"
+				}
+			},
+			
+			"onlySpawnActiveUsers" : {
+				"name" : "Nur aktive Spieler",
+				"hint" : "Ob nur die Charaktere aktiver Spieler erschaffen werden sollen"
 			}
 		},
 		
@@ -352,7 +394,9 @@
 				"stopMovement" : "[RBA] Bewegung verhindern",
 				"delayTrigger" : "[RBA] Auslösen verzögern",
 				"changeDoorState" : "[RBA] Türzustand ändern",
-				"changeWall" : "[RBA] Wand ändern"
+				"changeWall" : "[RBA] Wand ändern",
+				"moveToken" : "[RBA] Token bewegen",
+				"spawnPlayers" : "[RBA] Spieler Charaktere erschaffen"
 			}
 		}
 	},
