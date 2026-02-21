@@ -50,7 +50,7 @@ export class RBAteleportToken extends regionbaBasic {
 
 				// If the origin and destination scene are the same
 				if ( vDestinationToken === pToken ) {
-				  await pToken.move({...pPosition, action: "displace"}, pOptions);
+				  await pToken.move({...pPosition, x : pPosition.x - pToken.width/2 * cDestinationScene.grid.sizeX, y : pPosition.y  - pToken.height/2 * cDestinationScene.grid.sizeY, action: "displace"}, pOptions);
 				  return {destinationToken : pToken, destinationScene : cDestinationScene, destinationLevel : cDestinationScene?.levels?.get(pPosition.level)};
 				}
 
