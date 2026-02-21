@@ -1,3 +1,6 @@
+## v1.3.1
+- Small improvement to custom teleport locations
+
 ## v1.3.0
 - Added new behaviour **Move token** to move a token either relative to its current position or relative to the region
 - Added new behaviour **Spawn Player Characters** to define a region where players spawn when the gm views the scene
