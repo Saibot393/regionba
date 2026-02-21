@@ -109,6 +109,16 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     So that it is only triggered by player characters
   - **Once**
  
+- ## Move Token
+  - **Movement Modus**
+    If the token should be moved relative to its position or relative to the region
+  - **Distance**
+    Distance the token is moved
+  - **Movement Type**
+    Which movement type should be used for this movement
+  - **Excluded Movement**
+    Movement types that won't trigger this behaviour
+ 
 - ## Ping
   - **Ping Position**
     Position to ping on this scene
@@ -124,6 +134,8 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   This Region prevents movement of a certain type/types into or within this region. A GM using unrestricted movement will ignore this behaviour.
   - **Prevented Movement**
     Movement type(s) to prevent
+  - **Directional Block**
+    To block only certain movement directions
 
 - ## Roll Table
   - **Roll Table**
@@ -131,6 +143,10 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   - **Character Trigger**
     So that it is only triggered by player characters
   - **Once**
+ 
+- ## Spawn Player Characters
+  - **Only active players**
+   	If only the tokens of active players should be spawned
 
 ### Languages:
 
