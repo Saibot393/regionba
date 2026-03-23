@@ -26,7 +26,7 @@ export class RBAmoveToken extends regionbaBasic {
 			options : () => {
 				return Object.keys(CONFIG.Token.movement.actions).concat("RBAcurrentMovement").map(vKey => {
 					return {id : vKey, name : vKey == "RBAcurrentMovement" ? Translate(`${cModuleName}.BehaviourSettings.movementType.options.${vKey}`) : Translate(CONFIG.Token.movement.actions[vKey].label)}
-				}).filter(vItem => vItem.id != "displace")
+				})//.filter(vItem => vItem.id != "displace")
 			}
 		},
 		movementTypeExclusion : {
