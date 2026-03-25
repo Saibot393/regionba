@@ -418,7 +418,7 @@ export class RBAteleportToken extends regionbaBasic {
 }
 
 /* Code the above code is directly based on, for comparison to spot changes easier
- static async #onTokenMoveIn(event) {
+static async #onTokenMoveIn(event) {
     const movement = event.data.movement;
 
     // Displacement does not trigger teleportation
@@ -518,7 +518,7 @@ export class RBAteleportToken extends regionbaBasic {
 
     await Promise.all(viewPromises);
   }
-  
+
   static events = {
     [REGION_EVENTS.TOKEN_MOVE_IN]: this.#onTokenMoveIn
   };
@@ -529,7 +529,7 @@ export class RBAteleportToken extends regionbaBasic {
     if ( userCanTeleport ) return user.isSelf;
     return game.user.isDesignated(u => u.active && u.can("TOKEN_CREATE") && u.can("TOKEN_DELETE") && (!this.choice || u.can("QUERY_USER")));
   }
-  
+
   #getUsersToPull(token) {
     if ( token.hidden ) return [];
     const toPull = [];
@@ -554,7 +554,7 @@ export class RBAteleportToken extends regionbaBasic {
     if ( !token ) return false;
     return TeleportTokenRegionBehaviorType.#confirmDialog(behavior.dialog, token, destinations, this.revealed);
   };
-  
+
   static async #confirmDialog(dialog, token, destinations, revealed) {
     if ( game.user.isGM ) revealed = true;
     const config = {window: {title: CONFIG.RegionBehavior.typeLabels.teleportToken}};

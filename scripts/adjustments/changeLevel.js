@@ -123,7 +123,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			// Confirm the level change
 			const levelId = await this.RBAconfirmDialog(this.region, token);
 			if ( !levelId || (levelId === token.level) ) {
-			  resumeMovement();
+			  resumeMovement?.();
 			  return;
 			}
 			const level = token.parent.levels.get(levelId);
@@ -155,7 +155,19 @@ export class RBAchangeLevel extends regionbaBasic {
 					return vNewPoint;
 				});
 				
-				token.move(vNewWaypoints);
+				token.move(vNewWaypoints, {
+					...movement.updateOptions,
+					constrainOptions: movement.constrainOptions,
+					autoRotate: movement.autoRotate,
+					showRuler: movement.showRuler
+				});
+				
+				console.log({
+					...movement.updateOptions,
+					constrainOptions: movement.constrainOptions,
+					autoRotate: movement.autoRotate,
+					showRuler: movement.showRuler
+				});
 			}
 			//!!! CUSTOM BEHAVIOUR
 		}
@@ -301,7 +313,6 @@ export class RBAchangeLevel extends regionbaBasic {
 }
 
 /* Code the above code is directly based on, for comparison to spot changes easier
-
   static async #onTokenMoveIn(event) {
     const user = event.user;
     if ( !user.isSelf ) return;
@@ -327,7 +338,7 @@ export class RBAchangeLevel extends regionbaBasic {
     // Confirm the level change
     const levelId = await ChangeLevelRegionBehaviorType.#confirmDialog(this.region, token);
     if ( !levelId || (levelId === token.level) ) {
-      resumeMovement();
+      resumeMovement?.();
       return;
     }
     const level = token.parent.levels.get(levelId);
@@ -343,7 +354,7 @@ export class RBAchangeLevel extends regionbaBasic {
     if ( !game.user.isGM || !token.parent.isView ) return;
     await token.parent.view({level: levelId, controlledTokens: [token.id]});
   }
-  
+
   async #moveToken(token, destinationLevel, action, snap) {
     const {x, y, elevation, width, height, depth, shape, level} = token._source;
     const originLevel = token.parent.levels.get(level);
@@ -399,6 +410,52 @@ export class RBAchangeLevel extends regionbaBasic {
     // Move the token to the destination level. Ignore surfaces.
     await token.move({elevation: destinationElevation, level: destinationLevel.id, action}, {animate: false,
       constrainOptions: {ignoreWalls: true}});
+  }
+  
+  static #getDestinationLevels(region, token) {
+    if ( !region.levels.size ) return region.parent.levels.contents.filter(l => l.id !== token.level);
+    return region._source.levels.reduce((arr, id) => {
+      const level = region.parent.levels.get(id);
+      if ( level && (id !== token.level) ) arr.push(level);
+      return arr;
+    }, []);
+  }
+  
+  static async #confirmDialog(region, token) {
+    const levels = ChangeLevelRegionBehaviorType.#getDestinationLevels(region, token);
+    if ( !levels.length ) return null;
+    levels.sort((a, b) => a.sort - b.sort);
+    const originLevel = token.parent.levels.get(token.level);
+    const getLabel = destinationLevel => {
+      if ( !originLevel ) return "BEHAVIOR.TYPES.changeLevel.Move";
+      if ( originLevel.elevation.bottom > destinationLevel.elevation.bottom ) return "BEHAVIOR.TYPES.changeLevel.MoveDown";
+      if ( originLevel.elevation.bottom < destinationLevel.elevation.bottom ) return "BEHAVIOR.TYPES.changeLevel.MoveUp";
+      return "BEHAVIOR.TYPES.changeLevel.Move";
+    };
+    return DialogV2.confirm({
+      window: {title: CONFIG.RegionBehavior.typeLabels.changeLevel},
+      content: levels.length === 1 ? _loc("BEHAVIOR.TYPES.changeLevel.Confirm",
+        {token: foundry.utils.escapeHTML(token.name), level: foundry.utils.escapeHTML(levels[0].name)})
+        : `
+          <p>
+            ${_loc("BEHAVIOR.TYPES.changeLevel.ConfirmSelect", {token: foundry.utils.escapeHTML(token.name)})}
+          </p>
+          <select name="level">
+            ${levels.map(l => `<option value="${l.id}">${foundry.utils.escapeHTML(l.name)}</option>`).join("")}
+          </select>
+        `,
+      yes: {
+        label: getLabel(levels[0]),
+        callback: (event, button) => levels.length === 1 ? levels[0].id : button.form.elements.level.value
+      },
+      no: {label: "COMMON.Cancel"},
+      render: levels.length === 1 ? undefined : (event, dialog) => {
+        dialog.element.querySelector('[name="level"]').addEventListener("change", e => {
+          const span = dialog.element.querySelector('[data-action="yes"] > span');
+          span.textContent = _loc(getLabel(token.parent.levels.get(e.target.value)));
+        });
+      }
+    });
   }
   
 */
