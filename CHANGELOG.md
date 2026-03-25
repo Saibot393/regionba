@@ -1,3 +1,10 @@
+## v1.3.3
+- Improved change level adjustment
+- Added **Only active scene** option to **spawn player** behaviour
+- Added **Additional Recipients** option to **change item** behaviour
+- Added **Ignore triggering Token** option to **change item** behaviour
+- Fixed bug in **change item** behaviour
+
 ## v1.3.2
 - Added "displace" as movement type for move token behaviour
 
