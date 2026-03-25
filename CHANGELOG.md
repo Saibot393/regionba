@@ -1,3 +1,6 @@
+## v1.3.2
+- Added "displace" as movement type for move token behaviour
+
 ## v1.3.1
 - Improvements to custom position selection for **Teleport Token** behaviour
 
