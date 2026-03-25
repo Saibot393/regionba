@@ -351,6 +351,11 @@
 			"onlySpawnActiveUsers" : {
 				"name" : "Nur aktive Spieler",
 				"hint" : "Ob nur die Charaktere aktiver Spieler erschaffen werden sollen"
+			},
+			
+			"onlyActiveScene" : {
+				"name" : "Nur aktive Szenen",
+				"hint" : "Ob Charaktere nur erschaffen werden sollen, wenn diese Szene aktiv ist"
 			}
 		},
 		

@@ -351,6 +351,11 @@
 			"onlySpawnActiveUsers" : {
 				"name" : "Only active players",
 				"hint" : "If only characters of currently active users should be spawned"
+			},
+			
+			"onlyActiveScene" : {
+				"name" : "Only active scene",
+				"hint" : "If characters are only spawned if this scene is active"
 			}
 		},
 		

@@ -8,6 +8,10 @@ export class RBAspawnPlayers extends regionbaBasic {
 		onlySpawnActiveUsers : {
 			default : () => {return true},
 			configDialog : true
+		},
+		onlyActiveScene :  {
+			default : () => {return false},
+			configDialog : true
 		}
 	}
 
@@ -31,6 +35,7 @@ export class RBAspawnPlayers extends regionbaBasic {
 
 		cBehaviorType.RBAonView = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
+			if (this.regionba.onlyActiveScene && !canvas.scene.active) return;
 			
 			const cCharacters = this.RBAspawnActor().map(vUser => vUser.character).filter(vCharacter => vCharacter);
 			const cPrototypeTokens = cCharacters.map(vCharacter => vCharacter.prototypeToken).filter(vToken => vToken);
