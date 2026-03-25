@@ -65,6 +65,16 @@
 				"hint" : "Ob nur Spieler Tokens dieses Verhalten auslösen können"
 			},
 			
+			"additionalRecipients" : {
+				"name" : "Zusätzliche Empfänger",
+				"hint" : "Zusätzliche Figuren derren Gegenstände geändert werden"
+			},
+			
+			"ignoreTriggeringToken" : {
+				"name" : "Auslöser ignorieren",
+				"hint" : "Entfernt die auslösende Figur aus der Liste der Figuren derren Gegenstände geändert werden"
+			},
+			
 			"addTokensonRegion" : {
 				"name" : "Tokens in Region",
 				"hint" : "Ob Tokens die sich in der Region aufhalten hinzugefügt werden sollen"

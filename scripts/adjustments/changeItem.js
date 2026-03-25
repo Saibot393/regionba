@@ -31,6 +31,16 @@ export class RBAchangeItem extends regionbaBasic {
 			default : () => {return false},
 			configDialog : true
 		},	
+		additionalRecipients : {
+			default : () => {return []},
+			configDialog : true,
+			objectType : "placeables",
+			validSelectable : (pPlaceable) => {return ["Token"].includes(pPlaceable.documentName)}
+		},
+		ignoreTriggeringToken : {
+			default : () => {return false},
+			configDialog : true
+		},
 		once : {
 			default : () => {return false},
 			configDialog : true
@@ -52,15 +62,30 @@ export class RBAchangeItem extends regionbaBasic {
 			return [...new Set(cDocuments)];
 		}
 		
+		cBehaviorType.validActors = function(pEvent) {
+			let vTokens = [];
+			
+			if (!this.regionba.ignoreTriggeringToken) vTokens.push(pEvent.data.token);
+			
+			vTokens.push(...this.regionba.additionalRecipients.map(vUuid => fromUuidSync(vUuid)).filter(vDocument => vDocument));
+			
+			return vTokens.map(vToken => vToken.actor).filter(vActor => vActor);
+		}
+		
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
 			if ( !game.user.isActiveGM ) return;
 			
 			const cToken = pEvent.data.token;
 			
-			if (cToken?.actor) {
-				const cActor = cToken.actor;
-				
-				for (const cItemDocument of this.validItems()) {
+			if (this.regionba.playerTokensTriggeronly) {
+				if (!utils.isPlayerToken(cToken)) return;
+			}
+			
+			const cValidItem = this.validItems();
+			const cActors = this.validActors(pEvent);
+			
+			for (const cActor of cActors) {
+				for (const cItemDocument of cValidItem) {
 					const cHasQuantity = utils.hasQuantity(cItemDocument);//cItemDocument.system?.hasOwnProperty("quantity");
 					
 					let vTokenItem = utils.findIteminActor(cActor, cItemDocument);
