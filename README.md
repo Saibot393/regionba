@@ -107,6 +107,10 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     Delete item if it reaches a quantity of zero
   - **Character Trigger**
     So that it is only triggered by player characters
+  - **Additional Recipients**
+    Additional tokens whos inventory is effected
+  - **Ignore triggering Token**
+    To not apply the inventory change to the triggering token
   - **Once**
  
 - ## Move Token
@@ -147,6 +151,8 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
 - ## Spawn Player Characters
   - **Only active players**
    	If only the tokens of active players should be spawned
+  - **Only active scene**
+    If players are only spawned once this scene is active
 
 ### Languages:
 
