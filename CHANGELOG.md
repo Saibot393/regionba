@@ -1,3 +1,6 @@
+## v1.4.0
+- Added new behaviour **Play Sound** to play sound files centered on a chosen position
+
 ## v1.3.3
 - Improved change level adjustment
 - Added **Only active scene** option to **spawn player** behaviour
