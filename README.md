@@ -133,7 +133,17 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   - **Ping Tokens on Region**
     To also ping the tokens in the region
   - **Once**
-   
+
+- ## Play Sound
+  - **Sound Source**
+    Sound file to be played
+  - **Sound Position**
+    How the sound position is determined [Trigger Position, Custom Position, Global]
+  - **Sound Volume**
+  - **Sound Radius**
+  - **Sound Easing**
+  - **Sound through walls**
+
 - ## Prevent Movement
   This Region prevents movement of a certain type/types into or within this region. A GM using unrestricted movement will ignore this behaviour.
   - **Prevented Movement**
