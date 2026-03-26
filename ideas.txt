@@ -11,6 +11,6 @@
 -GM confirm
 -Change Ownership
 -Random
--Spawn Players
-  -Only if scene active
 -Show Players
+-Sound
+-Change Playlist

@@ -366,6 +366,46 @@
 			"onlyActiveScene" : {
 				"name" : "Only active scene",
 				"hint" : "If characters are only spawned if this scene is active"
+			},
+			
+			"soundSource" : {
+				"name" : "Sound source",
+				"hint" : "Sound file to be played when triggered"
+			},
+			
+			"soundPosition" : {
+				"name" : "Sound Position",
+				"hint" : "The way the sound position is determined",
+				"options" : {
+					"trigger" : "Trigger Position",
+					"custom" : "Custom Position",
+					"global" : "Global"
+				}
+			},
+			
+			"soundCustomPosition" : {
+				"name" : "Custom position",
+				"hint" : "Custom position where sound is played"
+			},
+			
+			"soundVolume" : {
+				"name" : "Sound Volume",
+				"hint" : "Volume of played sound"
+			},
+			
+			"soundRadius" : {
+				"name" : "Sound Radius",
+				"hint" : "Radius in which the sound can be heard"
+			},
+			
+			"soundEasing" : {
+				"name" : "Sound Easing",
+				"hint" : "If the sound slowly becomes more quiet with distance"
+			},
+			
+			"soundThroughWalls" : {
+				"name" : "Sound through walls",
+				"hint" : "If the sound can be heard through walls"
 			}
 		},
 		
@@ -411,7 +451,8 @@
 				"changeDoorState" : "[RBA] Change Door State",
 				"changeWall" : "[RBA] Change Wall",
 				"moveToken" : "[RBA] Move Token",
-				"spawnPlayers" : "[RBA] Spawn Player Characters"
+				"spawnPlayers" : "[RBA] Spawn Player Characters",
+				"playSound" : "[RBA] Play Sound"
 			}
 		}
 	},

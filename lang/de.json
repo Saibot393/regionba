@@ -366,6 +366,46 @@
 			"onlyActiveScene" : {
 				"name" : "Nur aktive Szenen",
 				"hint" : "Ob Charaktere nur erschaffen werden sollen, wenn diese Szene aktiv ist"
+			},
+			
+			"soundSource" : {
+				"name" : "Geräusch Quelle",
+				"hint" : "Datei welche abgespielt wird"
+			},
+			
+			"soundPosition" : {
+				"name" : "Geräusch Position",
+				"hint" : "Wie die Position von welcher das Geräusch abgespielt wird bestimmt wird",
+				"options" : {
+					"trigger" : "Auslöse Position",
+					"custom" : "Ausgewählte Position",
+					"global" : "Global"
+				}
+			},
+			
+			"soundCustomPosition" : {
+				"name" : "Ausgewählte Position",
+				"hint" : "Ausgewählte Position von welcher das Geräusch abgespielt wird"
+			},
+			
+			"soundVolume" : {
+				"name" : "Geräusch Lautstärke",
+				"hint" : "Lautstärke des Geräusches"
+			},
+			
+			"soundRadius" : {
+				"name" : "Geräusch Radius",
+				"hint" : "Radius in welchem das Geräusch gehört werden kann"
+			},
+			
+			"soundEasing" : {
+				"name" : "Geräusch abschwächen",
+				"hint" : "Ob das Geräusch mit Entfernung leiser wird"
+			},
+			
+			"soundThroughWalls" : {
+				"name" : "Geräusch durch Wände",
+				"hint" : "Ob das Geräusch durch Wände gehört werden kann"
 			}
 		},
 		
@@ -411,7 +451,8 @@
 				"changeDoorState" : "[RBA] Türzustand ändern",
 				"changeWall" : "[RBA] Wand ändern",
 				"moveToken" : "[RBA] Token bewegen",
-				"spawnPlayers" : "[RBA] Spieler Charaktere erschaffen"
+				"spawnPlayers" : "[RBA] Spieler Charaktere erschaffen",
+				"playSound" : "[RBA] Geräusch abspielen"
 			}
 		}
 	},

@@ -84,6 +84,11 @@ export class customInputs {
 					Hooks.once(cModuleName + ".onCanvasClick", ({pEvent, pMousePosition}) => {try {pInput.setValue([Math.round(pMousePosition.x), Math.round(pMousePosition.y)].join(","))} catch {}})
 				}
 			break;
+			case "localxylevel":
+				vButtonClick = (pEvent, pInput) => {
+					Hooks.once(cModuleName + ".onCanvasClick", ({pEvent, pMousePosition}) => {try {pInput.setValue([canvas.level?.id ?? "defaultLevel0000", Math.round(pMousePosition.x), Math.round(pMousePosition.y)].join(","))} catch {}})
+				}
+			break;
 			case "globalxy":
 				vButtonClick = (pEvent, pInput) => {
 					Hooks.once(cModuleName + ".onCanvasClick", ({pEvent, pMousePosition}) => {try {pInput.setValue([canvas.scene?.id, 

@@ -7,7 +7,7 @@
     "name": "saibot"
     }
   ],
-  "version": "1.3.3",
+  "version": "1.4.0",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
@@ -27,7 +27,8 @@
 	  "changeWall" : {},
 	  "changeDoorState" : {},
 	  "moveToken" : {},
-	  "spawnPlayers" : {}
+	  "spawnPlayers" : {},
+	  "playSound" : {}
     }
   },
   "languages": [
@@ -48,7 +49,7 @@
 	"scripts/initManager.js"
   ],
   "url": "https://github.com/Saibot393/regionba",
-  "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v1.3.3.zip",
+  "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v1.4.0.zip",
   "manifest": "https://github.com/Saibot393/regionba/releases/latest/download/module.json",
   "readme": "https://github.com/Saibot393/regionba/blob/main/README.md",
   "changelog": "https://github.com/Saibot393/regionba/blob/main/CHANGELOG.md",

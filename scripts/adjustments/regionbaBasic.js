@@ -128,15 +128,20 @@ export class regionbaBasic {
 					return "direction";
 				}
 				else {
-					if (this.Settings[pFlag].hasOwnProperty("options")) {
-						return "selection";
+					if (this.Settings[pFlag].isFile) {
+						return "file";
 					}
 					else {
-						if (this.Settings[pFlag].default() == null) {
-							return "number";
+						if (this.Settings[pFlag].hasOwnProperty("options")) {
+							return "selection";
 						}
 						else {
-							return typeof this.Settings[pFlag].default();
+							if (this.Settings[pFlag].default() == null) {
+								return "number";
+							}
+							else {
+								return typeof this.Settings[pFlag].default();
+							}
 						}
 					}
 				}
@@ -197,6 +202,7 @@ export class regionbaBasic {
 				vFormField.classList.add("form-fields");
 				
 				let vContent;
+				console.log(cSettingType);
 				switch(cSettingType) {
 					case "boolean":
 						vContent = document.createElement("input");
@@ -275,9 +281,15 @@ export class regionbaBasic {
 								vContent = customInputs.documents(this.Settings[cFlag].validSelectable);
 								break;
 						}
+						break;
+					case "file":
+						vContent = document.createElement("file-picker");
+						vContent.type = this.Settings[cFlag].type;
+						console.log(vContent);
+						break;
 				}
 				
-				if (!["boolean", "multiSelect"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
+				if (!["boolean", "multiSelect", "file"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
 				
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
@@ -306,7 +318,7 @@ export class regionbaBasic {
 				
 				if (!cisSubSetting) vFieldSet.appendChild(vFormGroup);
 				
-				if (["multiSelect", "color"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
+				if (["multiSelect", "color", "file"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
 			
 			vonChange({});
