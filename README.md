@@ -166,7 +166,7 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
 
 ### Languages:
 
-The module contains an English and a German (soon™) translation. If you want additional languages to be supported [let me know](https://github.com/Saibot393/regionba/issues).
+The module contains an English and a German translation. If you want additional languages to be supported [let me know](https://github.com/Saibot393/regionba/issues).
 
 ---
 
