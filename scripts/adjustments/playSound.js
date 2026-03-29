@@ -51,6 +51,13 @@ export class RBAplaySound extends regionbaBasic {
 	
 	static Support() {
 		return {
+			CenterWaypoint : (pWaypoint, pToken) => {
+				return {
+					...pWaypoint,
+					x : Math.round(pWaypoint.x + pToken.width * pToken.parent.grid.size/2),
+					y : Math.round(pWaypoint.y + pToken.height * pToken.parent.grid.size/2),
+				}
+			}
 		}
 	}
 	
@@ -64,6 +71,7 @@ export class RBAplaySound extends regionbaBasic {
 			switch(this.regionba.soundPosition) {
 				case "trigger":
 					let vTriggerPosition = pEvent.data.position || pEvent.data.movement.passed.waypoints.at(-1);
+					vTriggerPosition = this.regionba.Support.CenterWaypoint(vTriggerPosition, pEvent.data.token);
 					vTriggerPosition = {...vTriggerPosition};
 					canvas.sounds.emitAtPosition(
 						this.regionba.soundSource, 

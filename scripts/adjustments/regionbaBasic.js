@@ -129,7 +129,8 @@ export class regionbaBasic {
 				}
 				else {
 					if (this.Settings[pFlag].isFile) {
-						return "file";
+						if (typeof this.Settings[pFlag].default() == "object") return "multifile"
+						else return "file";
 					}
 					else {
 						if (this.Settings[pFlag].hasOwnProperty("options")) {
@@ -202,7 +203,7 @@ export class regionbaBasic {
 				vFormField.classList.add("form-fields");
 				
 				let vContent;
-				console.log(cSettingType);
+
 				switch(cSettingType) {
 					case "boolean":
 						vContent = document.createElement("input");
@@ -285,11 +286,13 @@ export class regionbaBasic {
 					case "file":
 						vContent = document.createElement("file-picker");
 						vContent.type = this.Settings[cFlag].type;
-						console.log(vContent);
+						break;
+					case "multifile":
+						vContent = customInputs.multiFilePicker(this.Settings[cFlag].type);
 						break;
 				}
 				
-				if (!["boolean", "multiSelect", "file"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
+				if (!["boolean", "multiSelect", "file", "multifile"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag];
 				
 				vContent.id = `${cModuleName}.${cFlag}`;
 				vContent.onchange = vonChange;
@@ -318,7 +321,7 @@ export class regionbaBasic {
 				
 				if (!cisSubSetting) vFieldSet.appendChild(vFormGroup);
 				
-				if (["multiSelect", "color", "file"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
+				if (["multiSelect", "color", "file", "multifile"].includes(cSettingType)) vContent.value = pDocument.system[cModuleName][cFlag]; //special quirk of multi-select dom
 			}
 			
 			vonChange({});

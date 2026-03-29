@@ -377,4 +377,87 @@ export class customInputs {
 		
 		return cElement;
 	}
+	
+	static multiFilePicker(pType) {
+		const cElement = document.createElement(cModuleAbbr+"multiFilePicker");
+		cElement.style.display = "flex";
+		cElement.style.flexDirection = "column";
+		
+		const fnewEntry = (pType) => {
+			const cEntry = document.createElement("entry");
+			cEntry.style.display = "flex";
+			cEntry.style.flexDirection = "row";
+			cEntry.style.marginTop = "2px";
+			cEntry.style.marginBottom = "2px";
+			
+			const cPicker = document.createElement("file-picker");
+			cPicker.type = pType;
+			
+			const cRemove = document.createElement("i");
+			cRemove.classList.add("fa-solid", "fa-x");
+			cRemove.style.alignContent = "center";
+			cRemove.style.marginLeft = "4px";
+			cRemove.onclick = () => {cEntry.remove()};
+			
+			cEntry.appendChild(cPicker);
+			cEntry.appendChild(cRemove);
+			
+			Object.defineProperty(cEntry, "value", {
+				get() {
+					return cPicker.value;
+				},
+				set(pValue) {
+					cPicker.value = pValue;
+				}
+			});
+			
+			return cEntry;
+		}
+		
+		const cAddEntry = () => {
+			cElement.querySelector(".add").before(fnewEntry(pType));
+		}
+		
+		const cAdd = document.createElement("i");
+		cAdd.classList.add("fa-solid", "fa-plus", "add");
+		cAdd.style.textAlign = "center";
+		cAdd.style.marginTop = "2px";
+		cAdd.onclick = cAddEntry;
+		
+		cElement.appendChild(cAdd);
+		
+		const cSetEntryLength = (pLength) => {
+			let vCurrentEntries = cElement.querySelectorAll("entry");
+			
+			while(cElement.querySelectorAll("entry").length < pLength) {
+				cAddEntry();
+				//cElement.appendChild(fnewEntry(pType));
+			}
+			
+			while(cElement.querySelectorAll("entry").length > pLength) {
+				const cEntries = cElement.querySelectorAll("entry");
+				
+				cEntries[cEntries.length - 1].remove();
+			}
+			
+			return cElement.querySelectorAll("entry");
+		}
+		
+		Object.defineProperty(cElement, "value", {
+			get() {
+				return Array.from(cElement.querySelectorAll("entry")).map(pEntry => pEntry.value);
+			},
+			set(pValue) {
+				if (Array.isArray(pValue)) {
+					const cEntries = cSetEntryLength(pValue.length);
+					
+					for (let i = 0; i < pValue.length; i++) {
+						cEntries[i].value = pValue[i];
+					}
+				}
+			}
+		});
+		
+		return cElement;
+	}
 }

@@ -12,5 +12,5 @@
 -Change Ownership
 -Random
 -Show Players
--Sound
 -Change Playlist
+-Chance Trigger
