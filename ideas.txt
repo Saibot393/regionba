@@ -10,7 +10,6 @@
 -Change tile/token art
 -GM confirm
 -Change Ownership
--Random
 -Show Players
 -Change Playlist
 -Chance Trigger
