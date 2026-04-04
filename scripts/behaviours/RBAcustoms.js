@@ -270,7 +270,7 @@ export class playSound extends foundry.data.regionBehaviors.RegionBehaviorType {
 
     static defineSchema() {
 		return {
-			events: this._createEventsField({events: [...cDefaultEvents, CONST.REGION_EVENTS.TOKEN_MOVE]})
+			events: this._createEventsField({events: [...cDefaultEvents, CONST.REGION_EVENTS.TOKEN_MOVE_WITHIN]})
 		} 
 	}
 	
