@@ -7,7 +7,7 @@
     "name": "saibot"
     }
   ],
-  "version": "1.4.1",
+  "version": "1.4.2",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
@@ -49,7 +49,7 @@
 	"scripts/initManager.js"
   ],
   "url": "https://github.com/Saibot393/regionba",
-  "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v1.4.1.zip",
+  "download": "https://github.com/Saibot393/regionba/archive/refs/tags/v1.4.2.zip",
   "manifest": "https://github.com/Saibot393/regionba/releases/latest/download/module.json",
   "readme": "https://github.com/Saibot393/regionba/blob/main/README.md",
   "changelog": "https://github.com/Saibot393/regionba/blob/main/CHANGELOG.md",
