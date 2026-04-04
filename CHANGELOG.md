@@ -1,3 +1,6 @@
+## v1.4.1
+- Small improvement for **Play Sound** behaviour
+
 ## v1.4.0
 - Added new behaviour **Play Sound** to play sound files centered on a chosen position
 
