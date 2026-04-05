@@ -1,3 +1,6 @@
+## v1.4.3
+- Fix for **change level** behaviour continue movement setting
+
 ## v1.4.2
 - Added token move as trigger event for **Play Sound** behaviour
 
