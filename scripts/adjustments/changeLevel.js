@@ -135,8 +135,8 @@ export class RBAchangeLevel extends regionbaBasic {
 			const snap = movement.pending.waypoints.at(0)?.snapped ?? movement.passed.waypoints.at(-1).snapped;
 			await this.RBAmoveToken(token, level, action, snap);
 
-			// The view isn't automatically changed for GM users
-			if ( game.user.isGM && token.parent.isView ) {
+			// The view isn't automatically changed for GM users //But we also want to make sure that this happens for players before we continue the movement on the next level
+			if ( (this.regionba.continueMovement || game.user.isGM) && token.parent.isView ) {
 				await token.parent.view({level: levelId, controlledTokens: [token.id]});
 			}
 
@@ -219,7 +219,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			  destinationLevel.elevation.bottom) ? destinationLevel.elevation.bottom : 0), token._source.depth);
 
 			// Move the token to the destination level. Ignore surfaces.
-			await token.move({elevation: destinationElevation, level: destinationLevel.id, action}, {animate: false, constrainOptions: {ignoreWalls: true}});
+			await token.move({elevation: destinationElevation, level: destinationLevel.id, action}, {animate: this.regionba.continueMovement, constrainOptions: {ignoreWalls: true}}); //animate to make sure, that the continued movement is smooth/animated
 		}
 		
 		ChangeLevelRegionBehaviorType.RBAgetDestinationLevels = function(region, token) {
