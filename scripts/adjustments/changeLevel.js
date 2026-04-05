@@ -136,8 +136,9 @@ export class RBAchangeLevel extends regionbaBasic {
 			await this.RBAmoveToken(token, level, action, snap);
 
 			// The view isn't automatically changed for GM users
-			if ( !game.user.isGM || !token.parent.isView ) return;
-			await token.parent.view({level: levelId, controlledTokens: [token.id]});
+			if ( game.user.isGM && token.parent.isView ) {
+				await token.parent.view({level: levelId, controlledTokens: [token.id]});
+			}
 
 			//!!! CUSTOM BEHAVIOUR
 			if (this.regionba.continueMovement && event.data.movement.pending?.waypoints?.length) {
@@ -156,13 +157,6 @@ export class RBAchangeLevel extends regionbaBasic {
 				});
 				
 				token.move(vNewWaypoints, {
-					...movement.updateOptions,
-					constrainOptions: movement.constrainOptions,
-					autoRotate: movement.autoRotate,
-					showRuler: movement.showRuler
-				});
-				
-				console.log({
 					...movement.updateOptions,
 					constrainOptions: movement.constrainOptions,
 					autoRotate: movement.autoRotate,
