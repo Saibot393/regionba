@@ -1,3 +1,6 @@
+## v1.4.4
+- Improved continue movement for **change level**
+
 ## v1.4.3
 - Fix for **change level** behaviour continue movement setting
 
