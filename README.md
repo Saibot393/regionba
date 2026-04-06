@@ -35,8 +35,7 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   - **Player Characters**
     Add all player characters as combatants
   - **Once**
- 
-# New Behaviour Types
+
 - ## Add Combatants
   - **Documents**
     Tiles and tokens whos appearance is changed
