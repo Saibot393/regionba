@@ -1,3 +1,7 @@
+## v1.5.0
+- Added new behaviour **Chat Message** to send messages to the chat (or whisper them to players)
+- Added new behaviours **Change Appearance** to change the appearance (image) of tokens and tiles
+ 
 ## v1.4.4
 - Improved continue movement for **change level**
 
