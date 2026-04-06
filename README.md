@@ -36,6 +36,18 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
     Add all player characters as combatants
   - **Once**
  
+# New Behaviour Types
+- ## Add Combatants
+  - **Documents**
+    Tiles and tokens whos appearance is changed
+  - **Appearance**
+    List of appearance/image sources
+  - **Loop Appearance**
+    If the appearance list should start again from the top
+  - **Player Characters**
+    Add all player characters as combatants
+  - **Once**
+ 
 - ## Change Door State
   - **Doors**
    	Doors to change
@@ -46,6 +58,7 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   - **Once**
  
 - ## Change Movement Type
+  To changet the movement type of tokens
   - **Enter Movement**
     Movement type tokens entering the region are set to
   - **Leave Movement**
@@ -54,6 +67,7 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
 	Movement types not changed by this behaviour
    
 - ## Change Visibility
+  To make tokens/tiles/doors visible/invisible
   - **Placeables**
     Placeables [Tokens, Tiles, Doors] whoose visibility will be altered
   - **Character Trigger**
@@ -68,6 +82,18 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   This behaviour allows for the normal wall settings (Movement, Light, Sight, Sound) to be changed
   - **Walls**
     Walls to change
+  - **Character Trigger**
+    So that it is only triggered by player characters
+  - **Once**
+ 
+- ## Chat Message
+  Send a message to the chat
+  - **Message**
+    The chat message to be send
+  - **Speaker**
+    The speaker displayed for this message
+  - **Whisper Message**
+    If this message should be whispered
   - **Character Trigger**
     So that it is only triggered by player characters
   - **Once**
