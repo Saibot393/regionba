@@ -17,9 +17,11 @@ import {RBAchangeDoorState} from "../adjustments/changeDoorState.js";
 import {RBAmoveToken} from "../adjustments/moveToken.js";
 import {RBAspawnPlayers} from "../adjustments/spawnPlayers.js";
 import {RBAplaySound} from "../adjustments/playSound.js"
+import {RBApostChatMessage} from "../adjustments/postChatMessage.js";
+import {RBAchangeAppearance} from "../adjustments/changeAppearance.js";
 
 const cCoreAdjustments = [RBAchangeLevel, RBAteleportToken];
-const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger, RBAchangeWall, RBAchangeDoorState, RBAmoveToken, RBAspawnPlayers, RBAplaySound];
+const cCustomAdjustments = [RBAping, RBAstopMovement, RBAchangeMovement, RBAchangeVisibility, RBAchangeCombatant, RBArollTable, RBAconditionalTrigger, RBAchangeItem, RBAdelayTrigger, RBAchangeWall, RBAchangeDoorState, RBAmoveToken, RBAspawnPlayers, RBAplaySound, RBApostChatMessage, RBAchangeAppearance];
 
 export function registerSettings() {
 	for (const cAdjustment of cCoreAdjustments) {

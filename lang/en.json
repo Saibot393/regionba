@@ -406,6 +406,36 @@
 			"soundThroughWalls" : {
 				"name" : "Sound through walls",
 				"hint" : "If the sound can be heard through walls"
+			},
+			
+			"chatMessage" : {
+				"name" : "Message",
+				"hint" : "Displayed message, you can use {token} to refer to the triggering token and {tokens} to refer to the tokens in the region"
+			},
+			
+			"messageSpeaker" : {
+				"name" : "Speaker",
+				"hint" : "Token or actor displayed as speaker of this message"
+			},
+			
+			"whisperMessage" : {
+				"name" : "Whisper Message",
+				"hint" : "If this message gets whispered to the owner of the triggering token"
+			},
+			
+			"appearanceDocuments" : {
+				"name" : "Documents",
+				"hint" : "Tiles and Tokens whos appearance will be changed"
+			},
+			
+			"appearanceImageList" : {
+				"name" : "Appearances",
+				"hint" : "List of appearances, when triggered the next appearance inthe list will be chosen for each document"
+			},
+			
+			"loopAppearance" : {
+				"name" : "Loop Appearance",
+				"hint" : "If the list should start at the top after reaching the last entry"
 			}
 		},
 		
@@ -452,7 +482,9 @@
 				"changeWall" : "[RBA] Change Wall",
 				"moveToken" : "[RBA] Move Token",
 				"spawnPlayers" : "[RBA] Spawn Player Characters",
-				"playSound" : "[RBA] Play Sound"
+				"playSound" : "[RBA] Play Sound",
+				"postChatMessage" : "[RBA] Chat Message",
+				"changeAppearance" : "[RBA] Change Appearance"
 			}
 		}
 	},

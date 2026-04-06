@@ -11,7 +11,7 @@ export class regionbaBasic {
 			this.overrideMethods();
 		}
 		else {
-			console.warn(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version`);
+			console.warn(`Region behaviour adjustment ${this.type} can not be initialised, it might be incompatible with this version (min Version : ${this.minVersion()})`);
 			
 			if (CONFIG.RegionBehavior.dataModels[this.type]?.prototype?.isRBAcustom) {
 				delete game.model?.RegionBehavior[this.type]; //this will only be an empty shell, better delete it
@@ -20,7 +20,11 @@ export class regionbaBasic {
 	}
 	
 	static canInit() {
-		return Boolean(CONFIG.RegionBehavior.dataModels[this.type]);
+		return Boolean(CONFIG.RegionBehavior.dataModels[this.type]) && game.release.generation >= this.minVersion();
+	}
+	
+	static minVersion() {
+		return game.release.generation;
 	}
 	
 	static type = "basic"; //OVERRIDE
@@ -183,7 +187,7 @@ export class regionbaBasic {
 					}
 				}
 			}	
-			
+
 			for (const cFlag of cSettingstoAdd) {
 				const cSettingType = this.settingType(cFlag);
 				const cisSubSetting = this.Settings[cFlag].hasOwnProperty("subSettingof");
@@ -228,8 +232,14 @@ export class regionbaBasic {
 							vFormField.style.flex = "0 0 100%";
 						}
 						else {
-							vContent = document.createElement("input");
-							vContent.type = "text";
+							if (this.Settings[cFlag].isTextBlock) {
+								vContent = document.createElement("prose-mirror");
+								vFormField.style.flex = "0 0 100%";
+							}
+							else {
+								vContent = document.createElement("input");
+								vContent.type = "text";
+							}
 						}
 						break;
 					case "selection":
@@ -279,7 +289,7 @@ export class regionbaBasic {
 								vContent = customInputs.placeables(this.Settings[cFlag].validSelectable);
 								break;
 							case "documents":
-								vContent = customInputs.documents(this.Settings[cFlag].validSelectable);
+								vContent = customInputs.documents(this.Settings[cFlag].validSelectable, this.Settings[cFlag].isSingle);
 								break;
 						}
 						break;

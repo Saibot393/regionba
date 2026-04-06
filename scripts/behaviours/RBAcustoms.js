@@ -104,6 +104,38 @@ export class changeVisibility extends foundry.data.regionBehaviors.RegionBehavio
 	}
 }
 
+export class changeLight extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+   
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-regular fa-lightbulb";
+	}
+}
+
+export class changeSound extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+   
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-brands fa-itunes-note";
+	}
+}
+
 export class changeLockState extends foundry.data.regionBehaviors.RegionBehaviorType {
     static LOCALIZATION_PREFIXES = [];
 
@@ -284,6 +316,44 @@ export class playSound extends foundry.data.regionBehaviors.RegionBehaviorType {
 	//BEHAVIOR_VIEWED
 }
 
+export class postChatMessage extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+	
+    static events = {};
+	
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-solid fa-comments";
+	}
+	//BEHAVIOR_VIEWED
+}
+
+export class changeAppearance extends foundry.data.regionBehaviors.RegionBehaviorType {
+    static LOCALIZATION_PREFIXES = [];
+
+    static defineSchema() {
+		return {
+			events: this._createEventsField({events: cDefaultEvents})
+		} 
+	}
+	
+    static events = {};
+	
+	static isRBAcustom = true;
+	
+	static Icon() {
+		return "fa-solid fa-image";
+	}
+	//BEHAVIOR_VIEWED
+}
+
 //CONFIG.statusEffects
 //CONST.WALL_RESTRICTION_TYPES
 
@@ -297,7 +367,7 @@ export class playSound extends foundry.data.regionBehaviors.RegionBehaviorType {
 //canvas.tokens.get("TPvi4u08DOeuED2f").__defineGetter__("isVisible", () => {return true})
 
 export function initCustoms() {
-	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState, moveToken, spawnPlayers, playSound]) {
+	for (const cBehaviour of [ping, stopMovement, changeMovement, changeVisibility, changeCombatant, rollTable, conditionalTrigger, changeItem, delayTrigger, changeWall, changeDoorState, moveToken, spawnPlayers, playSound, postChatMessage, changeAppearance]) {
 		const cName = cBehaviour.name;
 		
 		Object.assign(CONFIG.RegionBehavior.dataModels, {[`${cModuleName}.${cName}`]: cBehaviour});

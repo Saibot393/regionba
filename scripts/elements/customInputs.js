@@ -152,6 +152,10 @@ export class customInputs {
 			return false;
 		}
 		
+		cTagDIV.clear = function () {
+			[...cTagDIV.childNodes].forEach(vNode => vNode.remove());
+		}
+		
 		cTagDIV.hasTag = function (pTag) {
 			return this.value.find(vValue => vValue == pTag.value);
 		}
@@ -172,7 +176,7 @@ export class customInputs {
 		return cTagDIV;
 	}
 	
-	static documents(pSelectedableValidation) {
+	static documents(pSelectedableValidation, pSingle = false) {
 		const cElement = document.createElement(cModuleAbbr+"document");
 		cElement.style.display = "flex";
 		cElement.style.flexWrap = "wrap";
@@ -197,6 +201,8 @@ export class customInputs {
 			const cDocument = fromUuidSync(cUUIDInput.value);
 			
 			if (cDocument && pSelectedableValidation(cDocument)) {
+				if (pSingle) cTags.clear();
+				
 				cTags.addTag({value : cDocument.uuid, name : cDocument.name});
 				
 				cUUIDInput.value = "";
@@ -422,6 +428,8 @@ export class customInputs {
 		cAdd.classList.add("fa-solid", "fa-plus", "add");
 		cAdd.style.textAlign = "center";
 		cAdd.style.marginTop = "2px";
+		cAdd.style.marginLeft = "auto";
+		cAdd.style.marginRight = "auto";
 		cAdd.onclick = cAddEntry;
 		
 		cElement.appendChild(cAdd);

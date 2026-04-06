@@ -406,21 +406,51 @@
 			"soundThroughWalls" : {
 				"name" : "Geräusch durch Wände",
 				"hint" : "Ob das Geräusch durch Wände gehört werden kann"
+			},
+			
+			"chatMessage" : {
+				"name" : "Nachricht",
+				"hint" : "Angezeigte Nachricht, {token} kann benutzt werden um das auslösende Figur zu referenzieren und {tokens} um die Figuren in der Region zu referenzieren"
+			},
+			
+			"messageSpeaker" : {
+				"name" : "Sprecher",
+				"hint" : "Figur oder Charakter welcher als Sprecher dieser Nachricht angezeigt wird"
+			},
+			
+			"whisperMessage" : {
+				"name" : "Nachricht Flüstern",
+				"hint" : "Ob diese Nachricht an den Besitzer der auslösenden Figur geflüsterst wird"
+			},
+			
+			"appearanceDocuments" : {
+				"name" : "Dokumente",
+				"hint" : "Fliesen und Figuren derren Aussehen verändert wird"
+			},
+			
+			"appearanceImageList" : {
+				"name" : "Aussehen",
+				"hint" : "Liste an Aussehen, beim Auslösen wird das nächste Aussehen in der Liste angewandt"
+			},
+			
+			"loopAppearance" : {
+				"name" : "Aussehen wiederholen",
+				"hint" : "Ob die Liste nach dem letzten Eintrag von vorne anfangen soll"
 			}
 		},
 		
 		"Settings" : {
 			"RBAteleportToken" : {
 				"active" : {
-					"name" : "Token Teleportieren Behaviour justieren",
-					"hint" : "Ob das Token Teleportieren behaviour modifiziert werden soll (Teleport Ziel ohne Region)"
+					"name" : "Teleport Token Behaviour justieren",
+					"hint" : "Ob das Teleport Token behaviour modifiziert werden soll (Teleport Ziel ohne Region)"
 				}
 			},
 			
 			"RBAchangeLevel" : {
 				"active" : {
-					"name" : "Level Wechseln Behaviour justieren",
-					"hint" : "Ob das Level Wechseln behaviour modifiziert werden soll (Dialog überspringen, Bewegung fortsetzen, Level auswahl, Bewegungstyp ausschließen)"
+					"name" : "Change Level Behaviour justieren",
+					"hint" : "Ob das Change Level behaviour modifiziert werden soll (Dialog überspringen, Bewegung fortsetzen, Level auswahl, Bewegungstyp ausschließen)"
 				},
 				
 				"autoSkipConfirmDialogue_default" : {
@@ -452,7 +482,9 @@
 				"changeWall" : "[RBA] Wand ändern",
 				"moveToken" : "[RBA] Token bewegen",
 				"spawnPlayers" : "[RBA] Spieler Charaktere erschaffen",
-				"playSound" : "[RBA] Geräusch abspielen"
+				"playSound" : "[RBA] Geräusch abspielen",
+				"postChatMessage" : "[RBA] Chat Nachricht",
+				"changeAppearance" : "[RBA] Aussehen ändern"
 			}
 		}
 	},
