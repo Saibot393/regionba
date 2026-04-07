@@ -24,7 +24,7 @@ export class regionbaBasic {
 	}
 	
 	static minVersion() {
-		return game.release.generation;
+		return 13;
 	}
 	
 	static type = "basic"; //OVERRIDE
