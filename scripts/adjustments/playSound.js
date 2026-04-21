@@ -46,6 +46,10 @@ export class RBAplaySound extends regionbaBasic {
 			default : () => {return false},
 			showinDialog : (pFlags) => {return !pFlags.soundPosition.includes("global")},
 			configDialog : true
+		},
+		once : {
+			default : () => {return false},
+			configDialog : true
 		}
 	}
 	
@@ -66,7 +70,15 @@ export class RBAplaySound extends regionbaBasic {
 		const DialogV2 = foundry.applications.api.DialogV2;
 		
 		cBehaviorType._handleRegionEvent = async function(pEvent) {
-			if (!game.user.isSelf) return;
+			if (game.user.isGM) {
+				if (this.regionba.once) {
+					this.parent.update({
+						disabled: true
+					});
+				}
+			}
+			
+			if (!pEvent.user.isSelf) return;
 			
 			switch(this.regionba.soundPosition) {
 				case "trigger":
