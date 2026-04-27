@@ -1,3 +1,6 @@
+## v1.5.2
+- Added "Next higher elevation in region" and "Next lower elevation in region" for options in **Change Level** behaviour
+
 ## v1.5.1
 - Small improvements to **play sound** behaviour
 
