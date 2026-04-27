@@ -41,7 +41,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			upNeighbourLevels : (region, token, regionLevelsOnly) => {
 				let vTokenLevel = region.parent.levels.get(token.level);
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.includes(vLevel._id))
+				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.has(vLevel._id))
 				let vValidLevels = [];
 				
 				let vBottom = vTokenLevel.elevation.bottom;
@@ -66,7 +66,7 @@ export class RBAchangeLevel extends regionbaBasic {
 			downNeighbourLevels : (region, token, regionLevelsOnly) => {
 				let vTokenLevel = region.parent.levels.get(token.level);
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
-				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.includes(vLevel._id))
+				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.has(vLevel._id))
 				let vValidLevels = [];
 				
 				let vBottom = vTokenLevel.elevation.bottom;
