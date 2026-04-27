@@ -18,7 +18,7 @@ export class RBAchangeLevel extends regionbaBasic {
 		targetLevelChoice : {
 			default : () => {return "default"},
 			configDialog : true,
-			options : () => {return ["default", "upElevation", "downElevation", "neighbourElevation", "levelChoice"]}
+			options : () => {return ["default", "upElevation", "downElevation", "upElevationInRegion", "downElevationInRegion", "neighbourElevation", "levelChoice"]}
 		},
 		chosenLevels : {
 			default : () => {return []},
@@ -38,9 +38,10 @@ export class RBAchangeLevel extends regionbaBasic {
 
 	static Support() {
 		return {
-			upNeighbourLevels : (region, token) => {
+			upNeighbourLevels : (region, token, regionLevelsOnly) => {
 				let vTokenLevel = region.parent.levels.get(token.level);
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
+				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.includes(vLevel._id))
 				let vValidLevels = [];
 				
 				let vBottom = vTokenLevel.elevation.bottom;
@@ -62,9 +63,10 @@ export class RBAchangeLevel extends regionbaBasic {
 				
 				return vValidLevels;
 			},
-			downNeighbourLevels : (region, token) => {
+			downNeighbourLevels : (region, token, regionLevelsOnly) => {
 				let vTokenLevel = region.parent.levels.get(token.level);
 				let vAvailableLevels = region.parent.levels.filter(l => l.id !== token.level);
+				if (regionLevelsOnly) vAvailableLevels = vAvailableLevels.filter(vLevel => region.levels.includes(vLevel._id))
 				let vValidLevels = [];
 				
 				let vBottom = vTokenLevel.elevation.bottom;
@@ -239,10 +241,12 @@ export class RBAchangeLevel extends regionbaBasic {
 				
 				switch(this.regionba.targetLevelChoice) {
 					case "upElevation":
-						return this.regionba.Support.upNeighbourLevels(region, token);
+					case "upElevationInRegion":
+						return this.regionba.Support.upNeighbourLevels(region, token, this.regionba.targetLevelChoice == "upElevationInRegion");
 						break;
 					case "downElevation":
-						return this.regionba.Support.downNeighbourLevels(region, token);
+					case "downElevationInRegion":
+						return this.regionba.Support.downNeighbourLevels(region, token, this.regionba.targetLevelChoice == "downElevationInRegion");
 						break;
 					case "neighbourElevation":
 						return this.regionba.Support.downNeighbourLevels(region, token).concat(this.regionba.Support.upNeighbourLevels(region, token));

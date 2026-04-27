@@ -35,6 +35,8 @@
 					"default" : "Normal (Foundry verhalten)",
 					"upElevation" : "Nächst höhere höhe",
 					"downElevation" : "Nächst niedrigere höhe",
+					"upElevationInRegion" : "Next higher elevation in Region",
+					"downElevationInRegion" : "Next lower elevation in Region",
 					"neighbourElevation" : "Nachbar höhen",
 					"levelChoice" : "Eigene Liste"
 				}

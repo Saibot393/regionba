@@ -35,6 +35,8 @@
 					"default" : "Default (Foundry behaviour)",
 					"upElevation" : "Next higher elevation",
 					"downElevation" : "Next lower elevation",
+					"upElevationInRegion" : "Next higher elevation in region",
+					"downElevationInRegion" : "Next lower elevation in region",
 					"neighbourElevation" : "Neighbouring elevations",
 					"levelChoice" : "Custom level choice"
 				}
