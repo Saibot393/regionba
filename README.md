@@ -98,7 +98,7 @@ This module adds further customisation options to Foundry VTT Region Behaviours 
   - **Once**
  
 - ## Conditional Trigger
-  This Behaviour allows you to set certain conditions for the triggering of outher behaviours. You can also trigger behaviours of other regions. **Note**, that the trigger tpye of the target behaviour will need to match the trigger type of this behaviour
+  This Behaviour allows you to set certain conditions for the triggering of outher behaviours. You can also trigger behaviours of other regions. **Note**, that the trigger event type of the target behaviour will need to match the trigger event type of this behaviour. Also note that any information regarding the region that contains the trigger behaviour.
   - **Logic**
     With which logic operator values are combined [AND, OR]
   - **Condition Types**
