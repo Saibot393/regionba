@@ -307,6 +307,7 @@ export class RBAchangeLevel extends regionbaBasic {
 		}
 		
 		CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_MOVE_IN] = CONFIG.RegionBehavior.dataModels.changeLevel.prototype.RBAonTokenMoveIn;
+		delete CONFIG.RegionBehavior.dataModels.changeLevel.events[CONST.REGION_EVENTS.TOKEN_EXIT]; //UGLY BUG FIX FOR FOUNDRY VTT VANILLA BUG
 	}
 }
 
