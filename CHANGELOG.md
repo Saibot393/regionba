@@ -1,3 +1,6 @@
+## v1.5.3
+- Bug fix for change level bug that could interrupt the level change due to a foundry vtt bug
+
 ## v1.5.2
 - Added "Next higher elevation in region" and "Next lower elevation in region" for options in **Change Level** behaviour
 
